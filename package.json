@@ -1,0 +1,28 @@
+{
+  "name": "datagrid",
+  "version": "1.0.0",
+  "main": "dist/inferno-datagrid.js",
+  "repository": "trysound/inferno-datagrid",
+  "author": "Bogdan Chadkin <trysound@yandex.ru>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --hot --open",
+    "test": "webpack --config webpack.test.config.js && jest tmp/test.js"
+  },
+  "devDependencies": {
+    "buble-loader": "^0.4.0",
+    "css-loader": "^0.26.1",
+    "html-webpack-plugin": "^2.26.0",
+    "jest": "^18.1.0",
+    "multi-entry-loader": "^1.1.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^2",
+    "webpack-dev-server": "^2"
+  },
+  "dependencies": {
+    "inferno": "^1.0.7",
+    "inferno-component": "^1.0.7",
+    "inferno-create-element": "^1.0.7",
+    "react-addons-shallow-compare": "^15.4.2"
+  }
+}
