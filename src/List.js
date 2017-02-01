@@ -14,9 +14,9 @@ const Sector = ({ height, top, children }) => (
     </div>
 );
 
-const RowWrapper = ({ index, height, entity, row: Row }) => (
-    <div style={{ height }} data-key={index}>
-        <Row entity={entity} />
+const RowWrapper = ({ height, entity, index, row: Row }) => (
+    <div style={{ height }}>
+        <Row entity={entity} index={index} />
     </div>
 );
 
@@ -64,10 +64,10 @@ export default class List extends Component {
                         <RowWrapper
                             onComponentShouldUpdate={shouldRowUpdate}
                             key={keys[start + index]}
-                            index={keys[start + index]}
                             height={rowHeight}
-                            row={row}
+                            index={start + index}
                             entity={entity}
+                            row={row}
                         />
                     )}
                 </Sector>
