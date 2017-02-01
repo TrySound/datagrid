@@ -38,7 +38,7 @@ const generateKeys = (lastKeys, start, end) => {
     return keys;
 };
 
-export const getKeysByIndex = (lastKeys, start, end) => {
+export const getKeysByIndex = (lastKeys = empty(), start, end) => {
     const recovered = getRecoveredKeys(lastKeys, start, end);
     const generated = generateKeys(recovered, start, end);
     return Object.assign(empty(), recovered, generated);
