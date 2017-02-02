@@ -3,7 +3,7 @@ import Component from 'inferno-component';
 import { getVisibleRows, getKeysByIndex } from './utils.js';
 
 const Canvas = ({ height, children }) => (
-    <div style={{ height }}>
+    <div style={{ position: 'relative', height }}>
         {children}
     </div>
 );

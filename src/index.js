@@ -3,9 +3,15 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import List from './List.js';
 
-const Row = ({ entity }) => (
+const Row = ({ entity, index }) => (
     console.log(entity),
-    <div>{entity}</div>
+    <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 10px',
+        height: 30,
+        background: index % 2 === 0 ? 'lightgrey': ''
+    }}>{entity}</div>
 );
 
 class Viewport extends Component {
@@ -29,19 +35,11 @@ class Viewport extends Component {
                 scrollTop: e.target.scrollTop
             });
         };
-
-        window.addEventListener('resize', () => {
-            if (this.element) {
-                this.setState({
-                    viewportHeight: this.element.clientHeight
-                });
-            }
-        });
     }
 
     render({ data }, { scrollTop, viewportHeight }) {
         return (
-            <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'auto' }}
+            <div className="viewport" style={{ width: 800, height: 400, overflow: 'auto' }}
                 onScroll={this.onScroll}
                 ref={this.ref}>
                 <List
@@ -56,9 +54,10 @@ class Viewport extends Component {
     }
 }
 
-const data = Array(1000).fill(0).map((item, i) => `Title ${i}`);
+const data = Array(500000).fill(0).map((item, i) => `Title ${i}`);
 
 const container = document.createElement('div');
+container.classList.add('app');
 
 document.body.appendChild(container);
 
