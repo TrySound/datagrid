@@ -16,7 +16,6 @@
     "es6-shim": "^0.35.3",
     "html-webpack-plugin": "^2.26.0",
     "karma": "^1.4.1",
-    "karma-chrome-launcher": "^2.0.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.2",
     "karma-phantomjs-launcher": "^1.0.2",
