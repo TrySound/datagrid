@@ -7,10 +7,8 @@ const createFreeKeyGenerator = (indexes) => {
     return () => {
         while (true) {
             const key = `key_${lastPointer}`;
-            if (key in indexes) {
-                lastPointer += 1;
-            } else {
-                lastPointer += 1;
+            lastPointer += 1;
+            if (!(key in indexes)) {
                 return key;
             }
         }
@@ -19,7 +17,7 @@ const createFreeKeyGenerator = (indexes) => {
 
 const getRecoveredKeys = (lastKeys, start, end) => {
     const keys = empty();
-    for (let i = start; i < end; i += 1) {
+    for (let i = start; i < end + 1; i += 1) {
         if (i in lastKeys) {
             keys[i] = lastKeys[i];
         }
@@ -30,7 +28,7 @@ const getRecoveredKeys = (lastKeys, start, end) => {
 const generateKeys = (lastKeys, start, end) => {
     const keys = empty();
     const generateKey = createFreeKeyGenerator(invert(lastKeys));
-    for (let i = start; i < end; i += 1) {
+    for (let i = start; i < end + 1; i += 1) {
         if (!(i in lastKeys)) {
             keys[i] = generateKey();
         }
@@ -50,8 +48,5 @@ export const getVisibleRows = ({ scrollTop, viewportHeight, rowHeight, rowsCount
     const end = Math.min(rowsCount, (topCluster + 2) * clusterSize);
     // count of visible rows is always the same then focus never be lost
     const start = Math.max(0, end - clusterSize * 2);
-    return [
-        start,
-        end
-    ];
+    return [start, end];
 };
