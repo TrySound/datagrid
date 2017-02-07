@@ -6,6 +6,7 @@
   "author": "Bogdan Chadkin <trysound@yandex.ru>",
   "license": "MIT",
   "scripts": {
+    "build": "webpack",
     "start": "webpack-dev-server --hot --open",
     "test": "karma start",
     "start-test": "karma start --auto-watch 1 --single-run 0"
