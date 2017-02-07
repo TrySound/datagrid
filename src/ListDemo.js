@@ -1,4 +1,3 @@
-import Inferno from 'inferno';
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import List from './List.js';
@@ -14,12 +13,13 @@ const Row = ({ entity, index }) => (
     }}>{entity}</div>
 );
 
-class Viewport extends Component {
+export default class Viewport extends Component {
     constructor() {
         super();
 
         this.state = {
-            scrollTop: 0
+            scrollTop: 0,
+            data: Array(500000).fill(0).map((item, i) => `Title ${i}`)
         };
 
         this.ref = element => {
@@ -37,7 +37,7 @@ class Viewport extends Component {
         };
     }
 
-    render({ data }, { scrollTop, viewportHeight }) {
+    render({}, { data, scrollTop, viewportHeight }) {
         return (
             <div className="viewport" style={{ width: 800, height: 400, overflow: 'auto' }}
                 onScroll={this.onScroll}
@@ -53,12 +53,3 @@ class Viewport extends Component {
         );
     }
 }
-
-const data = Array(500000).fill(0).map((item, i) => `Title ${i}`);
-
-const container = document.createElement('div');
-container.classList.add('app');
-
-document.body.appendChild(container);
-
-Inferno.render(<Viewport data={data} />, container);
