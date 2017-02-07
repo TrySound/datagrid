@@ -40,7 +40,7 @@ module.exports = config => config.set({
 
     reporters: ['mocha'],
 
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
     phantomjsLauncher: {
         exitOnResourceError: true

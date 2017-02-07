@@ -50,3 +50,17 @@ export const getVisibleRows = ({ scrollTop, viewportHeight, rowHeight, rowsCount
     const start = Math.max(0, end - clusterSize * 2);
     return [start, end];
 };
+
+export const swap = (array, findA, findB) => {
+    const a = array.findIndex(findA);
+    const b = array.findIndex(findB);
+    return array.map((item, index) => {
+        if (index === a) {
+            return array[b];
+        }
+        if (index === b) {
+            return array[a];
+        }
+        return item;
+    });
+};
