@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Draggable from './Draggable.js';
-import { getColumnWidth } from './utils.js';
+import { trimColumnWidth, bisectColumns } from './columnsUtils.js';
 
 const Resizer = () => (
     <div style={{
@@ -9,23 +9,28 @@ const Resizer = () => (
         zIndex: 2,
         top: 0,
         bottom: 0,
-        right: -2,
-        width: 4,
+        right: -3,
+        width: 6,
         cursor: 'col-resize'
     }}>
     </div>
 );
 
-const ColumnGhost = ({ x, column, index, component: Column }) => (
-    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, transform: `translateX(${x}px)` }}>
-        <Column column={column} index={index} />
+const ColumnGhost = ({ x, children }) => (
+    <div style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        transform: `translateX(${x}px)`
+    }}>
+        {children}
     </div>
 );
 
-class ColumnWrapper extends Component {
+class DraggableColumn extends Component {
     constructor() {
         super();
-        this.refWrapper = element => this.props.register(this.props.column, element);
         this.refResizer = element => this.resizer = element;
         let name;
         this.onStart = (e, pos) => {
@@ -39,7 +44,6 @@ class ColumnWrapper extends Component {
     render({ children }) {
         return (
             <Draggable
-                onComponentDidMount={this.refWrapper}
                 onStart={this.onStart}
                 onDrag={this.onDrag}
                 onEnd={this.onEnd}>
@@ -50,82 +54,64 @@ class ColumnWrapper extends Component {
     }
 }
 
+const ColumnWrapper = ({ column, index, ghost, component: Column }) => (
+    <div style={{ width: column.width }}>
+        <Column column={column} index={index} ghost={ghost} />
+    </div>
+);
+
 export default class HeaderWrapper extends Component {
     constructor() {
         super();
-        this.ref = this.ref.bind(this);
-        this.refColumn = this.refColumn.bind(this);
         this.onStart = this.onStart.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.onEnd = this.onEnd.bind(this);
-        this.map = Object.create(null);
-    }
-
-    ref(element) {
-        this.element = element;
-    }
-
-    refColumn(name, element) {
-        this.map[name] = element;
     }
 
     onStart(type, name, start) {
-        const containerRect = this.element.getBoundingClientRect();
-        const columnRect = this.map[name].getBoundingClientRect();
-        this.start = columnRect.left - containerRect.left - start;
+        const columns = this.props.columns;
+        const currentIndex = columns.findIndex(d => d.name === name);
+        const currentColumn = columns[currentIndex];
+        const currentLeft = columns.slice(0, currentIndex).reduce((acc, d) => acc + d.width, 0);
+        this.currentLeft = currentLeft;
+        this.startMovingPosition = currentLeft - start;
+        this.currentIndex = currentIndex;
+        this.currentColumn = currentColumn;
     }
 
-    onDrag(type, name, pos) {
-        const column = this.props.columns.find(d => d.name === name);
-        const containerRect = this.element.getBoundingClientRect();
-        const columnRect = this.map[name].getBoundingClientRect();
-        const columnX = columnRect.left - containerRect.left;
+    onDrag(type, name, position) {
         if (type === 'resize') {
             this.props.callback({
                 type: 'RESIZING',
-                payload: {
-                    position: columnX + getColumnWidth(column, pos)
-                }
+                column: name,
+                ghostPosition: this.currentLeft + trimColumnWidth(this.currentColumn, position)
+            });
+        } else {
+            this.props.callback({
+                type: 'MOVING',
+                column: name,
+                between: bisectColumns(this.props.columns, this.startMovingPosition + position)
             });
         }
         this.setState({
-            pos: Math.min(Math.max(0, this.start + pos), containerRect.width - columnRect.width),
+            position: this.startMovingPosition + position,
             dragging: true,
-            moving: type === 'move',
-            currentColumn: column
+            moving: type === 'move'
         });
     }
 
-    onEnd(type, name, pos) {
-        const currentColumn = this.props.columns.find(d => d.name === name);
+    onEnd(type, name, position) {
         if (type === 'resize') {
             this.props.callback({
                 type: 'RESIZE',
-                payload: {
-                    column: name,
-                    width: getColumnWidth(currentColumn, pos)
-                }
+                column: name,
+                columnWidth: trimColumnWidth(this.currentColumn, position)
             });
         } else {
-            const containerRect = this.element.getBoundingClientRect();
-            const currentColumnRect = this.map[name].getBoundingClientRect();
-            const containerPos = currentColumnRect.left - containerRect.left + pos;
-            this.props.columns
-            .filter(column => name !== column.name)
-            .filter(column => {
-                const columnRect = this.map[column.name].getBoundingClientRect();
-                const columnLeft = columnRect.left - containerRect.left;
-                const columnRight = columnLeft + columnRect.width;
-                return columnLeft < containerPos && containerPos < columnRight;
-            })
-            .forEach(column => {
-                this.props.callback({
-                    type: 'SWAP',
-                    payload: {
-                        source: name,
-                        target: column.name
-                    }
-                });
+            this.props.callback({
+                type: 'MOVE',
+                column: name,
+                between: bisectColumns(this.props.columns, this.startMovingPosition + position)
             });
         }
         this.setState({
@@ -134,21 +120,32 @@ export default class HeaderWrapper extends Component {
         });
     }
 
-    render({ columns, component: Column }, { dragging, moving, currentColumn, pos }) {
+    render({ columns, component }, { dragging, moving, position }) {
         return (
-            <div style={{ display: 'flex', position: 'relative', userSelect: dragging ? 'none' : '' }} ref={this.ref}>
+            <div style={{ display: 'flex', position: 'relative', userSelect: dragging ? 'none' : '' }}>
                 {columns.map((column, index) =>
-                    <ColumnWrapper
+                    <DraggableColumn
                         key={column.name}
                         column={column.name}
-                        register={this.refColumn}
                         onStart={this.onStart}
                         onDrag={this.onDrag}
                         onEnd={this.onEnd}>
-                        <Column column={column} index={index} />
-                    </ColumnWrapper>
+                        <ColumnWrapper
+                            column={column}
+                            index={index}
+                            ghost={false}
+                            component={component} />
+                    </DraggableColumn>
                 )}
-                {moving && <ColumnGhost x={pos} column={currentColumn} index={0} component={Column} />}
+                {moving &&
+                    <ColumnGhost x={position}>
+                        <ColumnWrapper
+                            column={this.currentColumn}
+                            index={this.currentIndex}
+                            ghost={true}
+                            component={component} />
+                    </ColumnGhost>
+                }
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { getVisibleRows, getKeysByIndex } from './utils.js';
+import { getVisibleRows, getKeysByIndex } from './listUtils.js';
 
 const Canvas = ({ height, children }) => (
     <div style={{ position: 'relative', height }}>
