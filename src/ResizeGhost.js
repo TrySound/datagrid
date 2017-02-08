@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 
-const Ghost = ({ x }) => (
+const ResizeGhost = ({ x }) => (
     <div style={{
         position: 'absolute',
         top: 0,
@@ -13,4 +13,4 @@ const Ghost = ({ x }) => (
     </div>
 );
 
-export default Ghost;
+export default ResizeGhost;

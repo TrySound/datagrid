@@ -1,21 +1,20 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Header from './Header.js';
-import Ghost from './Ghost.js';
-import { swap } from './utils.js';
+import ResizeGhost from './ResizeGhost.js';
 
-const Column = ({ column, index }) => (
+const Column = ({ column, index, ghost }) => (
     <div style={{
-        width: column.width || '',
         height: 30,
         display: 'flex',
         alignItems: 'center',
         boxSizing: 'border-box',
         padding: '0 8px',
         overflow: 'hidden',
-        borderLeft: 'var(--header-border)',
-        borderRight: 'var(--header-border)',
-        background: 'var(--header-bg)'
+        borderLeft: column.move === 'right' ? '2px solid black' : 'var(--header-border)',
+        borderRight: column.move === 'left' ? '2px solid black' : 'var(--header-border)',
+        background: 'var(--header-bg)',
+        opacity: ghost ? .8 : 1
     }}>
         {column.displayName || column.name}
     </div>
@@ -56,30 +55,75 @@ export default class Viewport extends Component {
             case 'RESIZING':
                 this.setState({
                     ghost: true,
-                    ghostX: action.payload.position
+                    ghostX: action.ghostPosition
                 });
                 break;
             case 'RESIZE':
                 this.setState({
                     ghost: false,
                     columns: this.state.columns.map(item => {
-                        if (item.name === action.payload.column) {
+                        if (item.name === action.column) {
                             return Object.assign({}, item, {
-                                width: action.payload.width
+                                width: action.columnWidth
                             });
                         }
                         return item;
                     })
                 });
                 break;
-            case 'SWAP':
+            case 'MOVING':
                 this.setState({
-                    columns: swap(
-                        this.state.columns,
-                        d => d.name === action.payload.target,
-                        d => d.name === action.payload.source
-                    )
+                    columns: this.state.columns.map((item, index) => {
+                        if (action.between.length === 1) {
+                            const first = 0;
+                            const last = this.state.columns.length - 1;
+                            if (index === first && action.between[0] === first) {
+                                return Object.assign({}, item, {
+                                    move: 'right'
+                                });
+                            }
+                            if (index === last && action.between[0] === last) {
+                                return Object.assign({}, item, {
+                                    move: 'left'
+                                });
+                            }
+                        }
+                        if (index === action.between[0]) {
+                            return Object.assign({}, item, {
+                                move: 'left'
+                            });
+                        }
+                        if (index === action.between[1]) {
+                            return Object.assign({}, item, {
+                                move: 'right'
+                            });
+                        }
+                        if (item.move) {
+                            return Object.assign({}, item, {
+                                move: null
+                            });
+                        }
+                        return item;
+                    })
                 });
+                break;
+            case 'MOVE': {
+                const columns = this.state.columns.map((item, index) => {
+                    if (item.move) {
+                        return Object.assign({}, item, {
+                            move: null
+                        });
+                    }
+                    return item;
+                });
+                this.setState({
+                    columns: [
+                        ...columns.slice(0, action.between[0] + 1).filter(item => item.name !== action.column),
+                        ...columns.filter(item => item.name === action.column),
+                        ...columns.slice(action.between[1]).filter(item => item.name !== action.column)
+                    ]
+                });
+            }
         }
     }
 
@@ -97,7 +141,7 @@ export default class Viewport extends Component {
                 }}>
                     <Header columns={this.state.columns} component={Column} callback={this.switcher} />
                 </div>
-                {ghost && <Ghost x={ghostX} />}
+                {ghost && <ResizeGhost x={ghostX} />}
             </div>
         );
     }
