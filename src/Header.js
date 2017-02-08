@@ -1,9 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Draggable from './Draggable.js';
-
-const getColumnWidth = (column, value) =>
-    Math.min(Math.max(column.minWidth || 20, value), column.maxWidth || Infinity);
+import { getColumnWidth } from './utils.js';
 
 const Resizer = () => (
     <div style={{

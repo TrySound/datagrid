@@ -64,3 +64,6 @@ export const swap = (array, findA, findB) => {
         return item;
     });
 };
+
+const getColumnWidth = (column, value) =>
+    Math.min(Math.max(column.minWidth || 20, value), column.maxWidth || Infinity);
