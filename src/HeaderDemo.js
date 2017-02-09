@@ -74,20 +74,6 @@ export default class Viewport extends Component {
             case 'MOVING':
                 this.setState({
                     columns: this.state.columns.map((item, index) => {
-                        if (action.between.length === 1) {
-                            const first = 0;
-                            const last = this.state.columns.length - 1;
-                            if (index === first && action.between[0] === first) {
-                                return Object.assign({}, item, {
-                                    move: 'right'
-                                });
-                            }
-                            if (index === last && action.between[0] === last) {
-                                return Object.assign({}, item, {
-                                    move: 'left'
-                                });
-                            }
-                        }
                         if (index === action.between[0]) {
                             return Object.assign({}, item, {
                                 move: 'left'

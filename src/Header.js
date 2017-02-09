@@ -17,13 +17,7 @@ const Resizer = () => (
 );
 
 const ColumnGhost = ({ x, children }) => (
-    <div style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        transform: `translateX(${x}px)`
-    }}>
+    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, transform: `translateX(${x}px)` }}>
         {children}
     </div>
 );
