@@ -1,22 +1,10 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import List from './List.js';
+import DefaultRow from './DefaultRow.js';
 
-const getRowColor = index => index % 2 === 0 ? '#eee' : '#fff';
-
-export const DefaultRow = ({ columns, datum, index }) => (
-    <div style={{ display: 'flex', alignItems: 'center', height: 'inherit', background: getRowColor(index) }}>
-        {columns.map((item, columnIndex) =>
-            <div style={{ width: item.width, padding: '0 8px' }}>
-                {datum[item.name]}
-            </div>
-        )}
-    </div>
-);
-
-const createRowComponent = ({ columns, component: Row = DefaultRow }) => ({ datum, index }) => {
-    return <Row columns={columns} datum={datum} index={index} />;
-}
+const createRowComponent = ({ columns, component: Row = DefaultRow }) => ({ datum, index }) =>
+    <Row columns={columns} datum={datum} index={index} />;
 
 export default class Table extends Component {
     constructor(props) {
