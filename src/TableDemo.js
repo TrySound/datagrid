@@ -75,12 +75,14 @@ export default class Viewport extends Component {
         switch (action.type) {
             case 'RESIZING':
                 this.setState({
+                    dragging: true,
                     ghost: true,
                     ghostX: action.ghostPosition
                 });
                 break;
             case 'RESIZE':
                 this.setState({
+                    dragging: false,
                     ghost: false,
                     columns: this.state.columns.map(item => {
                         if (item.name === action.column) {
@@ -94,6 +96,7 @@ export default class Viewport extends Component {
                 break;
             case 'MOVING':
                 this.setState({
+                    dragging: true,
                     columns: this.state.columns.map((item, index) => {
                         if (index === action.between[0]) {
                             return Object.assign({}, item, {
@@ -124,6 +127,7 @@ export default class Viewport extends Component {
                     return item;
                 });
                 this.setState({
+                    dragging: false,
                     columns: [
                         ...columns.slice(0, action.between[0] + 1).filter(item => item.name !== action.column),
                         ...columns.filter(item => item.name === action.column),
@@ -134,28 +138,40 @@ export default class Viewport extends Component {
         }
     }
 
-    render({}, { columns, data, scrollTop, viewportHeight, ghost, ghostX }) {
+    render({}, { columns, data, scrollTop, viewportHeight, ghost, ghostX, dragging }) {
         return (
-            <div className="viewport" style={{ width: 800, height: 400, overflow: 'auto', position: 'relative', }}
+            <div className="viewport" style={{
+                width: 800,
+                height: 400,
+                overflow: 'auto',
+                position: 'relative',
+                pointerEvents: dragging ? 'none' : '',
+                userSelect: dragging ? 'none' : ''
+            }}
                 onScroll={this.onScroll}
                 ref={this.ref}>
-                <div style={{
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 2,
-                    background: 'var(--header-bg)',
-                    borderTop: 'var(--header-border)',
-                    borderBottom: 'var(--header-border)'
-                }}>
-                    <Header columns={this.state.columns} component={HeaderColumn} callback={this.reducer} />
+                <div style={{ minWidth: columns.reduce((acc, item) => acc + item.width, 0) }}>
+                    <div style={{
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 2,
+                        background: 'var(--header-bg)',
+                        borderTop: 'var(--header-border)',
+                        borderBottom: 'var(--header-border)'
+                    }}>
+                        <Header
+                            columns={this.state.columns}
+                            component={HeaderColumn}
+                            callback={this.reducer} />
+                    </div>
+                    <Table
+                        columns={columns}
+                        data={data}
+                        scrollTop={scrollTop}
+                        viewportHeight={viewportHeight}
+                        rowHeight={30} />
+                    {ghost && <ResizeGhost x={ghostX} />}
                 </div>
-                <Table
-                    columns={columns}
-                    data={data}
-                    scrollTop={scrollTop}
-                    viewportHeight={viewportHeight}
-                    rowHeight={30} />
-                {ghost && <ResizeGhost x={ghostX} />}
             </div>
         );
     }

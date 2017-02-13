@@ -89,7 +89,6 @@ export default class HeaderWrapper extends Component {
         }
         this.setState({
             position: this.startMovingPosition + position,
-            dragging: true,
             moving: type === 'move'
         });
     }
@@ -109,14 +108,13 @@ export default class HeaderWrapper extends Component {
             });
         }
         this.setState({
-            dragging: false,
             moving: false
         });
     }
 
-    render({ columns, component }, { dragging, moving, position }) {
+    render({ columns, component }, { moving, position }) {
         return (
-            <div style={{ display: 'flex', position: 'relative', userSelect: dragging ? 'none' : '' }}>
+            <div style={{ display: 'flex', position: 'relative' }}>
                 {columns.map((column, index) =>
                     <DraggableColumn
                         key={column.name}
