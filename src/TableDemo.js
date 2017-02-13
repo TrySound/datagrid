@@ -1,45 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import List from './List.js';
-
-const Column = ({ column, datum, index }) => (
-    <div style={{ width: column.width }}>
-        {datum}
-    </div>
-);
-
-const Row = ({ columns, datum, index, rowHeight, component: Column }) => (
-    <div style={{ display: 'flex', alignItems: 'stretch', height: 'inherit' }}>
-        {columns.map((item, columnIndex) =>
-            <Column column={item} datum={datum[item.name]} index={columnIndex} />
-        )}
-    </div>
-);
-
-class Table extends Component {
-    constructor() {
-        super();
-        this.component = ({ datum, index }) => (
-            <Row
-                columns={this.props.columns}
-                datum={datum}
-                index={index}
-                component={this.props.component} />
-        );
-    }
-
-    render({ data, scrollTop, viewportHeight, rowHeight }) {
-        return (
-            <List
-                data={data}
-                scrollTop={scrollTop}
-                viewportHeight={viewportHeight}
-                rowHeight={rowHeight}
-                component={this.component}
-            />
-        );
-    }
-}
+import Table from './Table.js';
 
 export default class Viewport extends Component {
     constructor() {
@@ -93,8 +54,7 @@ export default class Viewport extends Component {
                     data={data}
                     scrollTop={scrollTop}
                     viewportHeight={viewportHeight}
-                    rowHeight={30}
-                    component={Column} />
+                    rowHeight={30} />
             </div>
         );
     }
