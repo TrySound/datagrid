@@ -2,15 +2,15 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import List from './List.js';
 
-const Row = ({ entity, index }) => (
-    // console.log(entity),
+const Row = ({ datum, index }) => (
+    // console.log(datum),
     <div style={{
         display: 'flex',
         alignItems: 'center',
         padding: '0 10px',
         height: 30,
         background: index % 2 === 0 ? 'lightgrey': ''
-    }}>{entity}</div>
+    }}>{datum}</div>
 );
 
 export default class Viewport extends Component {
@@ -47,7 +47,7 @@ export default class Viewport extends Component {
                     scrollTop={scrollTop}
                     viewportHeight={viewportHeight}
                     rowHeight={30}
-                    row={Row}
+                    component={Row}
                 />
             </div>
         );
