@@ -75,17 +75,9 @@ export default class HeaderWrapper extends Component {
 
     onDrag(type, name, position) {
         if (type === 'resize') {
-            this.props.callback({
-                type: 'RESIZING',
-                column: name,
-                ghostPosition: this.currentLeft + trimColumnWidth(this.currentColumn, position)
-            });
+            this.props.onResizing(name, this.currentLeft + trimColumnWidth(this.currentColumn, position));
         } else {
-            this.props.callback({
-                type: 'MOVING',
-                column: name,
-                between: bisectColumns(this.props.columns, this.startMovingPosition + position)
-            });
+            this.props.onMoving(name, bisectColumns(this.props.columns, this.startMovingPosition + position));
         }
         this.setState({
             position: this.startMovingPosition + position,
@@ -95,17 +87,9 @@ export default class HeaderWrapper extends Component {
 
     onEnd(type, name, position) {
         if (type === 'resize') {
-            this.props.callback({
-                type: 'RESIZE',
-                column: name,
-                columnWidth: trimColumnWidth(this.currentColumn, position)
-            });
+            this.props.onResize(name, trimColumnWidth(this.currentColumn, position));
         } else {
-            this.props.callback({
-                type: 'MOVE',
-                column: name,
-                between: bisectColumns(this.props.columns, this.startMovingPosition + position)
-            });
+            this.props.onMove(name, bisectColumns(this.props.columns, this.startMovingPosition + position));
         }
         this.setState({
             moving: false

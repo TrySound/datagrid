@@ -25,8 +25,6 @@ export default class Viewport extends Component {
     constructor() {
         super();
 
-        this.reducer = this.reducer.bind(this);
-
         this.state = {
             scrollTop: 0,
             columns: [
@@ -55,87 +53,92 @@ export default class Viewport extends Component {
             }))
         };
 
-        this.ref = element => {
-            this.element = element;
-            this.setState({
-                scrollTop: element.scrollTop,
-                viewportHeight: element.clientHeight
-            });
-        };
-
-        this.onScroll = e => {
-            this.setState({
-                scrollTop: e.target.scrollTop
-            });
-        };
+        this.ref = this.ref.bind(this);
+        this.onScroll = this.onScroll.bind(this);
+        this.onResizing = this.onResizing.bind(this);
+        this.onResize = this.onResize.bind(this);
+        this.onMoving = this.onMoving.bind(this);
+        this.onMove = this.onMove.bind(this);
     }
 
-    reducer(action) {
-        console.log(action);
-        switch (action.type) {
-            case 'RESIZING':
-                this.setState({
-                    dragging: true,
-                    ghost: true,
-                    ghostX: action.ghostPosition
-                });
-                break;
-            case 'RESIZE':
-                this.setState({
-                    dragging: false,
-                    ghost: false,
-                    columns: this.state.columns.map(item => {
-                        if (item.name === action.column) {
-                            return Object.assign({}, item, {
-                                width: action.columnWidth
-                            });
-                        }
-                        return item;
-                    })
-                });
-                break;
-            case 'MOVING':
-                this.setState({
-                    dragging: true,
-                    columns: this.state.columns.map((item, index) => {
-                        if (index === action.between[0]) {
-                            return Object.assign({}, item, {
-                                move: 'left'
-                            });
-                        }
-                        if (index === action.between[1]) {
-                            return Object.assign({}, item, {
-                                move: 'right'
-                            });
-                        }
-                        if (item.move) {
-                            return Object.assign({}, item, {
-                                move: null
-                            });
-                        }
-                        return item;
-                    })
-                });
-                break;
-            case 'MOVE': {
-                const columns = this.state.columns.map((item, index) => {
-                    if (item.move) {
-                        return Object.assign({}, item, {
-                            move: null
-                        });
-                    }
-                    return item;
-                });
-                this.setState({
-                    dragging: false,
-                    columns: [
-                        ...columns.slice(0, action.between[0] + 1).filter(item => item.name !== action.column),
-                        ...columns.filter(item => item.name === action.column),
-                        ...columns.slice(action.between[1]).filter(item => item.name !== action.column)
-                    ]
+    ref(element) {
+        this.element = element;
+        this.setState({
+            scrollTop: element.scrollTop,
+            viewportHeight: element.clientHeight
+        });
+    };
+
+    onScroll(e) {
+        this.setState({
+            scrollTop: e.target.scrollTop
+        });
+    };
+
+    onResizing(columnName, ghostPosition) {
+        this.setState({
+            dragging: true,
+            ghost: true,
+            ghostX: ghostPosition
+        });
+    }
+
+    onResize(columnName, columnWidth) {
+        this.setState({
+            dragging: false,
+            ghost: false,
+            columns: this.state.columns.map(item => {
+                if (item.name === columnName) {
+                    return Object.assign({}, item, {
+                        width: columnWidth
+                    });
+                }
+                return item;
+            })
+        });
+    }
+
+    onMoving(columnName, between) {
+        this.setState({
+            dragging: true,
+            columns: this.state.columns.map((item, index) => {
+                if (index === between[0]) {
+                    return Object.assign({}, item, {
+                        move: 'left'
+                    });
+                }
+                if (index === between[1]) {
+                    return Object.assign({}, item, {
+                        move: 'right'
+                    });
+                }
+                if (item.move) {
+                    return Object.assign({}, item, {
+                        move: null
+                    });
+                }
+                return item;
+            })
+        });
+    }
+
+    onMove(columnName, between) {
+        const columns = this.state.columns.map((item, index) => {
+            if (item.move) {
+                return Object.assign({}, item, {
+                    move: null
                 });
             }
-        }
+            return item;
+        });
+        this.setState({
+            dragging: false,
+            columns: [
+                ...columns.slice(0, between[0] + 1).filter(item => item.name !== columnName),
+                ...columns.filter(item => item.name === columnName),
+                ...columns.slice(between[1]).filter(item => item.name !== columnName)
+            ]
+        });
     }
 
     render({}, { columns, data, scrollTop, viewportHeight, ghost, ghostX, dragging }) {
@@ -162,7 +165,10 @@ export default class Viewport extends Component {
                         <Header
                             columns={this.state.columns}
                             component={HeaderColumn}
-                            callback={this.reducer} />
+                            onMove={this.onMove}
+                            onMoving={this.onMoving}
+                            onResize={this.onResize}
+                            onResizing={this.onResizing} />
                     </div>
                     <Table
                         columns={columns}
