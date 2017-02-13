@@ -27,12 +27,14 @@ class DraggableColumn extends Component {
         super();
         this.refResizer = element => this.resizer = element;
         let name;
+        let enabled;
         this.onStart = (e, pos) => {
             name = e.target === this.resizer ? 'resize' : 'move';
-            this.props.onStart(name, this.props.column, pos);
+            enabled = name === 'resize' || name === 'move' && this.props.column.moving;
+            this.props.onStart(name, this.props.column.name, pos);
         };
-        this.onDrag = (e, pos) => this.props.onDrag(name, this.props.column, pos);
-        this.onEnd = (e, pos) => this.props.onEnd(name, this.props.column, pos);
+        this.onDrag = (e, pos) => enabled && this.props.onDrag(name, this.props.column.name, pos);
+        this.onEnd = (e, pos) => enabled && this.props.onEnd(name, this.props.column.name, pos);
     }
 
     render({ children }) {
@@ -42,7 +44,9 @@ class DraggableColumn extends Component {
                 onDrag={this.onDrag}
                 onEnd={this.onEnd}>
                 {children}
-                <Resizer onComponentDidMount={this.refResizer} />
+                {this.props.column.resizing &&
+                    <Resizer onComponentDidMount={this.refResizer} />
+                }
             </Draggable>
         );
     }
@@ -51,6 +55,12 @@ class DraggableColumn extends Component {
 const ColumnWrapper = ({ column, index, ghost, component: Column }) => (
     <div style={{ width: column.width }}>
         <Column column={column} index={index} ghost={ghost} />
+    </div>
+);
+
+const Header = ({ children }) => (
+    <div style={{ display: 'flex', position: 'relative' }}>
+        {children}
     </div>
 );
 
@@ -98,11 +108,11 @@ export default class HeaderWrapper extends Component {
 
     render({ columns, component }, { moving, position }) {
         return (
-            <div style={{ display: 'flex', position: 'relative' }}>
+            <Header>
                 {columns.map((column, index) =>
                     <DraggableColumn
                         key={column.name}
-                        column={column.name}
+                        column={column}
                         onStart={this.onStart}
                         onDrag={this.onDrag}
                         onEnd={this.onEnd}>
@@ -122,7 +132,7 @@ export default class HeaderWrapper extends Component {
                             component={component} />
                     </ColumnGhost>
                 }
-            </div>
+            </Header>
         );
     }
 }

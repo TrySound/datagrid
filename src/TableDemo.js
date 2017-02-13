@@ -37,13 +37,15 @@ export default class Viewport extends Component {
                 {
                     name: 'col2',
                     minWidth: 60,
-                    width: 150
+                    width: 150,
+                    resizing: true
                 },
                 {
                     name: 'col3',
                     displayName: 'Column 3',
                     width: 200,
-                    maxWidth: 300
+                    maxWidth: 300,
+                    moving: true
                 }
             ],
             data: Array(500000).fill(0).map((item, i) => ({
