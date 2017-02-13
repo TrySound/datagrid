@@ -30,5 +30,4 @@ export const bisectColumns = (columns, position) => {
         }
         return acc;
     }, []);
-    return [];
 };
