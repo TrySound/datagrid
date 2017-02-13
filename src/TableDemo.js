@@ -2,8 +2,9 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
+import Table from './Table.js';
 
-const Column = ({ column, index, ghost }) => (
+const HeaderColumn = ({ column, index, ghost }) => (
     <div style={{
         height: 30,
         display: 'flex',
@@ -24,32 +25,52 @@ export default class Viewport extends Component {
     constructor() {
         super();
 
-        this.switcher = this.switcher.bind(this);
+        this.reducer = this.reducer.bind(this);
 
         this.state = {
+            scrollTop: 0,
             columns: [
                 {
-                    name: 'col0',
+                    name: 'col1',
                     width: 100,
                     enableFiltering: true,
                     enableSorting: true
                 },
                 {
-                    name: 'col1',
+                    name: 'col2',
                     minWidth: 60,
-                    width: 100
+                    width: 150
                 },
                 {
-                    name: 'col2',
-                    displayName: 'Column 2',
+                    name: 'col3',
+                    displayName: 'Column 3',
                     width: 200,
                     maxWidth: 300
                 }
-            ]
+            ],
+            data: Array(500000).fill(0).map((item, i) => ({
+                col1: i,
+                col2: `Title ${i}`,
+                col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+            }))
+        };
+
+        this.ref = element => {
+            this.element = element;
+            this.setState({
+                scrollTop: element.scrollTop,
+                viewportHeight: element.clientHeight
+            });
+        };
+
+        this.onScroll = e => {
+            this.setState({
+                scrollTop: e.target.scrollTop
+            });
         };
     }
 
-    switcher(action) {
+    reducer(action) {
         console.log(action);
         switch (action.type) {
             case 'RESIZING':
@@ -74,20 +95,6 @@ export default class Viewport extends Component {
             case 'MOVING':
                 this.setState({
                     columns: this.state.columns.map((item, index) => {
-                        if (action.between.length === 1) {
-                            const first = 0;
-                            const last = this.state.columns.length - 1;
-                            if (index === first && action.between[0] === first) {
-                                return Object.assign({}, item, {
-                                    move: 'right'
-                                });
-                            }
-                            if (index === last && action.between[0] === last) {
-                                return Object.assign({}, item, {
-                                    move: 'left'
-                                });
-                            }
-                        }
                         if (index === action.between[0]) {
                             return Object.assign({}, item, {
                                 move: 'left'
@@ -127,20 +134,27 @@ export default class Viewport extends Component {
         }
     }
 
-    render({}, { ghost, ghostX }) {
+    render({}, { columns, data, scrollTop, viewportHeight, ghost, ghostX }) {
         return (
-            <div style={{
-                width: 600,
-                height: 300,
-                background: '#ccc',
-                position: 'relative',
-                overflow: 'auto'
-            }}>
+            <div className="viewport" style={{ width: 800, height: 400, overflow: 'auto', position: 'relative', }}
+                onScroll={this.onScroll}
+                ref={this.ref}>
                 <div style={{
-                    background: 'var(--header-bg)'
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 2,
+                    background: 'var(--header-bg)',
+                    borderTop: 'var(--header-border)',
+                    borderBottom: 'var(--header-border)'
                 }}>
-                    <Header columns={this.state.columns} component={Column} callback={this.switcher} />
+                    <Header columns={this.state.columns} component={HeaderColumn} callback={this.reducer} />
                 </div>
+                <Table
+                    columns={columns}
+                    data={data}
+                    scrollTop={scrollTop}
+                    viewportHeight={viewportHeight}
+                    rowHeight={30} />
                 {ghost && <ResizeGhost x={ghostX} />}
             </div>
         );
