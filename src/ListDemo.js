@@ -1,8 +1,8 @@
 import createElement from 'inferno-create-element';
-import trackScrollTop from './decorators/trackScrollTop.js';
+import withScrollTopProp from './decorators/withScrollTopProp.js';
 import List from './List.js';
 
-const TrackedList = trackScrollTop(List);
+const TrackedList = withScrollTopProp(List);
 
 const Row = ({ datum, index }) => (
     <div style={{ height: 'inherit', background: index % 2 === 0 ? '#eee' : '#fff' }}>
@@ -16,6 +16,7 @@ const ListDemo = () => (
     <TrackedList
         width={800}
         height={400}
+        viewportHeight={400}
         rowHeight={30}
         data={data}
         component={Row}

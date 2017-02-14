@@ -1,9 +1,9 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import trackScrollTop from './decorators/trackScrollTop.js';
+import withScrollTopProp from './decorators/withScrollTopProp.js';
 import Grid from './Grid.js';
 
-const TrackedGrid = trackScrollTop(Grid);
+const TrackedGrid = withScrollTopProp(Grid);
 
 const HeaderColumn = ({ column, index, ghost }) => (
     <div style={{
@@ -124,6 +124,7 @@ export default class Viewport extends Component {
             <TrackedGrid
                 width={800}
                 height={400}
+                viewportHeight={400}
                 columns={columns}
                 data={data}
                 rowHeight={30}
