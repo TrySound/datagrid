@@ -1,6 +1,9 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
+import trackScrollTop from './decorators/trackScrollTop.js';
 import Grid from './Grid.js';
+
+const TrackedGrid = trackScrollTop(Grid);
 
 const HeaderColumn = ({ column, index, ghost }) => (
     <div style={{
@@ -24,7 +27,6 @@ export default class Viewport extends Component {
         super();
 
         this.state = {
-            scrollTop: 0,
             columns: [
                 {
                     name: 'col1',
@@ -53,24 +55,8 @@ export default class Viewport extends Component {
             }))
         };
 
-        this.ref = this.ref.bind(this);
-        this.onScroll = this.onScroll.bind(this);
         this.callback = this.callback.bind(this);
     }
-
-    ref(element) {
-        this.element = element;
-        this.setState({
-            scrollTop: element.scrollTop,
-            viewportHeight: element.clientHeight
-        });
-    };
-
-    onScroll(e) {
-        this.setState({
-            scrollTop: e.target.scrollTop
-        });
-    };
 
     callback(action) {
         console.log(action);
@@ -133,21 +119,18 @@ export default class Viewport extends Component {
         }
     }
 
-    render({}, { columns, data, scrollTop, viewportHeight }) {
+    render({}, { columns, data }) {
         return (
-            <div className="viewport" style={{ width: 800, height: 400, overflow: 'auto', position: 'relative' }}
-                onScroll={this.onScroll}
-                ref={this.ref}>
-                <Grid
-                    columns={columns}
-                    data={data}
-                    scrollTop={scrollTop}
-                    viewportHeight={viewportHeight}
-                    rowHeight={30}
-                    headerColumnComponent={HeaderColumn}
-                    rowComponent={undefined}
-                    callback={this.callback} />
-            </div>
+            <TrackedGrid
+                width={800}
+                height={400}
+                columns={columns}
+                data={data}
+                rowHeight={30}
+                headerColumnComponent={HeaderColumn}
+                rowComponent={undefined}
+                callback={this.callback}
+            />
         );
     }
 }

@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import withMiddleState from './decorators/withMiddleState.js';
 import { getVisibleRows, getKeysByIndex } from './listUtils.js';
 
 const Canvas = ({ height, children }) => (
@@ -20,10 +20,11 @@ const RowWrapper = ({ height, datum, index, component: Row }) => (
     </div>
 );
 
-const shouldRowUpdate = (lastProps, nextProps) =>
-    lastProps.height !== nextProps.height ||
-    lastProps.component !== nextProps.component ||
-    lastProps.datum !== nextProps.datum;
+const shouldRowUpdate = (props, nextProps) => (
+    props.height !== nextProps.height ||
+    props.component !== nextProps.component ||
+    props.datum !== nextProps.datum
+);
 
 const List = ({ data, rowHeight, component, start, end, keys }) => (
     <Canvas height={data.length * rowHeight}>
@@ -42,32 +43,24 @@ const List = ({ data, rowHeight, component, start, end, keys }) => (
     </Canvas>
 );
 
-const shouldListUpdate = (lastProps, nextProps) =>
-    lastProps.start !== nextProps.start ||
-    lastProps.end !== nextProps.end ||
-    lastProps.data !== nextProps.data ||
-    lastProps.rowHeight !== nextProps.rowHeight ||
-    lastProps.component !== nextProps.component;
+const shouldListUpdate = (props, nextProps) => (
+    props.start !== nextProps.start ||
+    props.end !== nextProps.end ||
+    props.data !== nextProps.data ||
+    props.rowHeight !== nextProps.rowHeight ||
+    props.component !== nextProps.component
+);
 
-export default class ListWrapper extends Component {
-    render({ data, scrollTop, viewportHeight, rowHeight, component }) {
-        const [start, end] = getVisibleRows({
-            scrollTop,
-            viewportHeight,
-            rowHeight,
-            rowsCount: data.length
-        });
-        const keys = this.keys = getKeysByIndex(this.keys, start, end);
-        return (
-            <List
-                onComponentShouldUpdate={shouldListUpdate}
-                data={data}
-                rowHeight={rowHeight}
-                component={component}
-                start={start}
-                end={end}
-                keys={keys}
-            />
-        );
-    }
-}
+export default withMiddleState((props, state = {}) => {
+    const [start, end] = getVisibleRows({
+        scrollTop: props.scrollTop,
+        viewportHeight: props.viewportHeight,
+        rowHeight: props.rowHeight,
+        rowsCount: props.data.length
+    });
+    return {
+        start,
+        end,
+        keys: getKeysByIndex(state.keys, start, end)
+    };
+}, shouldListUpdate)(List);

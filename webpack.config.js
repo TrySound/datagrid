@@ -16,6 +16,9 @@ module.exports = {
                     {
                         loader: 'buble-loader',
                         options: {
+                            target: {
+                                chrome: 50
+                            },
                             jsx: 'createElement'
                         }
                     }
