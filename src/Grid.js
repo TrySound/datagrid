@@ -5,7 +5,12 @@ import ResizeGhost from './ResizeGhost.js';
 import Table from './Table.js';
 
 const Grid = ({ dragging, minWidth, children }) => (
-    <div style={{ pointerEvents: dragging ? 'none' : '', userSelect: dragging ? 'none' : '', minWidth }}>
+    <div style={{
+        position: 'relative',
+        pointerEvents: dragging ? 'none' : '',
+        userSelect: dragging ? 'none' : '',
+        minWidth
+    }}>
         {children}
     </div>
 );
