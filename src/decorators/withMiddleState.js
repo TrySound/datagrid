@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 
-export default (reducer) => component => class extends Component {
+export default reducer => component => class extends Component {
     constructor(props) {
         super(props);
         this.state = reducer(props);
