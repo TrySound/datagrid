@@ -1,5 +1,7 @@
 import createElement from 'inferno-create-element';
+import compose from './decorators/compose.js';
 import withMiddleState from './decorators/withMiddleState.js';
+import withProps from './decorators/withProps.js';
 import { getVisibleRows, getKeysByIndex } from './listUtils.js';
 
 const Canvas = ({ height, children }) => (
@@ -51,16 +53,21 @@ const shouldListUpdate = (props, nextProps) => (
     props.component !== nextProps.component
 );
 
-export default withMiddleState((props, state = {}) => {
-    const [start, end] = getVisibleRows({
-        scrollTop: props.scrollTop,
-        viewportHeight: props.viewportHeight,
-        rowHeight: props.rowHeight,
-        rowsCount: props.data.length
-    });
-    return {
-        start,
-        end,
-        keys: getKeysByIndex(state.keys, start, end)
-    };
-}, shouldListUpdate)(List);
+export default compose(
+    withMiddleState((props, state = {}) => {
+        const [start, end] = getVisibleRows({
+            scrollTop: props.scrollTop,
+            viewportHeight: props.viewportHeight,
+            rowHeight: props.rowHeight,
+            rowsCount: props.data.length
+        });
+        return {
+            start,
+            end,
+            keys: getKeysByIndex(state.keys, start, end)
+        };
+    }),
+    withProps({
+        onComponentShouldUpdate: shouldListUpdate
+    })
+)(List);

@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 
-const withMiddleState = (reducer, onComponentShouldUpdate) => component => class extends Component {
+export default (reducer) => component => class extends Component {
     constructor(props) {
         super(props);
         this.state = reducer(props);
@@ -12,8 +12,6 @@ const withMiddleState = (reducer, onComponentShouldUpdate) => component => class
     }
 
     render(props, state) {
-        return createElement(component, Object.assign({ onComponentShouldUpdate }, props, state));
+        return createElement(component, Object.assign({}, props, state));
     }
 };
-
-export default withMiddleState;
