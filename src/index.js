@@ -13,14 +13,12 @@ const Div = () => (
 );
 
 Inferno.render(
-    <div style={{ display: 'flex' }}>
-        <Div />
+    <div style={{ display: 'flex', flexFlow: 'wrap' }}>
         <ListDemo />
         <Div />
         <TableDemo />
         <Div />
         <GridDemo />
-        <Div />
     </div>,
     container
 );
