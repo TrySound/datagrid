@@ -12,4 +12,6 @@ Inferno.render(
         {/*<TableDemo />*/}
         {/*<div style={{ width: 30 }}></div>*/}
         <ListDemo />
-    </div>, container);
+    </div>,
+    container
+);

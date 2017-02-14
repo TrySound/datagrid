@@ -1,18 +1,12 @@
 import createElement from 'inferno-create-element';
-import compose from './decorators/compose.js';
-import withMiddleState from './decorators/withMiddleState.js';
-import withProps from './decorators/withProps.js';
+import { compose, withMiddleState, withProps } from './decorators/index.js';
 import { getVisibleRows, getKeysByIndex } from './listUtils.js';
 
-const Canvas = ({ height, children }) => (
+const Container = ({ height, renderedTop, children }) => (
     <div style={{ position: 'relative', height }}>
-        {children}
-    </div>
-);
-
-const Rendered = ({ height, top, children }) => (
-    <div style={{ position: 'absolute', left: 0, right: 0, top, height }}>
-        {children}
+        <div style={{ position: 'absolute', left: 0, right: 0, top: renderedTop }}>
+            {children}
+        </div>
     </div>
 );
 
@@ -29,28 +23,18 @@ const shouldRowUpdate = (props, nextProps) => (
 );
 
 const List = ({ data, rowHeight, component, start, end, keys }) => (
-    <Canvas height={data.length * rowHeight}>
-        <Rendered top={start * rowHeight} height={(end - start) * rowHeight}>
-            {data.slice(start, end).map((datum, index) =>
-                <RowWrapper
-                    onComponentShouldUpdate={shouldRowUpdate}
-                    key={keys[start + index]}
-                    height={rowHeight}
-                    index={start + index}
-                    datum={datum}
-                    component={component}
-                />
-            )}
-        </Rendered>
-    </Canvas>
-);
-
-const shouldListUpdate = (props, nextProps) => (
-    props.start !== nextProps.start ||
-    props.end !== nextProps.end ||
-    props.data !== nextProps.data ||
-    props.rowHeight !== nextProps.rowHeight ||
-    props.component !== nextProps.component
+    <Container height={data.length * rowHeight} renderedTop={start * rowHeight}>
+        {data.slice(start, end).map((datum, index) =>
+            <RowWrapper
+                onComponentShouldUpdate={shouldRowUpdate}
+                key={keys[start + index]}
+                height={rowHeight}
+                index={start + index}
+                datum={datum}
+                component={component}
+            />
+        )}
+    </Container>
 );
 
 export default compose(
@@ -68,6 +52,12 @@ export default compose(
         };
     }),
     withProps({
-        onComponentShouldUpdate: shouldListUpdate
+        onComponentShouldUpdate: (props, nextProps) => (
+            props.start !== nextProps.start ||
+            props.end !== nextProps.end ||
+            props.data !== nextProps.data ||
+            props.rowHeight !== nextProps.rowHeight ||
+            props.component !== nextProps.component
+        )
     })
 )(List);
