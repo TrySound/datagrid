@@ -2,25 +2,10 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import withScrollTopProp from '../decorators/withScrollTopProp.js';
 import Grid from '../Grid.js';
+import DefaultHeaderColumn from '../DefaultHeaderColumn.js';
+import { defaultBorder } from '../defaults.js';
 
 const TrackedGrid = withScrollTopProp(Grid);
-
-const HeaderColumn = ({ column, index, ghost }) => (
-    <div style={{
-        height: 30,
-        display: 'flex',
-        alignItems: 'center',
-        boxSizing: 'border-box',
-        padding: '0 8px',
-        overflow: 'hidden',
-        borderLeft: column.move === 'right' ? '2px solid black' : 'var(--header-border)',
-        borderRight: column.move === 'left' ? '2px solid black' : 'var(--header-border)',
-        background: 'var(--header-bg)',
-        opacity: ghost ? .8 : 1
-    }}>
-        {column.displayName || column.name}
-    </div>
-);
 
 const reducer = (state, action) => {
     console.log(action);
@@ -42,17 +27,20 @@ const reducer = (state, action) => {
                 columns: state.columns.map((item, index) => {
                     if (index === action.payload.between[0]) {
                         return Object.assign({}, item, {
-                            move: 'left'
+                            moveLeft: true,
+                            moveRight: false
                         });
                     }
                     if (index === action.payload.between[1]) {
                         return Object.assign({}, item, {
-                            move: 'right'
+                            moveLeft: false,
+                            moveRight: true
                         });
                     }
-                    if (item.move) {
+                    if (item.moveLeft || item.moveRight) {
                         return Object.assign({}, item, {
-                            move: null
+                            moveLeft: false,
+                            moveRight: false
                         });
                     }
                     return item;
@@ -61,9 +49,10 @@ const reducer = (state, action) => {
 
         case 'MOVE':
             const columns = state.columns.map((item, index) => {
-                if (item.move) {
+                if (item.moveLeft || item.moveRight) {
                     return Object.assign({}, item, {
-                        move: null
+                        moveLeft: false,
+                        moveRight: false
                     });
                 }
                 return item;
@@ -134,7 +123,7 @@ export default class Viewport extends Component {
                     columns={columns}
                     data={data}
                     rowHeight={30}
-                    headerColumnComponent={HeaderColumn}
+                    headerColumnComponent={DefaultHeaderColumn}
                     rowComponent={undefined}
                     callback={this.callback}
                 />
@@ -142,12 +131,3 @@ export default class Viewport extends Component {
         );
     }
 }
-
-const style = document.createElement('style');
-style.textContent = `
-    :root {
-        --header-bg: linear-gradient(to top, #eeeeee, #ffffff);
-        --header-border: 1px solid #d4d4d4;
-    }
-`;
-document.body.appendChild(style);

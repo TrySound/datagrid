@@ -7,14 +7,10 @@ const container = document.createElement('div');
 container.classList.add('app');
 document.body.appendChild(container);
 
-const Div = () => (
-    <div style={{ width: 30, flexShrink: 0 }}></div>
-);
-
 Inferno.render(
     <div style={{ display: 'flex', flexFlow: 'wrap' }}>
         <ListDemo />
-        <Div />
+        <div style={{ width: 30, flexShrink: 0 }}></div>
         <GridDemo />
     </div>,
     container
