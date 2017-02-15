@@ -1,12 +1,12 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import withScrollTopProp from '../decorators/withScrollTopProp.js';
-import Grid from '../Grid.js';
+import PinnableGrid from '../PinnableGrid.js';
 import DefaultHeaderColumn from '../DefaultHeaderColumn.js';
 import { defaultBorder } from '../defaults.js';
 import reducer from '../reducer.js';
 
-const TrackedGrid = withScrollTopProp(Grid);
+const TrackedGrid = withScrollTopProp(PinnableGrid);
 
 export default class Viewport extends Component {
     constructor() {
@@ -21,10 +21,20 @@ export default class Viewport extends Component {
                     enableSorting: true
                 },
                 {
+                    name: 'col11',
+                    width: 120,
+                    pinnedLeft: true
+                },
+                {
                     name: 'col2',
                     minWidth: 60,
                     width: 150,
                     resizing: true
+                },
+                {
+                    name: 'col21',
+                    width: 120,
+                    pinnedRight: true
                 },
                 {
                     name: 'col3',
@@ -35,8 +45,10 @@ export default class Viewport extends Component {
                 }
             ],
             data: Array(500000).fill(0).map((item, i) => ({
+                col11: `Pinned left ${i}`,
                 col1: i,
                 col2: `Title ${i}`,
+                col21: `Pinned right ${i}`,
                 col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
             }))
         };

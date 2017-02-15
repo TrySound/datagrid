@@ -145,23 +145,47 @@ describe('reducer', () => {
                         name: 'col1'
                     },
                     {
-                        name: 'col2'
+                        name: 'col3'
                     },
                     {
-                        name: 'col3'
+                        name: 'col2'
                     }
                 ]
             }, moveColumn('col1', 'col3', null))
         ).to.deep.equal({
             columns: [
                 {
-                    name: 'col2'
-                },
-                {
                     name: 'col3'
                 },
                 {
                     name: 'col1'
+                },
+                {
+                    name: 'col2'
+                }
+            ]
+        });
+    });
+
+    it('moves column after itself if right is null and column is the last', () => {
+        expect(
+            reducer({
+                columns: [
+                    {
+                        name: 'col1'
+                    },
+                    {
+                        name: 'col2'
+                    }
+                ]
+            }, moveColumn('col2', null, 'col2'))
+        ).to.deep.equal({
+            columns: [
+                {
+                    name: 'col1'
+                },
+                {
+                    name: 'col2'
                 }
             ]
         });
@@ -172,10 +196,10 @@ describe('reducer', () => {
             reducer({
                 columns: [
                     {
-                        name: 'col2'
+                        name: 'col3'
                     },
                     {
-                        name: 'col3'
+                        name: 'col2'
                     },
                     {
                         name: 'col1'
@@ -185,13 +209,37 @@ describe('reducer', () => {
         ).to.deep.equal({
             columns: [
                 {
+                    name: 'col3'
+                },
+                {
                     name: 'col1'
                 },
                 {
                     name: 'col2'
+                }
+            ]
+        });
+    });
+
+    it('moves column before itself if left is null and column is the first', () => {
+        expect(
+            reducer({
+                columns: [
+                    {
+                        name: 'col1'
+                    },
+                    {
+                        name: 'col2'
+                    }
+                ]
+            }, moveColumn('col1', null, 'col1'))
+        ).to.deep.equal({
+            columns: [
+                {
+                    name: 'col1'
                 },
                 {
-                    name: 'col3'
+                    name: 'col2'
                 }
             ]
         });

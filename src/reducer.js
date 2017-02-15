@@ -41,9 +41,11 @@ export default (state, action) => {
             const rightIndex = otherColumns.findIndex(item => item.name === action.right);
             return {
                 columns: [
-                    ...(leftIndex === -1 ? [] : otherColumns.slice(0, leftIndex + 1)),
+                    ...(leftIndex !== -1 ? otherColumns.slice(0, leftIndex + 1) : []),
+                    ...(leftIndex === -1 && rightIndex !== -1 ? otherColumns.slice(0, rightIndex) : []),
                     currentColumn,
-                    ...(rightIndex === -1 ? [] : otherColumns.slice(rightIndex))
+                    ...(rightIndex !== -1 ? otherColumns.slice(rightIndex) : []),
+                    ...(rightIndex === -1 && leftIndex !== -1 ? otherColumns.slice(leftIndex + 1) : [])
                 ]
             };
 
