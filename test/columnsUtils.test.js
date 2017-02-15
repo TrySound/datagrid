@@ -56,7 +56,7 @@ describe('columnUtils', () => {
             expect(bisectColumns([
                 { width: 60 },
                 { width: 60 }
-            ], 200)).to.deep.equal([1, 2]);
+            ], 200)).to.deep.equal([1, -1]);
         });
 
         it('selects previous and current if position in column is less than half', () => {

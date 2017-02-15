@@ -72,18 +72,18 @@ export default class GridWrapper extends Component {
         this.props.callback(resizeColumn(name, columnWidth));
     }
 
-    onMoving(name, between) {
+    onMoving(name, left, right) {
         this.setState({
             dragging: true
         });
-        this.props.callback(markMoveDest(name, between[0], between[1]));
+        this.props.callback(markMoveDest(name, left, right));
     }
 
-    onMove(name, between) {
+    onMove(name, left, right) {
         this.setState({
             dragging: false
         });
-        this.props.callback(moveColumn(name, between[0], between[1]));
+        this.props.callback(moveColumn(name, left, right));
     }
 
     render(props, { dragging, ghost, ghostX, minWidth, rowComponent }) {

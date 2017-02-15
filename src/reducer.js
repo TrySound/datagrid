@@ -14,14 +14,14 @@ export default (state, action) => {
 
         case 'MARK_MOVE_DEST':
             return {
-                columns: state.columns.map((item, index) => {
-                    if (index === action.left) {
+                columns: state.columns.map(item => {
+                    if (item.name === action.left) {
                         return Object.assign({}, item, {
                             moveLeft: true,
                             moveRight: false
                         });
                     }
-                    if (index === action.right) {
+                    if (item.name === action.right) {
                         return Object.assign({}, item, {
                             moveLeft: false,
                             moveRight: true
@@ -38,7 +38,7 @@ export default (state, action) => {
             };
 
         case 'MOVE_COLUMN':
-            const columns = state.columns.map((item, index) => {
+            const columns = state.columns.map(item => {
                 if (item.moveLeft || item.moveRight) {
                     return Object.assign({}, item, {
                         moveLeft: false,
@@ -47,13 +47,15 @@ export default (state, action) => {
                 }
                 return item;
             });
+            const leftIndex = columns.findIndex(item => item.name === action.left);
+            const leftColumns = leftIndex === -1 ? [] : columns.slice(0, leftIndex + 1);
+            const rightIndex = columns.findIndex(item => item.name === action.right);
+            const rightColumns = rightIndex === -1 ? [] : columns.slice(rightIndex);
             return {
                 columns: [
-                    ...columns.slice(0, action.left + 1)
-                              .filter(item => item.name !== action.name),
+                    ...leftColumns.filter(item => item.name !== action.name),
                     ...columns.filter(item => item.name === action.name),
-                    ...columns.slice(action.right)
-                              .filter(item => item.name !== action.name)
+                    ...rightColumns.filter(item => item.name !== action.name)
                 ]
             };
 

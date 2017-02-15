@@ -87,7 +87,10 @@ export default class HeaderWrapper extends Component {
         if (type === 'resize') {
             this.props.onResizing(name, this.currentLeft + trimColumnWidth(this.currentColumn, position));
         } else {
-            this.props.onMoving(name, bisectColumns(this.props.columns, this.startMovingPosition + position));
+            const [leftIndex, rightIndex] = bisectColumns(this.props.columns, this.startMovingPosition + position);
+            const leftName = leftIndex === -1 ? null : this.props.columns[leftIndex].name;
+            const rightName = rightIndex === -1 ? null : this.props.columns[rightIndex].name;
+            this.props.onMoving(name, leftName, rightName);
         }
         this.setState({
             position: this.startMovingPosition + position,
@@ -99,7 +102,10 @@ export default class HeaderWrapper extends Component {
         if (type === 'resize') {
             this.props.onResize(name, trimColumnWidth(this.currentColumn, position));
         } else {
-            this.props.onMove(name, bisectColumns(this.props.columns, this.startMovingPosition + position));
+            const [leftIndex, rightIndex] = bisectColumns(this.props.columns, this.startMovingPosition + position);
+            const leftName = leftIndex === -1 ? null : this.props.columns[leftIndex].name;
+            const rightName = rightIndex === -1 ? null : this.props.columns[rightIndex].name;
+            this.props.onMove(name, leftName, rightName);
         }
         this.setState({
             moving: false
