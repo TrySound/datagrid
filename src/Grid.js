@@ -2,7 +2,8 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
-import Table from './Table.js';
+import List from './List.js';
+import DefaultRow from './DefaultRow.js';
 
 const Grid = ({ dragging, minWidth, children }) => (
     <div style={{
@@ -15,10 +16,19 @@ const Grid = ({ dragging, minWidth, children }) => (
     </div>
 );
 
+const createRowComponent = ({ columns, component: Row = DefaultRow }) => ({ datum, index }) => (
+    <Row columns={columns} datum={datum} index={index} />
+);
+
+
 export default class GridWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            rowComponent: createRowComponent({
+                columns: props.columns,
+                component: props.rowComponent
+            }),
             dragging: false,
             ghost: false,
             ghostX: 0,
@@ -31,7 +41,15 @@ export default class GridWrapper extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        let rowComponent = this.state.rowComponent;
+        if (this.props.rowComponent !== nextProps.rowComponent || this.props.columns !== nextProps.columns) {
+            rowComponent = createRowComponent({
+                columns: nextProps.columns,
+                component: nextProps.rowComponent
+            });
+        }
         this.setState({
+            rowComponent,
             minWidth: nextProps.columns.reduce((acc, item) => acc + item.width, 0)
         });
     }
@@ -91,7 +109,7 @@ export default class GridWrapper extends Component {
         });
     }
 
-    render(props, { dragging, ghost, ghostX, minWidth }) {
+    render(props, { dragging, ghost, ghostX, minWidth, rowComponent }) {
         return (
             <Grid dragging={dragging} minWidth={minWidth}>
                 <Header
@@ -101,13 +119,12 @@ export default class GridWrapper extends Component {
                     onMoving={this.onMoving}
                     onResize={this.onResize}
                     onResizing={this.onResizing} />
-                <Table
-                    columns={props.columns}
+                <List
                     data={props.data}
                     scrollTop={props.scrollTop}
                     viewportHeight={props.viewportHeight}
                     rowHeight={props.rowHeight}
-                    component={props.rowComponent} />
+                    component={rowComponent} />
                 {ghost && <ResizeGhost x={ghostX} />}
             </Grid>
         );
