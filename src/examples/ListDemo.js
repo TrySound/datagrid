@@ -12,7 +12,7 @@ const columns = [
     },
     {
         name: 'col2',
-        width: 150
+        computedWidth: 150
     },
     {
         name: 'col3',
