@@ -1,13 +1,13 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { compose, withScrollTopProp, withPinnableColumns } from '../decorators/index.js';
+import { compose, withScrollProps, withPinnableColumns } from '../decorators/index.js';
 import Grid from '../Grid.js';
 import DefaultHeaderColumn from '../DefaultHeaderColumn.js';
 import { defaultBorder } from '../params.js';
 import reducer from '../reducer.js';
 
 const TrackedGrid = compose(
-    withScrollTopProp,
+    withScrollProps,
     withPinnableColumns
 )(Grid);
 
