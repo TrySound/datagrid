@@ -17,10 +17,10 @@ export const bisectColumns = (columns, position) => {
         const half = width / 2;
         last = left + width;
         if (index === 0 && relative < half) {
-            return [index - 1, index];
+            return [-1, index];
         }
         if (index === columns.length - 1 && half <= relative) {
-            return [index, index + 1];
+            return [index, -1];
         }
         if (half <= relative && relative <= width) {
             return [index, index + 1];
@@ -30,5 +30,4 @@ export const bisectColumns = (columns, position) => {
         }
         return acc;
     }, []);
-    return [];
 };

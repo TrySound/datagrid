@@ -1,18 +1,17 @@
 import Inferno from 'inferno';
 import createElement from 'inferno-create-element';
-import HeaderDemo from './HeaderDemo.js';
-import ListDemo from './ListDemo.js';
+import ListDemo from './examples/ListDemo.js';
+import GridDemo from './examples/GridDemo.js';
 
 const container = document.createElement('div');
 container.classList.add('app');
 document.body.appendChild(container);
 
-const App = () => (
-    <div style={{ display: 'flex' }}>
-        <HeaderDemo />
-        <div style={{ width: 30 }}></div>
+Inferno.render(
+    <div style={{ display: 'flex', flexFlow: 'wrap' }}>
         <ListDemo />
-    </div>
+        <div style={{ width: 30, flexShrink: 0 }}></div>
+        <GridDemo />
+    </div>,
+    container
 );
-
-Inferno.render(<App />, container);

@@ -1,73 +1,63 @@
 import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import { compose, withMiddleState, withProps } from './decorators/index.js';
 import { getVisibleRows, getKeysByIndex } from './listUtils.js';
 
-const Canvas = ({ height, children }) => (
+const Container = ({ height, renderedTop, children }) => (
     <div style={{ position: 'relative', height }}>
-        {children}
+        <div style={{ position: 'absolute', left: 0, right: 0, top: renderedTop }}>
+            {children}
+        </div>
     </div>
 );
 
-const Rendered = ({ height, top, children }) => (
-    <div style={{ position: 'absolute', left: 0, right: 0, top, height }}>
-        {children}
-    </div>
-);
-
-const RowWrapper = ({ height, entity, index, row: Row }) => (
+const RowWrapper = ({ height, datum, index, component: Row }) => (
     <div style={{ height }}>
-        <Row entity={entity} index={index} />
+        <Row datum={datum} index={index} />
     </div>
 );
 
-const shouldRowUpdate = (lastProps, nextProps) =>
-    lastProps.height !== nextProps.height ||
-    lastProps.row !== nextProps.row ||
-    lastProps.entity !== nextProps.entity;
-
-const List = ({ data, rowHeight, row, start, end, keys }) => (
-    <Canvas height={data.length * rowHeight}>
-        <Rendered top={start * rowHeight} height={(end - start) * rowHeight}>
-            {data.slice(start, end).map((entity, index) =>
-                <RowWrapper
-                    onComponentShouldUpdate={shouldRowUpdate}
-                    key={keys[start + index]}
-                    height={rowHeight}
-                    index={start + index}
-                    entity={entity}
-                    row={row}
-                />
-            )}
-        </Rendered>
-    </Canvas>
+const shouldRowUpdate = (props, nextProps) => (
+    props.height !== nextProps.height ||
+    props.component !== nextProps.component ||
+    props.datum !== nextProps.datum
 );
 
-const shouldListUpdate = (lastProps, nextProps) =>
-    lastProps.start !== nextProps.start ||
-    lastProps.end !== nextProps.end ||
-    lastProps.data !== nextProps.data ||
-    lastProps.rowHeight !== nextProps.rowHeight ||
-    lastProps.row !== nextProps.row;
-
-export default class ListWrapper extends Component {
-    render({ data, scrollTop, viewportHeight, rowHeight, row }) {
-        const [start, end] = getVisibleRows({
-            scrollTop,
-            viewportHeight,
-            rowHeight,
-            rowsCount: data.length
-        });
-        const keys = this.keys = getKeysByIndex(this.keys, start, end);
-        return (
-            <List
-                onComponentShouldUpdate={shouldListUpdate}
-                data={data}
-                rowHeight={rowHeight}
-                row={row}
-                start={start}
-                end={end}
-                keys={keys}
+const List = ({ data, rowHeight, component, start, end, keys }) => (
+    <Container height={data.length * rowHeight} renderedTop={start * rowHeight}>
+        {data.slice(start, end).map((datum, index) =>
+            <RowWrapper
+                onComponentShouldUpdate={shouldRowUpdate}
+                key={keys[start + index]}
+                height={rowHeight}
+                index={start + index}
+                datum={datum}
+                component={component}
             />
-        );
-    }
-}
+        )}
+    </Container>
+);
+
+export default compose(
+    withMiddleState((props, state = {}) => {
+        const [start, end] = getVisibleRows({
+            scrollTop: props.scrollTop,
+            viewportHeight: props.viewportHeight,
+            rowHeight: props.rowHeight,
+            rowsCount: props.data.length
+        });
+        return {
+            start,
+            end,
+            keys: getKeysByIndex(state.keys, start, end)
+        };
+    }),
+    withProps({
+        onComponentShouldUpdate: (props, nextProps) => (
+            props.start !== nextProps.start ||
+            props.end !== nextProps.end ||
+            props.data !== nextProps.data ||
+            props.rowHeight !== nextProps.rowHeight ||
+            props.component !== nextProps.component
+        )
+    })
+)(List);

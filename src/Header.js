@@ -17,13 +17,7 @@ const Resizer = () => (
 );
 
 const ColumnGhost = ({ x, children }) => (
-    <div style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        transform: `translateX(${x}px)`
-    }}>
+    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, transform: `translateX(${x}px)` }}>
         {children}
     </div>
 );
@@ -33,12 +27,14 @@ class DraggableColumn extends Component {
         super();
         this.refResizer = element => this.resizer = element;
         let name;
+        let enabled;
         this.onStart = (e, pos) => {
             name = e.target === this.resizer ? 'resize' : 'move';
-            this.props.onStart(name, this.props.column, pos);
+            enabled = name === 'resize' || name === 'move' && this.props.column.moving;
+            this.props.onStart(name, this.props.column.name, pos);
         };
-        this.onDrag = (e, pos) => this.props.onDrag(name, this.props.column, pos);
-        this.onEnd = (e, pos) => this.props.onEnd(name, this.props.column, pos);
+        this.onDrag = (e, pos) => enabled && this.props.onDrag(name, this.props.column.name, pos);
+        this.onEnd = (e, pos) => enabled && this.props.onEnd(name, this.props.column.name, pos);
     }
 
     render({ children }) {
@@ -48,7 +44,9 @@ class DraggableColumn extends Component {
                 onDrag={this.onDrag}
                 onEnd={this.onEnd}>
                 {children}
-                <Resizer onComponentDidMount={this.refResizer} />
+                {this.props.column.resizing &&
+                    <Resizer onComponentDidMount={this.refResizer} />
+                }
             </Draggable>
         );
     }
@@ -57,6 +55,12 @@ class DraggableColumn extends Component {
 const ColumnWrapper = ({ column, index, ghost, component: Column }) => (
     <div style={{ width: column.width }}>
         <Column column={column} index={index} ghost={ghost} />
+    </div>
+);
+
+const Header = ({ children }) => (
+    <div style={{ display: 'flex', position: 'relative' }}>
+        {children}
     </div>
 );
 
@@ -81,52 +85,40 @@ export default class HeaderWrapper extends Component {
 
     onDrag(type, name, position) {
         if (type === 'resize') {
-            this.props.callback({
-                type: 'RESIZING',
-                column: name,
-                ghostPosition: this.currentLeft + trimColumnWidth(this.currentColumn, position)
-            });
+            this.props.onResizing(name, this.currentLeft + trimColumnWidth(this.currentColumn, position));
         } else {
-            this.props.callback({
-                type: 'MOVING',
-                column: name,
-                between: bisectColumns(this.props.columns, this.startMovingPosition + position)
-            });
+            const [leftIndex, rightIndex] = bisectColumns(this.props.columns, this.startMovingPosition + position);
+            const leftName = leftIndex === -1 ? null : this.props.columns[leftIndex].name;
+            const rightName = rightIndex === -1 ? null : this.props.columns[rightIndex].name;
+            this.props.onMoving(name, leftName, rightName);
         }
         this.setState({
             position: this.startMovingPosition + position,
-            dragging: true,
             moving: type === 'move'
         });
     }
 
     onEnd(type, name, position) {
         if (type === 'resize') {
-            this.props.callback({
-                type: 'RESIZE',
-                column: name,
-                columnWidth: trimColumnWidth(this.currentColumn, position)
-            });
+            this.props.onResize(name, trimColumnWidth(this.currentColumn, position));
         } else {
-            this.props.callback({
-                type: 'MOVE',
-                column: name,
-                between: bisectColumns(this.props.columns, this.startMovingPosition + position)
-            });
+            const [leftIndex, rightIndex] = bisectColumns(this.props.columns, this.startMovingPosition + position);
+            const leftName = leftIndex === -1 ? null : this.props.columns[leftIndex].name;
+            const rightName = rightIndex === -1 ? null : this.props.columns[rightIndex].name;
+            this.props.onMove(name, leftName, rightName);
         }
         this.setState({
-            dragging: false,
             moving: false
         });
     }
 
-    render({ columns, component }, { dragging, moving, position }) {
+    render({ columns, component }, { moving, position }) {
         return (
-            <div style={{ display: 'flex', position: 'relative', userSelect: dragging ? 'none' : '' }}>
+            <Header>
                 {columns.map((column, index) =>
                     <DraggableColumn
                         key={column.name}
-                        column={column.name}
+                        column={column}
                         onStart={this.onStart}
                         onDrag={this.onDrag}
                         onEnd={this.onEnd}>
@@ -146,7 +138,7 @@ export default class HeaderWrapper extends Component {
                             component={component} />
                     </ColumnGhost>
                 }
-            </div>
+            </Header>
         );
     }
 }
