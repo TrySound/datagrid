@@ -117,8 +117,7 @@ export default class Viewport extends Component {
             <div>
                 <h2>Grid example</h2>
                 <TrackedGrid
-                    width={600}
-                    height={360}
+                    viewportWidth={600}
                     viewportHeight={360}
                     columns={columns}
                     data={data}

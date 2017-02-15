@@ -18,13 +18,12 @@ export default (component) => class extends Component {
     render(props, { scrollTop }) {
         return (
             createElement('div', {
-                style: { width: props.width, height: props.height, overflow: 'auto' },
+                style: { width: props.viewportWidth, height: props.viewportHeight, overflow: 'auto' },
                 ref: this.ref,
                 onScroll: this.onScroll
             }, [
                 createElement(component, Object.assign({}, props, {
-                    scrollTop,
-                    viewportHeight: props.height
+                    scrollTop
                 }))
             ])
         );

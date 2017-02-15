@@ -34,8 +34,7 @@ export default () => (
     <div>
         <h2>List example</h2>
         <TrackedList
-            width={600}
-            height={360}
+            viewportWidth={600}
             viewportHeight={360}
             rowHeight={30}
             data={data}

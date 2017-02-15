@@ -22,7 +22,7 @@ const getStyle = (column, index, ghost) => ({
     borderRight: getBorderRight(column, index, ghost),
     background: defaultHeaderBackground,
     opacity: getOpacity(ghost)
-})
+});
 
 export default ({ column, index, ghost }) => (
     <div style={getStyle(column, index, ghost)}>
