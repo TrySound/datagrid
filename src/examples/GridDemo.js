@@ -4,73 +4,9 @@ import withScrollTopProp from '../decorators/withScrollTopProp.js';
 import Grid from '../Grid.js';
 import DefaultHeaderColumn from '../DefaultHeaderColumn.js';
 import { defaultBorder } from '../defaults.js';
+import reducer from '../reducer.js';
 
 const TrackedGrid = withScrollTopProp(Grid);
-
-const reducer = (state, action) => {
-    console.log(action);
-    switch (action.type) {
-        case 'RESIZE':
-            return {
-                columns: state.columns.map(item => {
-                    if (item.name === action.payload.columnName) {
-                        return Object.assign({}, item, {
-                            width: action.payload.columnWidth
-                        });
-                    }
-                    return item;
-                })
-            };
-
-        case 'MOVING':
-            return {
-                columns: state.columns.map((item, index) => {
-                    if (index === action.payload.between[0]) {
-                        return Object.assign({}, item, {
-                            moveLeft: true,
-                            moveRight: false
-                        });
-                    }
-                    if (index === action.payload.between[1]) {
-                        return Object.assign({}, item, {
-                            moveLeft: false,
-                            moveRight: true
-                        });
-                    }
-                    if (item.moveLeft || item.moveRight) {
-                        return Object.assign({}, item, {
-                            moveLeft: false,
-                            moveRight: false
-                        });
-                    }
-                    return item;
-                })
-            };
-
-        case 'MOVE':
-            const columns = state.columns.map((item, index) => {
-                if (item.moveLeft || item.moveRight) {
-                    return Object.assign({}, item, {
-                        moveLeft: false,
-                        moveRight: false
-                    });
-                }
-                return item;
-            });
-            return {
-                columns: [
-                    ...columns.slice(0, action.payload.between[0] + 1)
-                              .filter(item => item.name !== action.payload.columnName),
-                    ...columns.filter(item => item.name === action.payload.columnName),
-                    ...columns.slice(action.payload.between[1])
-                              .filter(item => item.name !== action.payload.columnName)
-                ]
-            };
-
-        default:
-            return state;
-    }
-};
 
 export default class Viewport extends Component {
     constructor() {
@@ -109,6 +45,7 @@ export default class Viewport extends Component {
     }
 
     callback(action) {
+        console.log(action);
         this.setState(reducer(this.state, action));
     }
 

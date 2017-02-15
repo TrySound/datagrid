@@ -4,6 +4,7 @@ import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultRow from './DefaultRow.js';
+import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 
 const Grid = ({ dragging, minWidth, children }) => (
     <div style={{
@@ -54,59 +55,35 @@ export default class GridWrapper extends Component {
         });
     }
 
-    onResizing(columnName, ghostPosition) {
+    onResizing(name, ghostPosition) {
         this.setState({
             dragging: true,
             ghost: true,
             ghostX: ghostPosition
         });
-        this.props.callback({
-            type: 'RESIZING',
-            payload: {
-                columnName,
-                ghostPosition
-            }
-        });
+        this.props.callback(moveResizeGhost(name, ghostPosition));
     }
 
-    onResize(columnName, columnWidth) {
+    onResize(name, columnWidth) {
         this.setState({
             dragging: false,
             ghost: false
         });
-        this.props.callback({
-            type: 'RESIZE',
-            payload: {
-                columnName,
-                columnWidth
-            }
-        });
+        this.props.callback(resizeColumn(name, columnWidth));
     }
 
-    onMoving(columnName, between) {
+    onMoving(name, between) {
         this.setState({
             dragging: true
         });
-        this.props.callback({
-            type: 'MOVING',
-            payload: {
-                columnName,
-                between
-            }
-        });
+        this.props.callback(markMoveDest(name, between[0], between[1]));
     }
 
-    onMove(columnName, between) {
+    onMove(name, between) {
         this.setState({
             dragging: false
         });
-        this.props.callback({
-            type: 'MOVE',
-            payload: {
-                columnName,
-                between
-            }
-        });
+        this.props.callback(moveColumn(name, between[0], between[1]));
     }
 
     render(props, { dragging, ghost, ghostX, minWidth, rowComponent }) {
