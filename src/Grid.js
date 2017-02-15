@@ -5,6 +5,7 @@ import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultRow from './DefaultRow.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
+import { headerZindex } from './params.js';
 
 const Grid = ({ dragging, width, children }) => (
     <div style={{
@@ -97,7 +98,7 @@ export default class GridWrapper extends Component {
     render(props, { dragging, ghost, ghostX, width, rowComponent, headerHeight }) {
         return (
             <Grid dragging={dragging} width={width}>
-                <div style={{ position: 'sticky', zIndex: 1, top: 0, height: headerHeight }} ref={this.refHeader}>
+                <div style={{ position: 'sticky', zIndex: headerZindex, top: 0, height: headerHeight }} ref={this.refHeader}>
                     <Header
                         columns={props.columns}
                         component={props.headerColumnComponent}

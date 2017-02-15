@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './defaults.js';
+import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './params.js';
 
 const getBorderLeft = (column, index, ghost) =>
     index === 0 || ghost ? (column.moveLeft ? defaultActiveBorder : defaultBorder) : '';

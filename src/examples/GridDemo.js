@@ -3,7 +3,7 @@ import Component from 'inferno-component';
 import withScrollTopProp from '../decorators/withScrollTopProp.js';
 import PinnableGrid from '../PinnableGrid.js';
 import DefaultHeaderColumn from '../DefaultHeaderColumn.js';
-import { defaultBorder } from '../defaults.js';
+import { defaultBorder } from '../params.js';
 import reducer from '../reducer.js';
 
 const TrackedGrid = withScrollTopProp(PinnableGrid);

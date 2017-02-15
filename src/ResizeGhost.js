@@ -1,8 +1,10 @@
 import createElement from 'inferno-create-element';
+import { resizeGhostZindex } from './params.js';
 
 const ResizeGhost = ({ x }) => (
     <div style={{
         position: 'absolute',
+        zIndex: resizeGhostZindex,
         top: 0,
         bottom: 0,
         left: 0,

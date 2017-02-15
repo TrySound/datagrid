@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { defaultBorder } from './defaults.js';
+import { defaultBorder } from './params.js';
 
 const getRowStyle = index => ({
     display: 'flex',
