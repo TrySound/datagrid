@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import withScrollTopProp from '../decorators/withScrollTopProp.js';
+import { withScrollTopProp } from '../decorators/index.js';
 import List from '../List.js';
 import DefaultRow from '../DefaultRow.js';
 
@@ -12,7 +12,7 @@ const columns = [
     },
     {
         name: 'col2',
-        computedWidth: 150
+        width: 150
     },
     {
         name: 'col3',
