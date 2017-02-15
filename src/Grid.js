@@ -6,12 +6,12 @@ import List from './List.js';
 import DefaultRow from './DefaultRow.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 
-const Grid = ({ dragging, minWidth, children }) => (
+const Grid = ({ dragging, width, children }) => (
     <div style={{
         position: 'relative',
         pointerEvents: dragging ? 'none' : '',
         userSelect: dragging ? 'none' : '',
-        minWidth
+        width
     }}>
         {children}
     </div>
@@ -26,6 +26,7 @@ export default class GridWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            headerHeight: 0,
             rowComponent: createRowComponent({
                 columns: props.columns,
                 component: props.rowComponent
@@ -33,8 +34,9 @@ export default class GridWrapper extends Component {
             dragging: false,
             ghost: false,
             ghostX: 0,
-            minWidth: 0
+            width: 0
         };
+        this.refHeader = this.refHeader.bind(this);
         this.onResizing = this.onResizing.bind(this);
         this.onResize = this.onResize.bind(this);
         this.onMoving = this.onMoving.bind(this);
@@ -51,7 +53,13 @@ export default class GridWrapper extends Component {
         }
         this.setState({
             rowComponent,
-            minWidth: nextProps.columns.reduce((acc, item) => acc + item.width, 0)
+            width: nextProps.columns.reduce((acc, item) => acc + item.width, 0)
+        });
+    }
+
+    refHeader(element) {
+        this.setState({
+            headerHeight: element.offsetHeight
         });
     }
 
@@ -86,20 +94,22 @@ export default class GridWrapper extends Component {
         this.props.callback(moveColumn(name, left, right));
     }
 
-    render(props, { dragging, ghost, ghostX, minWidth, rowComponent }) {
+    render(props, { dragging, ghost, ghostX, width, rowComponent, headerHeight }) {
         return (
-            <Grid dragging={dragging} minWidth={minWidth}>
-                <Header
-                    columns={props.columns}
-                    component={props.headerColumnComponent}
-                    onMove={this.onMove}
-                    onMoving={this.onMoving}
-                    onResize={this.onResize}
-                    onResizing={this.onResizing} />
+            <Grid dragging={dragging} width={width}>
+                <div style={{ position: 'sticky', zIndex: 1, top: 0, height: headerHeight }} ref={this.refHeader}>
+                    <Header
+                        columns={props.columns}
+                        component={props.headerColumnComponent}
+                        onMove={this.onMove}
+                        onMoving={this.onMoving}
+                        onResize={this.onResize}
+                        onResizing={this.onResizing} />
+                </div>
                 <List
                     data={props.data}
-                    scrollTop={props.scrollTop}
-                    viewportHeight={props.viewportHeight}
+                    scrollTop={props.scrollTop - headerHeight}
+                    viewportHeight={props.viewportHeight - headerHeight}
                     rowHeight={props.rowHeight}
                     component={rowComponent} />
                 {ghost && <ResizeGhost x={ghostX} />}

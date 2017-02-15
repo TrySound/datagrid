@@ -35,18 +35,21 @@ export default (state, action) => {
                 }
                 return item;
             });
-            const currentColumn = columns.find(item => item.name === action.name);
-            const otherColumns = columns.filter(item => item.name !== action.name);
-            const leftIndex = otherColumns.findIndex(item => item.name === action.left);
-            const rightIndex = otherColumns.findIndex(item => item.name === action.right);
+            if (action.left || action.right) {
+                const index
+                    = action.left
+                    ? columns.findIndex(item => item.name === action.left) + 1
+                    : columns.findIndex(item => item.name === action.right);
+                return {
+                    columns: [
+                        ...columns.slice(0, index).filter(item => item.name !== action.name),
+                        ...columns.filter(item => item.name === action.name),
+                        ...columns.slice(index).filter(item => item.name !== action.name)
+                    ]
+                };
+            }
             return {
-                columns: [
-                    ...(leftIndex !== -1 ? otherColumns.slice(0, leftIndex + 1) : []),
-                    ...(leftIndex === -1 && rightIndex !== -1 ? otherColumns.slice(0, rightIndex) : []),
-                    currentColumn,
-                    ...(rightIndex !== -1 ? otherColumns.slice(rightIndex) : []),
-                    ...(rightIndex === -1 && leftIndex !== -1 ? otherColumns.slice(leftIndex + 1) : [])
-                ]
+                columns
             };
 
         case 'RESIZE_COLUMN':

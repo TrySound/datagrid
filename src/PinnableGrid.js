@@ -2,57 +2,41 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Grid from './Grid.js';
 
-const getTableWidth = columns => columns.reduce((acc, column) => acc + column.width, 0);
+const splitColumns = columns => ({
+    leftColumns: columns.filter(column => column.pinnedLeft),
+    centerColumns: columns.filter(column => !column.pinnedLeft && !column.pinnedRight),
+    rightColumns: columns.filter(column => column.pinnedRight)
+});
 
 export default class PinnableGrid extends Component {
     constructor(props) {
         super(props);
-        const leftColumns = props.columns.filter(column => column.pinnedLeft);
-        const centerColumns = props.columns.filter(column => !column.pinnedLeft && !column.pinnedRight);
-        const rightColumns = props.columns.filter(column => column.pinnedRight);
-        this.state = {
-            leftWidth: getTableWidth(leftColumns),
-            leftColumns,
-            centerWidth: getTableWidth(centerColumns),
-            centerColumns,
-            rightWidth: getTableWidth(rightColumns),
-            rightColumns
-        };
+        this.state = splitColumns(props.columns);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.columns !== nextProps.columns) {
-            const leftColumns = nextProps.columns.filter(column => column.pinnedLeft);
-            const centerColumns = nextProps.columns.filter(column => !column.pinnedLeft && !column.pinnedRight);
-            const rightColumns = nextProps.columns.filter(column => column.pinnedRight);
-            this.setState({
-                leftWidth: getTableWidth(leftColumns),
-                leftColumns,
-                centerWidth: getTableWidth(centerColumns),
-                centerColumns,
-                rightWidth: getTableWidth(rightColumns),
-                rightColumns
-            });
+            this.setState(splitColumns(nextProps.columns));
         }
     }
 
-    render(props, { leftColumns, leftWidth, centerColumns, centerWidth, rightColumns, rightWidth }) {
+    render(props, { leftColumns, centerColumns, rightColumns }) {
         return (
             <div style={{ display: 'flex' }}>
-                <div style={{ position: 'sticky', zIndex: 1, left: 0, width: leftWidth }}>
-                    {leftColumns.length ? createElement(Grid, Object.assign({}, props, {
+                <div style={{ position: 'sticky', zIndex: 2, left: 0 }}>
+                    {leftColumns.length !== 0 && createElement(Grid, Object.assign({}, props, {
                         columns: leftColumns
-                    })): ''},
+                    }))}
                 </div>
-                <div style={{ width: centerWidth }}>
+                <div>
                     {createElement(Grid, Object.assign({}, props, {
                         columns: centerColumns
                     }))}
                 </div>
-                <div style={{ position: 'sticky', zIndex: 1, right: 0, width: rightWidth }}>
-                    {rightColumns.length ? createElement(Grid, Object.assign({}, props, {
+                <div style={{ position: 'sticky', zIndex: 2, right: 0 }}>
+                    {rightColumns.length !== 0 && createElement(Grid, Object.assign({}, props, {
                         columns: rightColumns
-                    })) : ''}
+                    }))}
                 </div>
             </div>
         );
