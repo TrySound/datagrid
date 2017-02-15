@@ -13,7 +13,7 @@ const createFreeKeyGenerator = (indexes) => {
             }
         }
     };
-}
+};
 
 const getRecoveredKeys = (lastKeys, start, end) => {
     const keys = empty();

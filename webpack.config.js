@@ -21,7 +21,8 @@ module.exports = {
                             },
                             jsx: 'createElement'
                         }
-                    }
+                    },
+                    'eslint-loader'
                 ]
             }
         ]
