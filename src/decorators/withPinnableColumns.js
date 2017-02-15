@@ -1,5 +1,4 @@
 import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
 import withMiddleState from './withMiddleState.js';
 import { pinnedZindex } from '../params.js';
 

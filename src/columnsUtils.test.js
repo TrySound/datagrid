@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { trimColumnWidth, getColumnWidth, bisectColumns } from './columnsUtils.js';
+import { trimColumnWidth, bisectColumns } from './columnsUtils.js';
 
 describe('columnUtils', () => {
     describe('trimColumnWidth', () => {
@@ -17,20 +17,6 @@ describe('columnUtils', () => {
 
         it('does not trim in range', () => {
             expect(trimColumnWidth({}, 500)).to.deep.equal(500);
-        });
-    });
-
-    describe('getColumnWidth', () => {
-        it('returns width if present', () => {
-            expect(getColumnWidth({ minWidth: 20, width: 30 })).to.deep.equal(30);
-        });
-
-        it('fallbacks to minWidth', () => {
-            expect(getColumnWidth({ minWidth: 20 })).to.deep.equal(20);
-        });
-
-        it('fallbacks to default minWidth', () => {
-            expect(getColumnWidth({})).to.deep.equal(60);
         });
     });
 

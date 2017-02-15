@@ -1,10 +1,7 @@
-const defaultMinWidth = 60;
+import { defaultMinWidth } from './params.js';
 
 export const trimColumnWidth = (column, width) =>
     Math.min(Math.max(column.minWidth || defaultMinWidth, width), column.maxWidth || Infinity);
-
-export const getColumnWidth = column =>
-    column.width || column.minWidth || defaultMinWidth;
 
 export const bisectColumns = (columns, position) => {
     if (columns.length < 2) {
