@@ -98,7 +98,7 @@ export default class GridWrapper extends Component {
     render(props, { dragging, ghost, ghostX, width, rowComponent, headerHeight }) {
         return (
             <Grid dragging={dragging} width={width}>
-                <div style={{ position: 'sticky', zIndex: headerZindex, top: 0, height: headerHeight }} ref={this.refHeader}>
+                <div style={{ position: 'sticky', zIndex: headerZindex, top: 0 }} ref={this.refHeader}>
                     <Header
                         columns={props.columns}
                         component={props.headerColumnComponent}
