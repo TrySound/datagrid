@@ -5,13 +5,13 @@ module.exports = config => config.set({
 
     files: [
         {
-            pattern: 'test/**/*.test.js',
+            pattern: 'src/**/*.test.js',
             watched: false
         }
     ],
 
     preprocessors: {
-        'test/**/*.test.js': ['webpack', 'sourcemap']
+        'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
     webpack: {
@@ -40,11 +40,11 @@ module.exports = config => config.set({
 
     reporters: ['mocha'],
 
-    browsers: ['Chrome'],
-
-    phantomjsLauncher: {
-        exitOnResourceError: true
+    mochaReporter: {
+        showDiff: true
     },
+
+    browsers: ['Chrome'],
 
     port: 9876,
 

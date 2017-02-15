@@ -2,10 +2,10 @@ import createElement from 'inferno-create-element';
 import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './defaults.js';
 
 const getBorderLeft = (column, index, ghost) =>
-    index === 0 || ghost ? (column.moveRight ? defaultActiveBorder : defaultBorder) : '';
+    index === 0 || ghost ? (column.moveLeft ? defaultActiveBorder : defaultBorder) : '';
 
 const getBorderRight = column =>
-    column.moveLeft ? defaultActiveBorder : defaultBorder;
+    column.moveRight ? defaultActiveBorder : defaultBorder;
 
 const getOpacity = ghost => ghost ? .8 : 1;
 

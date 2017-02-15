@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getKeysByIndex, getVisibleRows } from '../src/listUtils.js';
+import { getKeysByIndex, getVisibleRows } from './listUtils.js';
 
 describe('listUtils', () => {
     describe('getKeysByIndex', () => {

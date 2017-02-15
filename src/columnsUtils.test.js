@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { trimColumnWidth, getColumnWidth, bisectColumns } from '../src/columnsUtils.js';
+import { trimColumnWidth, getColumnWidth, bisectColumns } from './columnsUtils.js';
 
 describe('columnUtils', () => {
     describe('trimColumnWidth', () => {

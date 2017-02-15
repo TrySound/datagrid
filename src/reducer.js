@@ -1,30 +1,18 @@
 export default (state, action) => {
     switch (action.type) {
-        case 'RESIZE_COLUMN':
-            return {
-                columns: state.columns.map(item => {
-                    if (item.name === action.name) {
-                        return Object.assign({}, item, {
-                            width: action.size
-                        });
-                    }
-                    return item;
-                })
-            };
-
         case 'MARK_MOVE_DEST':
             return {
                 columns: state.columns.map(item => {
                     if (item.name === action.left) {
                         return Object.assign({}, item, {
-                            moveLeft: true,
-                            moveRight: false
+                            moveLeft: false,
+                            moveRight: true
                         });
                     }
                     if (item.name === action.right) {
                         return Object.assign({}, item, {
-                            moveLeft: false,
-                            moveRight: true
+                            moveLeft: true,
+                            moveRight: false
                         });
                     }
                     if (item.moveLeft || item.moveRight) {
@@ -47,16 +35,28 @@ export default (state, action) => {
                 }
                 return item;
             });
-            const leftIndex = columns.findIndex(item => item.name === action.left);
-            const leftColumns = leftIndex === -1 ? [] : columns.slice(0, leftIndex + 1);
-            const rightIndex = columns.findIndex(item => item.name === action.right);
-            const rightColumns = rightIndex === -1 ? [] : columns.slice(rightIndex);
+            const currentColumn = columns.find(item => item.name === action.name);
+            const otherColumns = columns.filter(item => item.name !== action.name);
+            const leftIndex = otherColumns.findIndex(item => item.name === action.left);
+            const rightIndex = otherColumns.findIndex(item => item.name === action.right);
             return {
                 columns: [
-                    ...leftColumns.filter(item => item.name !== action.name),
-                    ...columns.filter(item => item.name === action.name),
-                    ...rightColumns.filter(item => item.name !== action.name)
+                    ...(leftIndex === -1 ? [] : otherColumns.slice(0, leftIndex + 1)),
+                    currentColumn,
+                    ...(rightIndex === -1 ? [] : otherColumns.slice(rightIndex))
                 ]
+            };
+
+        case 'RESIZE_COLUMN':
+            return {
+                columns: state.columns.map(item => {
+                    if (item.name === action.name) {
+                        return Object.assign({}, item, {
+                            width: action.size
+                        });
+                    }
+                    return item;
+                })
             };
 
         default:
