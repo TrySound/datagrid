@@ -15,7 +15,7 @@ module.exports = config => config.set({
     },
 
     webpack: {
-        devtool: 'inline-source-map',
+        devtool: '#inline-source-map',
         module: {
             rules: [
                 {
@@ -25,10 +25,21 @@ module.exports = config => config.set({
                         {
                             loader: 'buble-loader',
                             options: {
+                                target: {
+                                    chrome: 50
+                                },
                                 jsx: 'createElement'
                             }
                         }
                     ]
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules|\.test\.js$/,
+                    loader: 'istanbul-instrumenter-loader',
+                    options: {
+                        esModules: true
+                    }
                 }
             ]
         }
@@ -38,10 +49,18 @@ module.exports = config => config.set({
         stats: 'errors-only'
     },
 
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
 
     mochaReporter: {
         showDiff: true
+    },
+
+    coverageReporter: {
+        dir: 'coverage',
+        reporters: [
+            { type: 'html' },
+            { type: 'text', file: null },
+        ]
     },
 
     browsers: ['Chrome'],
