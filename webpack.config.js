@@ -4,7 +4,7 @@ module.exports = {
     entry: './src/examples/index.js',
     output: {
         path: __dirname,
-        filename: 'inferno-datagrid.js'
+        filename: 'examples.js'
     },
     devtool: '#inline-source-map',
     module: {
