@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { defaultBorder } from './defaults.js';
+import { defaultBorder } from './params.js';
 
 const getRowStyle = index => ({
     display: 'flex',
@@ -10,7 +10,7 @@ const getRowStyle = index => ({
 const getColumnStyle = (column, index) => ({
     display: 'flex',
     alignItems: 'center',
-    width: column.computedWidth || column.width,
+    width: column.width,
     padding: '0 8px',
     boxSizing: 'border-box',
     borderLeft: index === 0 ? defaultBorder : '',

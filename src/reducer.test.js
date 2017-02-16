@@ -245,6 +245,36 @@ describe('reducer', () => {
         });
     });
 
+    it('does not move columns if left and right are null', () => {
+        expect(
+            reducer({
+                columns: [
+                    {
+                        name: 'col1'
+                    },
+                    {
+                        name: 'col2'
+                    },
+                    {
+                        name: 'col3'
+                    }
+                ]
+            }, moveColumn('col1', null, null))
+        ).to.deep.equal({
+            columns: [
+                {
+                    name: 'col1'
+                },
+                {
+                    name: 'col2'
+                },
+                {
+                    name: 'col3'
+                }
+            ]
+        });
+    });
+
     it('does not affect on move resize ghost', () => {
         expect(
             reducer({
@@ -272,6 +302,10 @@ describe('reducer', () => {
                     {
                         name: 'col1',
                         width: 100
+                    },
+                    {
+                        name: 'col2',
+                        width: 150
                     }
                 ]
             }, resizeColumn('col1', 120))
@@ -280,6 +314,10 @@ describe('reducer', () => {
                 {
                     name: 'col1',
                     width: 120
+                },
+                {
+                    name: 'col2',
+                    width: 150
                 }
             ]
         });

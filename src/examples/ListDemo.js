@@ -1,9 +1,9 @@
 import createElement from 'inferno-create-element';
-import withScrollTopProp from '../decorators/withScrollTopProp.js';
+import { withScrollProps } from '../decorators/index.js';
 import List from '../List.js';
 import DefaultRow from '../DefaultRow.js';
 
-const TrackedList = withScrollTopProp(List);
+const TrackedList = withScrollProps(List);
 
 const columns = [
     {
@@ -12,7 +12,7 @@ const columns = [
     },
     {
         name: 'col2',
-        computedWidth: 150
+        width: 150
     },
     {
         name: 'col3',

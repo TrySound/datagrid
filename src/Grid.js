@@ -4,7 +4,9 @@ import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultRow from './DefaultRow.js';
+import DefaultHeaderColumn from './DefaultHeaderColumn.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
+import { headerZindex } from './params.js';
 
 const Grid = ({ dragging, width, children }) => (
     <div style={{
@@ -21,20 +23,20 @@ const createRowComponent = ({ columns, component: Row = DefaultRow }) => ({ datu
     <Row columns={columns} datum={datum} index={index} />
 );
 
-
 export default class GridWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            headerHeight: 0,
+            headerColumnComponent: props.headerColumnComponent || DefaultHeaderColumn,
             rowComponent: createRowComponent({
                 columns: props.columns,
                 component: props.rowComponent
             }),
+            tableWidth: props.columns.reduce((acc, item) => acc + item.width, 0),
+            headerHeight: 0,
             dragging: false,
             ghost: false,
-            ghostX: 0,
-            width: 0
+            ghostX: 0
         };
         this.refHeader = this.refHeader.bind(this);
         this.onResizing = this.onResizing.bind(this);
@@ -44,16 +46,19 @@ export default class GridWrapper extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let rowComponent = this.state.rowComponent;
-        if (this.props.rowComponent !== nextProps.rowComponent || this.props.columns !== nextProps.columns) {
-            rowComponent = createRowComponent({
-                columns: nextProps.columns,
-                component: nextProps.rowComponent
-            });
-        }
+        const headerColumnComponent = nextProps.headerColumnComponent || DefaultHeaderColumn;
+        const rowComponent
+            = this.props.rowComponent === nextProps.rowComponent && this.props.columns === nextProps.columns
+            ? this.state.rowComponent
+            : createRowComponent({ columns: nextProps.columns, component: nextProps.rowComponent });
+        const tableWidth
+            = this.props.columns === nextProps.columns
+            ? this.state.tableWidth
+            : nextProps.columns.reduce((acc, item) => acc + item.width, 0);
         this.setState({
+            headerColumnComponent,
             rowComponent,
-            width: nextProps.columns.reduce((acc, item) => acc + item.width, 0)
+            tableWidth
         });
     }
 
@@ -94,13 +99,13 @@ export default class GridWrapper extends Component {
         this.props.callback(moveColumn(name, left, right));
     }
 
-    render(props, { dragging, ghost, ghostX, width, rowComponent, headerHeight }) {
+    render(props, { dragging, ghost, ghostX, tableWidth, headerHeight, headerColumnComponent, rowComponent }) {
         return (
-            <Grid dragging={dragging} width={width}>
-                <div style={{ position: 'sticky', zIndex: 1, top: 0, height: headerHeight }} ref={this.refHeader}>
+            <Grid dragging={dragging} width={tableWidth}>
+                <div style={{ position: 'sticky', zIndex: headerZindex, top: 0 }} ref={this.refHeader}>
                     <Header
                         columns={props.columns}
-                        component={props.headerColumnComponent}
+                        component={headerColumnComponent}
                         onMove={this.onMove}
                         onMoving={this.onMoving}
                         onResize={this.onResize}
