@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Draggable from './Draggable.js';
-import { trimColumnWidth, bisectColumns } from './columnsUtils.js';
+import { trimColumnWidth, bisectColumns } from './utils/index.js';
 
 const Resizer = () => (
     <div style={{

@@ -36,17 +36,8 @@ const generateKeys = (lastKeys, start, end) => {
     return keys;
 };
 
-export const getKeysByIndex = (lastKeys = empty(), start, end) => {
+export default (lastKeys = empty(), start, end) => {
     const recovered = getRecoveredKeys(lastKeys, start, end);
     const generated = generateKeys(recovered, start, end);
     return Object.assign(empty(), recovered, generated);
-};
-
-export const getVisibleRows = ({ scrollTop, viewportHeight, rowHeight, rowsCount }) => {
-    const clusterSize = Math.ceil(viewportHeight / rowHeight);
-    const topCluster = Math.floor(Math.floor(scrollTop / rowHeight) / clusterSize);
-    const end = Math.min(rowsCount, (topCluster + 2) * clusterSize);
-    // count of visible rows is always the same then focus never be lost
-    const start = Math.max(0, end - clusterSize * 2);
-    return [start, end];
 };
