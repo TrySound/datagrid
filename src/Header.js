@@ -52,9 +52,9 @@ class DraggableColumn extends Component {
     }
 }
 
-const ColumnWrapper = ({ column, index, ghost, component: Column }) => (
+const ColumnWrapper = ({ column, index, ghost, component: Column, callback }) => (
     <div style={{ width: column.width }}>
-        <Column column={column} index={index} ghost={ghost} />
+        <Column column={column} index={index} ghost={ghost} callback={callback} />
     </div>
 );
 
@@ -112,7 +112,7 @@ export default class HeaderWrapper extends Component {
         });
     }
 
-    render({ columns, component }, { moving, position }) {
+    render({ columns, component, callback }, { moving, position }) {
         return (
             <Header>
                 {columns.map((column, index) =>
@@ -126,7 +126,8 @@ export default class HeaderWrapper extends Component {
                             column={column}
                             index={index}
                             ghost={false}
-                            component={component} />
+                            component={component}
+                            callback={callback} />
                     </DraggableColumn>
                 )}
                 {moving &&

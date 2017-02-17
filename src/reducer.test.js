@@ -1,6 +1,12 @@
 import { expect } from 'chai';
 import reducer from './reducer.js';
-import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
+import {
+    markMoveDest,
+    moveColumn,
+    moveResizeGhost,
+    resizeColumn,
+    filterColumn
+} from './actionCreators.js';
 
 describe('reducer', () => {
     it('marks move destinations with moveLeft and moveRight flags', () => {
@@ -318,6 +324,31 @@ describe('reducer', () => {
                 {
                     name: 'col2',
                     width: 150
+                }
+            ]
+        });
+    });
+
+    it('adds filters to columns', () => {
+        expect(
+            reducer({
+                columns: [
+                    {
+                        name: 'col1'
+                    },
+                    {
+                        name: 'col2'
+                    }
+                ]
+            }, filterColumn('col1', 'Text'))
+        ).to.deep.equal({
+            columns: [
+                {
+                    name: 'col1',
+                    value: 'Text'
+                },
+                {
+                    name: 'col2'
                 }
             ]
         });

@@ -109,7 +109,8 @@ export default class GridWrapper extends Component {
                         onMove={this.onMove}
                         onMoving={this.onMoving}
                         onResize={this.onResize}
-                        onResizing={this.onResizing} />
+                        onResizing={this.onResizing}
+                        callback={props.callback} />
                 </div>
                 <List
                     data={props.data}

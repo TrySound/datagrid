@@ -64,6 +64,18 @@ export default (state, action) => {
                 })
             };
 
+        case 'FILTER_COLUMN':
+            return {
+                columns: state.columns.map(item => {
+                    if (item.name === action.name) {
+                        return Object.assign({}, item, {
+                            value: action.value
+                        });
+                    }
+                    return item;
+                })
+            };
+
         default:
             return state;
     }

@@ -19,7 +19,6 @@ export default class Viewport extends Component {
                 columns: [
                     {
                         name: 'col1',
-                        enableFiltering: true,
                         enableSorting: true
                     },
                     {
@@ -30,6 +29,7 @@ export default class Viewport extends Component {
                     {
                         name: 'col2',
                         minWidth: 60,
+                        enableFiltering: true,
                         width: 150,
                         resizing: true
                     },
@@ -60,6 +60,7 @@ export default class Viewport extends Component {
     }
 
     callback(action) {
+        console.log(action);
         this.setState({
             gridState: reducer(this.state.gridState, action)
         });
