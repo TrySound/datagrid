@@ -5,6 +5,7 @@ import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultRow from './DefaultRow.js';
 import DefaultHeaderColumn from './DefaultHeaderColumn.js';
+import { compose, withPropsOnChange } from './decorators/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex } from './params.js';
 
@@ -19,20 +20,33 @@ const Grid = ({ dragging, width, children }) => (
     </div>
 );
 
-const createRowComponent = ({ columns, component: Row = DefaultRow }) => ({ datum, index }) => (
-    <Row columns={columns} datum={datum} index={index} />
-);
-
-export default class GridWrapper extends Component {
+export default compose(
+    withPropsOnChange(
+        ['columns', 'callback', 'rowComponent'],
+        ({ columns,  callback, rowComponent: Row = DefaultRow }) => ({
+            rowComponent: ({ datum, index }) => (
+                <Row columns={columns} datum={datum} index={index} callback={callback} />
+            )
+        })
+    ),
+    withPropsOnChange(
+        ['callback', 'headerColumnComponent'],
+        ({ callback, headerColumnComponent: HeaderColumn = DefaultHeaderColumn }) => ({
+            headerColumnComponent: ({ column, index, ghost }) => (
+                <HeaderColumn column={column} index={index} ghost={ghost} callback={callback} />
+            )
+        })
+    ),
+    withPropsOnChange(
+        ['columns'],
+        ({ columns }) => ({
+            tableWidth: columns.reduce((acc, item) => acc + item.width, 0)
+        })
+    )
+)(class GridWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            headerColumnComponent: props.headerColumnComponent || DefaultHeaderColumn,
-            rowComponent: createRowComponent({
-                columns: props.columns,
-                component: props.rowComponent
-            }),
-            tableWidth: props.columns.reduce((acc, item) => acc + item.width, 0),
             headerHeight: 0,
             dragging: false,
             ghost: false,
@@ -43,23 +57,6 @@ export default class GridWrapper extends Component {
         this.onResize = this.onResize.bind(this);
         this.onMoving = this.onMoving.bind(this);
         this.onMove = this.onMove.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const headerColumnComponent = nextProps.headerColumnComponent || DefaultHeaderColumn;
-        const rowComponent
-            = this.props.rowComponent === nextProps.rowComponent && this.props.columns === nextProps.columns
-            ? this.state.rowComponent
-            : createRowComponent({ columns: nextProps.columns, component: nextProps.rowComponent });
-        const tableWidth
-            = this.props.columns === nextProps.columns
-            ? this.state.tableWidth
-            : nextProps.columns.reduce((acc, item) => acc + item.width, 0);
-        this.setState({
-            headerColumnComponent,
-            rowComponent,
-            tableWidth
-        });
     }
 
     refHeader(element) {
@@ -99,13 +96,13 @@ export default class GridWrapper extends Component {
         this.props.callback(moveColumn(name, left, right));
     }
 
-    render(props, { dragging, ghost, ghostX, tableWidth, headerHeight, headerColumnComponent, rowComponent }) {
+    render(props, { dragging, ghost, ghostX, headerHeight }) {
         return (
-            <Grid dragging={dragging} width={tableWidth}>
+            <Grid dragging={dragging} width={props.tableWidth}>
                 <div style={{ position: 'sticky', zIndex: headerZindex, top: 0 }} ref={this.refHeader}>
                     <Header
                         columns={props.columns}
-                        component={headerColumnComponent}
+                        component={props.headerColumnComponent}
                         onMove={this.onMove}
                         onMoving={this.onMoving}
                         onResize={this.onResize}
@@ -117,9 +114,9 @@ export default class GridWrapper extends Component {
                     scrollTop={props.scrollTop - headerHeight}
                     viewportHeight={props.viewportHeight - headerHeight}
                     rowHeight={props.rowHeight}
-                    component={rowComponent} />
+                    component={props.rowComponent} />
                 {ghost && <ResizeGhost x={ghostX} />}
             </Grid>
         );
     }
-}
+});
