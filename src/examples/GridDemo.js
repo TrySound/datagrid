@@ -1,14 +1,10 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { compose, withScrollProps, withDefaultColumnsWidth, withPinnableColumns } from '../decorators/index.js';
+import { withScrollProps } from '../decorators/index.js';
 import Grid from '../Grid.js';
 import reducer from '../reducer.js';
 
-const TrackedGrid = compose(
-    withScrollProps,
-    withDefaultColumnsWidth,
-    withPinnableColumns
-)(Grid);
+const TrackedGrid = withScrollProps(Grid);
 
 export default class Viewport extends Component {
     constructor() {

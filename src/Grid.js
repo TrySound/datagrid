@@ -5,9 +5,9 @@ import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultRow from './DefaultRow.js';
 import DefaultHeaderColumn from './DefaultHeaderColumn.js';
-import { compose, withPropsOnChange } from './decorators/index.js';
+import { compose, withPropsOnChange, withPinnableColumns } from './decorators/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
-import { headerZindex } from './params.js';
+import { headerZindex, defaultMinWidth } from './params.js';
 
 const Grid = ({ dragging, width, children }) => (
     <div style={{
@@ -21,12 +21,19 @@ const Grid = ({ dragging, width, children }) => (
 );
 
 export default compose(
+    withPinnableColumns,
     withPropsOnChange(
-        ['columns', 'callback', 'rowComponent'],
-        ({ columns,  callback, rowComponent: Row = DefaultRow }) => ({
-            rowComponent: ({ datum, index }) => (
-                <Row columns={columns} datum={datum} index={index} callback={callback} />
-            )
+        ['columns'],
+        ({ columns }) => ({
+            columns: columns.map(column => Object.assign({}, column, {
+                width: column.width || column.minWidth || defaultMinWidth
+            }))
+        })
+    ),
+    withPropsOnChange(
+        ['columns'],
+        ({ columns }) => ({
+            tableWidth: columns.reduce((acc, item) => acc + item.width, 0)
         })
     ),
     withPropsOnChange(
@@ -38,9 +45,11 @@ export default compose(
         })
     ),
     withPropsOnChange(
-        ['columns'],
-        ({ columns }) => ({
-            tableWidth: columns.reduce((acc, item) => acc + item.width, 0)
+        ['columns', 'callback', 'rowComponent'],
+        ({ columns,  callback, rowComponent: Row = DefaultRow }) => ({
+            rowComponent: ({ datum, index }) => (
+                <Row columns={columns} datum={datum} index={index} callback={callback} />
+            )
         })
     )
 )(class GridWrapper extends Component {

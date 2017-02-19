@@ -1,18 +1,12 @@
 import createElement from 'inferno-create-element';
-import withMiddleState from './withMiddleState.js';
+import withPropsOnChange from './withPropsOnChange.js';
 import { pinnedZindex } from '../params.js';
 
-export default component => withMiddleState((props, state = {}) => {
-    if (props.columns === state.columns) {
-        return state;
-    }
-    return {
-        columns: props.columns,
-        leftColumns: props.columns.filter(column => column.pinnedLeft),
-        centerColumns: props.columns.filter(column => !column.pinnedLeft && !column.pinnedRight),
-        rightColumns: props.columns.filter(column => column.pinnedRight)
-    };
-})(props => (
+export default component => withPropsOnChange(['columns'], ({ columns }) => ({
+    leftColumns: columns.filter(column => column.pinnedLeft),
+    centerColumns: columns.filter(column => !column.pinnedLeft && !column.pinnedRight),
+    rightColumns: columns.filter(column => column.pinnedRight)
+}))(props => (
     <div style={{ display: 'flex' }}>
         {props.leftColumns.length !== 0 &&
             <div style={{ position: 'sticky', zIndex: pinnedZindex, left: 0 }}>
