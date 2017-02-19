@@ -115,8 +115,7 @@ export default compose(
                         onMove={this.onMove}
                         onMoving={this.onMoving}
                         onResize={this.onResize}
-                        onResizing={this.onResizing}
-                        callback={props.callback} />
+                        onResizing={this.onResizing} />
                 </div>
                 <List
                     data={props.data}
