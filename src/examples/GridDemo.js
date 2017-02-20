@@ -68,6 +68,7 @@ export default class Viewport extends Component {
                 <TrackedGrid
                     viewportWidth={600}
                     viewportHeight={360}
+                    headerHeight={60}
                     rowHeight={30}
                     data={data}
                     headerColumnComponent={undefined}

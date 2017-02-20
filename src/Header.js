@@ -59,7 +59,7 @@ const ColumnWrapper = ({ column, index, ghost, component: Column, callback }) =>
 );
 
 const Header = ({ children }) => (
-    <div style={{ display: 'flex', position: 'relative' }}>
+    <div style={{ display: 'flex', position: 'relative', height: 'inherit' }}>
         {children}
     </div>
 );

@@ -45,22 +45,14 @@ export default compose(
     constructor(props) {
         super(props);
         this.state = {
-            headerHeight: 0,
             dragging: false,
             ghost: false,
             ghostX: 0
         };
-        this.refHeader = this.refHeader.bind(this);
         this.onResizing = this.onResizing.bind(this);
         this.onResize = this.onResize.bind(this);
         this.onMoving = this.onMoving.bind(this);
         this.onMove = this.onMove.bind(this);
-    }
-
-    refHeader(element) {
-        this.setState({
-            headerHeight: element.offsetHeight
-        });
     }
 
     onResizing(name, ghostPosition) {
@@ -105,27 +97,30 @@ export default compose(
         this.props.callback(moveColumn(name, left, right));
     }
 
-    render(props, { dragging, ghost, ghostX, headerHeight }) {
+    render(props, { dragging, ghost, ghostX }) {
         return (
             <div style={{
                 position: 'relative',
+                flexShrink: 0,
                 pointerEvents: dragging ? 'none' : '',
                 userSelect: dragging ? 'none' : '',
                 width: props.tableWidth
             }}>
-                <div style={{ position: 'sticky', zIndex: headerZindex, top: 0 }} ref={this.refHeader}>
-                    <Header
-                        columns={props.columns}
-                        component={props.headerColumnComponent}
-                        onMove={this.onMove}
-                        onMoving={this.onMoving}
-                        onResize={this.onResize}
-                        onResizing={this.onResizing} />
-                </div>
+                {Boolean(props.headerHeight) &&
+                    <div style={{ position: 'sticky', zIndex: headerZindex, top: 0, height: props.headerHeight }}>
+                        <Header
+                            columns={props.columns}
+                            component={props.headerColumnComponent}
+                            onMove={this.onMove}
+                            onMoving={this.onMoving}
+                            onResize={this.onResize}
+                            onResizing={this.onResizing} />
+                    </div>
+                }
                 <List
                     data={props.data}
-                    scrollTop={props.scrollTop - headerHeight}
-                    viewportHeight={props.viewportHeight - headerHeight}
+                    scrollTop={props.scrollTop - props.headerHeight}
+                    viewportHeight={props.viewportHeight - props.headerHeight}
                     rowHeight={props.rowHeight}
                     component={props.rowComponent} />
                 {ghost && <ResizeGhost x={ghostX} />}
