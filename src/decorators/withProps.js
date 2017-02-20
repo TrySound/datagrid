@@ -1,3 +1,3 @@
 import createElement from 'inferno-create-element';
 
-export default config => component => props => createElement(component, Object.assign({}, props, config));
+export default config => BaseComponent => props => createElement(BaseComponent, Object.assign({}, props, config));

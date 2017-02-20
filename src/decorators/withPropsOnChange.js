@@ -1,14 +1,16 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 
-export default reducer => BaseComponent => class extends Component {
+export default (mappedKeys, mapProps) => BaseComponent => class extends Component {
     constructor(props) {
         super(props);
-        this.state = reducer(props);
+        this.state = mapProps(props);
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState(reducer(nextProps, this.state));
+        if (mappedKeys.some(key => this.props[key] !== nextProps[key])) {
+            this.setState(mapProps(nextProps));
+        }
     }
 
     render(props, state) {

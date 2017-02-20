@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
-import { compose, withMiddleState, withProps } from './decorators/index.js';
-import { getVisibleRows, getKeysByIndex } from './utils/index.js';
+import { withMiddleState, withProps } from './decorators/index.js';
+import { compose, getVisibleRows, getKeysByIndex } from './utils/index.js';
 
 const Container = ({ height, renderedTop, children }) => (
     <div style={{ position: 'relative', height }}>

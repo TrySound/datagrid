@@ -1,14 +1,25 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { compose, withScrollProps, withDefaultColumnsWidth, withPinnableColumns } from '../decorators/index.js';
-import Grid from '../Grid.js';
-import reducer from '../reducer.js';
+import { withScrollProps } from '../decorators/index.js';
+import { Grid, reducer } from '../index.js';
 
-const TrackedGrid = compose(
-    withScrollProps,
-    withDefaultColumnsWidth,
-    withPinnableColumns
-)(Grid);
+const TrackedGrid = withScrollProps(Grid);
+
+const data = Array(100000).fill(0).map((item, i) => ({
+    col11: `Pinned left ${i}`,
+    col1: i,
+    col2: `Title ${i}`,
+    col21: `Pinned right ${i}`,
+    col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+}));
+
+const filterRowByColumns = (row, columns) =>
+    columns
+        .filter(column => column.value)
+        .every(column => row[column.name].indexOf(column.value) !== -1);
+
+const filterDataByColumns = (data, columns) =>
+    data.filter(datum => filterRowByColumns(datum, columns));
 
 export default class Viewport extends Component {
     constructor() {
@@ -19,7 +30,6 @@ export default class Viewport extends Component {
                 columns: [
                     {
                         name: 'col1',
-                        enableFiltering: true,
                         enableSorting: true
                     },
                     {
@@ -30,6 +40,7 @@ export default class Viewport extends Component {
                     {
                         name: 'col2',
                         minWidth: 60,
+                        enableFiltering: true,
                         width: 150,
                         resizing: true
                     },
@@ -47,22 +58,31 @@ export default class Viewport extends Component {
                     }
                 ]
             },
-            data: Array(500000).fill(0).map((item, i) => ({
-                col11: `Pinned left ${i}`,
-                col1: i,
-                col2: `Title ${i}`,
-                col21: `Pinned right ${i}`,
-                col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-            }))
+            data,
+            originalData: data
         };
 
         this.callback = this.callback.bind(this);
     }
 
     callback(action) {
-        this.setState({
-            gridState: reducer(this.state.gridState, action)
-        });
+        console.log(action);
+        switch (action.type) {
+            case 'FILTER_COLUMN': {
+                const gridState = reducer(this.state.gridState, action);
+                this.setState({
+                    gridState,
+                    data: filterDataByColumns(this.state.originalData, gridState.columns)
+                });
+                break;
+            }
+
+            default:
+                this.setState({
+                    gridState: reducer(this.state.gridState, action)
+                });
+                break;
+        }
     }
 
     render({}, { gridState, data }) {
@@ -72,6 +92,7 @@ export default class Viewport extends Component {
                 <TrackedGrid
                     viewportWidth={600}
                     viewportHeight={360}
+                    headerHeight={60}
                     rowHeight={30}
                     data={data}
                     headerColumnComponent={undefined}

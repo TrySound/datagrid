@@ -23,3 +23,14 @@ export const resizeColumn = (name, size) => ({
     name,
     size
 });
+
+export const filterColumn = (name, value) => ({
+    type: 'FILTER_COLUMN',
+    name,
+    value
+});
+
+export const sortColumn = name => ({
+    type: 'SORT_COLUMN',
+    name
+});

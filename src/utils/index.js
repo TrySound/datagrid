@@ -1,3 +1,4 @@
+export { default as compose } from './compose.js';
 export { default as getKeysByIndex } from './getKeysByIndex.js';
 export { default as getVisibleRows } from './getVisibleRows.js';
 export { default as bisectColumns } from './bisectColumns.js';

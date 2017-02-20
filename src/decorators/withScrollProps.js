@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 
-export default (component) => class extends Component {
+export default BaseComponent => class extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +25,7 @@ export default (component) => class extends Component {
                 ref: this.ref,
                 onScroll: this.onScroll
             }, [
-                createElement(component, Object.assign({}, props, {
+                createElement(BaseComponent, Object.assign({}, props, {
                     scrollTop,
                     scrollLeft
                 }))

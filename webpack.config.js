@@ -1,10 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/examples/index.js',
     output: {
-        path: __dirname + '/dist',
-        filename: 'inferno-datagrid.js'
+        path: __dirname,
+        filename: 'examples.js'
     },
     devtool: '#inline-source-map',
     module: {
