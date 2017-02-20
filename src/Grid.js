@@ -9,17 +9,6 @@ import { compose, withPropsOnChange, withPinnableColumns } from './decorators/in
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
 
-const Grid = ({ dragging, width, children }) => (
-    <div style={{
-        position: 'relative',
-        pointerEvents: dragging ? 'none' : '',
-        userSelect: dragging ? 'none' : '',
-        width
-    }}>
-        {children}
-    </div>
-);
-
 export default compose(
     withPinnableColumns,
     withPropsOnChange(
@@ -118,7 +107,12 @@ export default compose(
 
     render(props, { dragging, ghost, ghostX, headerHeight }) {
         return (
-            <Grid dragging={dragging} width={props.tableWidth}>
+            <div style={{
+                position: 'relative',
+                pointerEvents: dragging ? 'none' : '',
+                userSelect: dragging ? 'none' : '',
+                width: props.tableWidth
+            }}>
                 <div style={{ position: 'sticky', zIndex: headerZindex, top: 0 }} ref={this.refHeader}>
                     <Header
                         columns={props.columns}
@@ -135,7 +129,7 @@ export default compose(
                     rowHeight={props.rowHeight}
                     component={props.rowComponent} />
                 {ghost && <ResizeGhost x={ghostX} />}
-            </Grid>
+            </div>
         );
     }
 });
