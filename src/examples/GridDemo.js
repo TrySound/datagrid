@@ -5,6 +5,22 @@ import { Grid, reducer } from '../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
+const data = Array(100000).fill(0).map((item, i) => ({
+    col11: `Pinned left ${i}`,
+    col1: i,
+    col2: `Title ${i}`,
+    col21: `Pinned right ${i}`,
+    col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+}));
+
+const filterRowByColumns = (row, columns) =>
+    columns
+        .filter(column => column.value)
+        .every(column => row[column.name].indexOf(column.value) !== -1);
+
+const filterDataByColumns = (data, columns) =>
+    data.filter(datum => filterRowByColumns(datum, columns));
+
 export default class Viewport extends Component {
     constructor() {
         super();
@@ -42,13 +58,8 @@ export default class Viewport extends Component {
                     }
                 ]
             },
-            data: Array(500000).fill(0).map((item, i) => ({
-                col11: `Pinned left ${i}`,
-                col1: i,
-                col2: `Title ${i}`,
-                col21: `Pinned right ${i}`,
-                col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-            }))
+            data,
+            originalData: data
         };
 
         this.callback = this.callback.bind(this);
@@ -56,9 +67,22 @@ export default class Viewport extends Component {
 
     callback(action) {
         console.log(action);
-        this.setState({
-            gridState: reducer(this.state.gridState, action)
-        });
+        switch (action.type) {
+            case 'FILTER_COLUMN': {
+                const gridState = reducer(this.state.gridState, action);
+                this.setState({
+                    gridState,
+                    data: filterDataByColumns(this.state.originalData, gridState.columns)
+                });
+                break;
+            }
+
+            default:
+                this.setState({
+                    gridState: reducer(this.state.gridState, action)
+                });
+                break;
+        }
     }
 
     render({}, { gridState, data }) {
