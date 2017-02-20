@@ -69,4 +69,15 @@ describe('getVisibleRows', () => {
             })
         ).to.deep.equal([42, 60]);
     });
+
+    it('should save count of visible rows with negative scrollTop', () => {
+        expect(
+            getVisibleRows({
+                viewportHeight: 100,
+                rowHeight: 12,
+                rowsCount: 60,
+                scrollTop: -20
+            })
+        ).to.deep.equal([0, 18]);
+    });
 });
