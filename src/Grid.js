@@ -75,12 +75,15 @@ export default compose(
     }
 
     onResizing(name, ghostPosition) {
-        this.setState({
-            dragging: true,
-            ghost: true,
-            ghostX: ghostPosition
-        });
-        this.props.callback(moveResizeGhost(name, ghostPosition));
+        if (name !== this.state.resizingName || ghostPosition !== this.state.ghostX) {
+            this.setState({
+                dragging: true,
+                ghost: true,
+                resizingName: name,
+                ghostX: ghostPosition
+            });
+            this.props.callback(moveResizeGhost(name, ghostPosition));
+        }
     }
 
     onResize(name, columnWidth) {
@@ -92,15 +95,23 @@ export default compose(
     }
 
     onMoving(name, left, right) {
-        this.setState({
-            dragging: true
-        });
-        this.props.callback(markMoveDest(name, left, right));
+        if (name !== this.state.movingName || left !== this.state.movingLeft || right !== this.state.movingRight) {
+            this.setState({
+                dragging: true,
+                movingName: name,
+                movingLeft: left,
+                movingRight: right
+            });
+            this.props.callback(markMoveDest(name, left, right));
+        }
     }
 
     onMove(name, left, right) {
         this.setState({
-            dragging: false
+            dragging: false,
+            movingName: null,
+            movingLeft: null,
+            movingRight: null
         });
         this.props.callback(moveColumn(name, left, right));
     }
