@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 
-export default (mappedKeys, mapProps) => component => class extends Component {
+export default (mappedKeys, mapProps) => BaseComponent => class extends Component {
     constructor(props) {
         super(props);
         this.state = mapProps(props);
@@ -14,6 +14,6 @@ export default (mappedKeys, mapProps) => component => class extends Component {
     }
 
     render(props, state) {
-        return createElement(component, Object.assign({}, props, state));
+        return createElement(BaseComponent, Object.assign({}, props, state));
     }
 };
