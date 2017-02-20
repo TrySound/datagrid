@@ -40,7 +40,21 @@ module.exports = config => config.set({
                     options: {
                         esModules: true
                     }
-                }
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'eslint-loader',
+                            options: {
+                                envs: [
+                                    'mocha'
+                                ]
+                            }
+                        }
+                    ]
+                },
             ]
         }
     },

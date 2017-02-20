@@ -9,6 +9,9 @@ env:
   browser: true
 
 rules:
+  indent: ['error', 4, {
+    SwitchCase: 1
+  }]
   semi: 'error'
   no-extra-semi: 'error'
   no-unreachable: 'error'
