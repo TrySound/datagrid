@@ -8,10 +8,11 @@ container.classList.add('app');
 document.body.appendChild(container);
 
 Inferno.render(
-    <div style={{ display: 'flex', flexFlow: 'wrap' }}>
-        <ListDemo />
-        <div style={{ width: 30, flexShrink: 0 }}></div>
+    <div>
         <GridDemo />
+        <div style={{ height: 30 }}></div>
+        <ListDemo />
+        <div style={{ height: 30 }}></div>
     </div>,
     container
 );
