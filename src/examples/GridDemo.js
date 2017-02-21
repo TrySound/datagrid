@@ -14,12 +14,44 @@ const data = Array(100000).fill(0).map((item, i) => ({
 }));
 
 const filterRowByColumns = (row, columns) =>
-    columns
-        .filter(column => column.value)
-        .every(column => row[column.name].indexOf(column.value) !== -1);
+    columns.every(column => row[column.name].indexOf(column.value) !== -1);
 
-const filterDataByColumns = (data, columns) =>
-    data.filter(datum => filterRowByColumns(datum, columns));
+const sortRowsByColumns = (a, b, column) => {
+    if (a[column.name] === b[column.name]) {
+        return 0;
+    }
+    if (column.sort === 'asc') {
+        if (a[column.name] < b[column.name]) {
+            return -1;
+        }
+        if (a[column.name] > b[column.name]) {
+            return 1;
+        }
+    }
+    if (column.sort === 'desc') {
+        if (a[column.name] > b[column.name]) {
+            return -1;
+        }
+        if (a[column.name] < b[column.name]) {
+            return 1;
+        }
+    }
+    return 0;
+};
+
+const selectDataByColumns = (data, columns) => {
+    const filteredColumns = columns.filter(column => column.value);
+    const sortedColumn = columns.find(column => column.sort);
+    const filtered
+        = filteredColumns.length
+        ? data.filter(datum => filterRowByColumns(datum, filteredColumns))
+        : data;
+    const sorted
+        = sortedColumn
+        ? filtered.slice().sort((a, b) => sortRowsByColumns(a, b, sortedColumn))
+        : filtered;
+    return sorted;
+};
 
 export default class Viewport extends Component {
     constructor() {
@@ -68,11 +100,12 @@ export default class Viewport extends Component {
     callback(action) {
         console.log(action);
         switch (action.type) {
-            case 'FILTER_COLUMN': {
+            case 'FILTER_COLUMN':
+            case 'SORT_COLUMN': {
                 const gridState = reducer(this.state.gridState, action);
                 this.setState({
                     gridState,
-                    data: filterDataByColumns(this.state.originalData, gridState.columns)
+                    data: selectDataByColumns(this.state.originalData, gridState.columns)
                 });
                 break;
             }
