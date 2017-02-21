@@ -1,0 +1,24 @@
+parserOptions:
+  ecmaVersion: 6
+  sourceType: 'module'
+  ecmaFeatures:
+    impliedStrict: true
+    jsx: true
+
+env:
+  browser: true
+
+rules:
+  indent: ['error', 4, {
+    SwitchCase: 1
+  }]
+  semi: 'error'
+  no-extra-semi: 'error'
+  no-unreachable: 'error'
+  eqeqeq: 'error'
+  no-undef: 'error'
+  no-var: 'error'
+  prefer-const: 'error'
+  object-shorthand: 'error'
+  constructor-super: 'error'
+  no-this-before-super: 'error'

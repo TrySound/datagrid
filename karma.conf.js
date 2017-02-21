@@ -5,17 +5,17 @@ module.exports = config => config.set({
 
     files: [
         {
-            pattern: 'test/**/*.test.js',
+            pattern: 'src/**/*.test.js',
             watched: false
         }
     ],
 
     preprocessors: {
-        'test/**/*.test.js': ['webpack', 'sourcemap']
+        'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
     webpack: {
-        devtool: 'inline-source-map',
+        devtool: '#inline-source-map',
         module: {
             rules: [
                 {
@@ -25,11 +25,36 @@ module.exports = config => config.set({
                         {
                             loader: 'buble-loader',
                             options: {
+                                target: {
+                                    chrome: 50
+                                },
                                 jsx: 'createElement'
                             }
                         }
                     ]
-                }
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules|\.test\.js$/,
+                    loader: 'istanbul-instrumenter-loader',
+                    options: {
+                        esModules: true
+                    }
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'eslint-loader',
+                            options: {
+                                envs: [
+                                    'mocha'
+                                ]
+                            }
+                        }
+                    ]
+                },
             ]
         }
     },
@@ -38,13 +63,21 @@ module.exports = config => config.set({
         stats: 'errors-only'
     },
 
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
+
+    mochaReporter: {
+        showDiff: true
+    },
+
+    coverageReporter: {
+        dir: 'coverage',
+        reporters: [
+            { type: 'html' },
+            { type: 'text', file: null },
+        ]
+    },
 
     browsers: ['Chrome'],
-
-    phantomjsLauncher: {
-        exitOnResourceError: true
-    },
 
     port: 9876,
 

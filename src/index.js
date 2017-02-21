@@ -1,9 +1,5 @@
-import Inferno from 'inferno';
-import createElement from 'inferno-create-element';
-import TableDemo from './TableDemo.js';
-
-const container = document.createElement('div');
-container.classList.add('app');
-document.body.appendChild(container);
-
-Inferno.render(<TableDemo />, container);
+export { default as Grid } from './Grid.js';
+export { default as List } from './List.js';
+export { default as DefaultHeaderColumn } from './DefaultHeaderColumn.js';
+export { default as DefaultRow } from './DefaultRow.js';
+export { default as reducer } from './reducers/index.js';
