@@ -3,8 +3,8 @@ import Component from 'inferno-component';
 import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
+import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';
-import DefaultHeaderColumn from './DefaultHeaderColumn.js';
 import { withPropsOnChange, withPinnableColumns } from './decorators/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
@@ -27,10 +27,10 @@ export default compose(
         })
     ),
     withPropsOnChange(
-        ['callback', 'headerColumnComponent'],
-        ({ callback, headerColumnComponent: HeaderColumn = DefaultHeaderColumn }) => ({
-            headerColumnComponent: ({ column, index, ghost }) => (
-                <HeaderColumn column={column} index={index} ghost={ghost} callback={callback} />
+        ['callback', 'columnComponent'],
+        ({ callback, columnComponent: Column = DefaultColumn }) => ({
+            columnComponent: ({ column, index, ghost }) => (
+                <Column column={column} index={index} ghost={ghost} callback={callback} />
             )
         })
     ),
@@ -111,7 +111,7 @@ export default compose(
                     <div style={{ position: 'sticky', zIndex: headerZindex, top: 0, height: props.headerHeight }}>
                         <Header
                             columns={props.columns}
-                            component={props.headerColumnComponent}
+                            component={props.columnComponent}
                             onMove={this.onMove}
                             onMoving={this.onMoving}
                             onResize={this.onResize}
