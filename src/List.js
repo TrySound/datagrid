@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { withMiddleState, withProps } from './decorators/index.js';
+import { shouldUpdate, withMiddleState } from './decorators/index.js';
 import { compose, getVisibleRows, getKeysByIndex } from './utils/index.js';
 
 const Container = ({ height, renderedTop, children }) => (
@@ -10,23 +10,20 @@ const Container = ({ height, renderedTop, children }) => (
     </div>
 );
 
-const RowWrapper = ({ height, datum, index, component: Row }) => (
-    <div style={{ height }}>
-        <Row datum={datum} index={index} />
-    </div>
-);
-
-const shouldRowUpdate = (props, nextProps) => (
+const RowWrapper = shouldUpdate((props, nextProps) =>
     props.height !== nextProps.height ||
     props.component !== nextProps.component ||
     props.datum !== nextProps.datum
+)(({ height, datum, index, component: Row }) =>
+    <div style={{ height }}>
+        <Row datum={datum} index={index} />
+    </div>
 );
 
 const List = ({ data, rowHeight, component, start, end, keys }) => (
     <Container height={data.length * rowHeight} renderedTop={start * rowHeight}>
         {data.slice(start, end).map((datum, index) =>
             <RowWrapper
-                onComponentShouldUpdate={shouldRowUpdate}
                 key={keys[start + index]}
                 height={rowHeight}
                 index={start + index}
@@ -51,13 +48,11 @@ export default compose(
             keys: getKeysByIndex(state.keys, start, end)
         };
     }),
-    withProps({
-        onComponentShouldUpdate: (props, nextProps) => (
-            props.start !== nextProps.start ||
-            props.end !== nextProps.end ||
-            props.data !== nextProps.data ||
-            props.rowHeight !== nextProps.rowHeight ||
-            props.component !== nextProps.component
-        )
-    })
+    shouldUpdate((props, nextProps) =>
+        props.start !== nextProps.start ||
+        props.end !== nextProps.end ||
+        props.data !== nextProps.data ||
+        props.rowHeight !== nextProps.rowHeight ||
+        props.component !== nextProps.component
+    )
 )(List);
