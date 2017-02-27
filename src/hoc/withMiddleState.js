@@ -12,6 +12,6 @@ export default reducer => BaseComponent => class extends Component {
     }
 
     render(props, state) {
-        return createElement(BaseComponent, Object.assign({}, props, state));
+        return <BaseComponent {...props} {...state} />;
     }
 };

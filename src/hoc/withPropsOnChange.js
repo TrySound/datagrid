@@ -14,6 +14,6 @@ export default (mappedKeys, mapProps) => BaseComponent => class extends Componen
     }
 
     render(props, state) {
-        return createElement(BaseComponent, Object.assign({}, props, state));
+        return <BaseComponent {...props} {...state} />;
     }
 };

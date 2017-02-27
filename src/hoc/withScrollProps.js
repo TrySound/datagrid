@@ -16,15 +16,10 @@ export default BaseComponent => class extends Component {
 
     render(props, { scrollTop, scrollLeft }) {
         return (
-            createElement('div', {
-                style: { width: props.viewportWidth, height: props.viewportHeight, overflow: 'auto' },
-                onScroll: this.onScroll
-            }, [
-                createElement(BaseComponent, Object.assign({}, props, {
-                    scrollTop,
-                    scrollLeft
-                }))
-            ])
+            <div style={{ width: props.viewportWidth, height: props.viewportHeight, overflow: 'auto' }}
+                onScroll={this.onScroll}>
+                <BaseComponent {...props} scrollTop={scrollTop} scrollLeft={scrollLeft} />
+            </div>
         );
     }
 };

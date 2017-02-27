@@ -7,6 +7,6 @@ export default test => BaseComponent => class extends Component {
     }
 
     render(props) {
-        return createElement(BaseComponent, props);
+        return <BaseComponent {...props} />;
     }
 };

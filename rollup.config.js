@@ -1,5 +1,5 @@
 import eslint from 'rollup-plugin-eslint';
-import buble from 'rollup-plugin-buble';
+import babel from 'rollup-plugin-babel';
 
 const pkg = require('./package.json');
 
@@ -12,11 +12,6 @@ export default {
         eslint({
             throwError: true
         }),
-        buble({
-            target: {
-                chrome: 50
-            },
-            jsx: 'createElement'
-        })
+        babel()
     ]
 };
