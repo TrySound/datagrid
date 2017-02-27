@@ -1,6 +1,6 @@
 {
   "name": "@trysound/inferno-datagrid",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "dist/inferno-datagrid.js",
   "files": [
     "dist/inferno-datagrid.js"
