@@ -22,7 +22,7 @@ const RowWrapper = shouldUpdate((props, nextProps) =>
 
 const List = ({ data, rowHeight, component, start, end, keys }) => (
     <Container height={data.length * rowHeight} renderedTop={start * rowHeight}>
-        {data.slice(start, end).map((datum, index) =>
+        {data.slice(start, end + 1).map((datum, index) =>
             <RowWrapper
                 key={keys[start + index]}
                 height={rowHeight}

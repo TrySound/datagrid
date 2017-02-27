@@ -8,21 +8,16 @@ export default BaseComponent => class extends Component {
             scrollTop: 0,
             scrollLeft: 0
         };
-        this.ref = element => this.setState({
-            scrollTop: element.scrollTop,
-            scrollLeft: element.scrollLeft
-        });
-        this.onScroll = e => this.setState({
+        this.onScroll = e => (console.log(e.target.scrollTop), this.setState({
             scrollTop: e.target.scrollTop,
             scrollLeft: e.target.scrollLeft
-        });
+        }));
     }
 
     render(props, { scrollTop, scrollLeft }) {
         return (
             createElement('div', {
                 style: { width: props.viewportWidth, height: props.viewportHeight, overflow: 'auto' },
-                ref: this.ref,
                 onScroll: this.onScroll
             }, [
                 createElement(BaseComponent, Object.assign({}, props, {
