@@ -5,10 +5,25 @@ parserOptions:
     impliedStrict: true
     jsx: true
 
+plugins:
+  - 'react'
+
+settings:
+  react:
+    pragma: 'createElement'
+
 env:
   browser: true
 
 rules:
+  no-unused-vars: 'error'
+  react/jsx-uses-react: 'error'
+  react/jsx-uses-vars: 'error'
+
+  no-undef: 'error'
+  react/react-in-jsx-scope: 'error'
+  react/jsx-no-undef: 'error'
+
   indent: ['error', 4, {
     SwitchCase: 1
   }]
@@ -16,7 +31,6 @@ rules:
   no-extra-semi: 'error'
   no-unreachable: 'error'
   eqeqeq: 'error'
-  no-undef: 'error'
   no-var: 'error'
   prefer-const: 'error'
   object-shorthand: 'error'
