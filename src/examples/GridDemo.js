@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { Grid, reducer, withScrollProps } from '../index.js';
+import { Grid, reducer, selectGridData, withScrollProps } from '../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
@@ -11,46 +11,6 @@ const data = Array(100000).fill(0).map((item, i) => ({
     col21: `Pinned right ${i}`,
     col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
 }));
-
-const filterRowByColumns = (row, columns) =>
-    columns.every(column => row[column.name].indexOf(column.value) !== -1);
-
-const sortRowsByColumns = (a, b, column) => {
-    if (a[column.name] === b[column.name]) {
-        return 0;
-    }
-    if (column.sort === 'asc') {
-        if (a[column.name] < b[column.name]) {
-            return -1;
-        }
-        if (a[column.name] > b[column.name]) {
-            return 1;
-        }
-    }
-    if (column.sort === 'desc') {
-        if (a[column.name] > b[column.name]) {
-            return -1;
-        }
-        if (a[column.name] < b[column.name]) {
-            return 1;
-        }
-    }
-    return 0;
-};
-
-const selectDataByColumns = (data, columns) => {
-    const filteredColumns = columns.filter(column => column.value);
-    const sortedColumn = columns.find(column => column.sort);
-    const filtered
-        = filteredColumns.length
-        ? data.filter(datum => filterRowByColumns(datum, filteredColumns))
-        : data;
-    const sorted
-        = sortedColumn
-        ? filtered.slice().sort((a, b) => sortRowsByColumns(a, b, sortedColumn))
-        : filtered;
-    return sorted;
-};
 
 export default class Viewport extends Component {
     constructor() {
@@ -104,7 +64,7 @@ export default class Viewport extends Component {
                 const gridState = reducer(this.state.gridState, action);
                 this.setState({
                     gridState,
-                    data: selectDataByColumns(this.state.originalData, gridState.columns)
+                    data: selectGridData(gridState, this.state.originalData)
                 });
                 break;
             }
