@@ -1,7 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { withScrollProps } from '../decorators/index.js';
-import { Grid, reducer } from '../index.js';
+import { Grid, reducer, withScrollProps } from '../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 

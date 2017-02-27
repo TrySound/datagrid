@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { withHandlers } from './decorators/index.js';
+import { withHandlers } from './hoc/index.js';
 import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './params.js';
 import { filterColumn, sortColumn } from './actionCreators.js';
 

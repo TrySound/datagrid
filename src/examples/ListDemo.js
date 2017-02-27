@@ -1,7 +1,5 @@
 import createElement from 'inferno-create-element';
-import { withScrollProps } from '../decorators/index.js';
-import List from '../List.js';
-import DefaultRow from '../DefaultRow.js';
+import { List, DefaultRow, withScrollProps } from '../index.js';
 
 const TrackedList = withScrollProps(List);
 

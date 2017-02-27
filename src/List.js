@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { shouldUpdate, withMiddleState } from './decorators/index.js';
+import { shouldUpdate, withMiddleState } from './hoc/index.js';
 import { compose, getVisibleRows, getKeysByIndex } from './utils/index.js';
 
 const Container = ({ height, renderedTop, children }) => (
