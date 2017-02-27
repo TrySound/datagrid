@@ -1,10 +1,13 @@
 import createElement from 'inferno-create-element';
 import { defaultBorder } from './params.js';
+import { withHandlers } from './hoc/index.js';
+import { selectRow } from './actionCreators.js';
 
-const getRowStyle = index => ({
+const getRowStyle = (state, index) => ({
     display: 'flex',
     height: 'inherit',
-    background: index % 2 === 0 ? '#fff' : '#f3f3f3'
+    cursor: 'default',
+    background: state.selectedIndex === index ? '#c9dde1' : index % 2 === 0 ? '#fff' : '#f3f3f3'
 });
 
 const getColumnStyle = (column, index) => ({
@@ -17,12 +20,14 @@ const getColumnStyle = (column, index) => ({
     borderRight: defaultBorder
 });
 
-const DefaultRow = ({ columns, datum, index }) => (
-    <div style={getRowStyle(index)}>
-        {columns.map((item, columnIndex) =>
+const DefaultRow = withHandlers({
+    selectRow: props => props.callback(selectRow(props.index))
+})(props =>
+    <div style={getRowStyle(props.state, props.index)} onClick={props.selectRow}>
+        {props.columns.map((item, columnIndex) =>
             <div style={getColumnStyle(item, columnIndex)}>
                 <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                    {datum[item.name]}
+                    {props.datum[item.name]}
                 </div>
             </div>
         )}

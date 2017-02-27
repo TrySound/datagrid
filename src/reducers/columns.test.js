@@ -10,14 +10,6 @@ import {
 } from '../actionCreators.js';
 
 describe('columns reducer', () => {
-    it('inits', () => {
-        expect(
-            reducer(undefined, {
-                type: '__INIT__'
-            })
-        ).to.deep.equal([]);
-    });
-
     it('marks move destinations with moveLeft and moveRight flags', () => {
         expect(
             reducer([

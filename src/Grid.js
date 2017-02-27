@@ -26,18 +26,18 @@ export default compose(
         })
     ),
     withPropsOnChange(
-        ['callback', 'columnComponent'],
-        ({ callback, columnComponent: Column = DefaultColumn }) => ({
+        ['columnState', 'callback', 'columnComponent'],
+        ({ columnState, callback, columnComponent: Column = DefaultColumn }) => ({
             columnComponent: ({ column, index, ghost }) => (
-                <Column column={column} index={index} ghost={ghost} callback={callback} />
+                <Column state={columnState} column={column} index={index} ghost={ghost} callback={callback} />
             )
         })
     ),
     withPropsOnChange(
-        ['columns', 'callback', 'rowComponent'],
-        ({ columns,  callback, rowComponent: Row = DefaultRow }) => ({
+        ['rowState', 'columns', 'callback', 'rowComponent'],
+        ({ rowState, columns,  callback, rowComponent: Row = DefaultRow }) => ({
             rowComponent: ({ datum, index }) => (
-                <Row columns={columns} datum={datum} index={index} callback={callback} />
+                <Row state={rowState} columns={columns} datum={datum} index={index} callback={callback} />
             )
         })
     )

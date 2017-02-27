@@ -47,7 +47,10 @@ export default class Viewport extends Component {
                         maxWidth: 300,
                         moving: true
                     }
-                ]
+                ],
+                rowState: {
+                    selectedIndex: 0
+                }
             },
             data,
             originalData: data
@@ -90,6 +93,8 @@ export default class Viewport extends Component {
                     columnComponent={undefined}
                     rowComponent={undefined}
                     columns={gridState.columns}
+                    columnState={gridState.columnState}
+                    rowState={gridState.rowState}
                     callback={this.callback}
                 />
             </div>

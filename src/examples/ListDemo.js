@@ -25,7 +25,7 @@ const data = Array(100000).fill(0).map((item, index) => ({
 }));
 
 const Row = ({ datum, index }) => (
-    <DefaultRow columns={columns} datum={datum} index={index} />
+    <DefaultRow state={{}} columns={columns} datum={datum} index={index} />
 );
 
 export default () => (
