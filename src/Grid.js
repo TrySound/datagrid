@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import Header, { ResizeGhost } from './Header/index.js';
-import List from './List.js';
+import List from './List/index.js';
 import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';
 import { withPropsOnChange, withPinnableColumns } from './hoc/index.js';

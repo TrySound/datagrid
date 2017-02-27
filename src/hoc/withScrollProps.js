@@ -8,10 +8,10 @@ export default BaseComponent => class extends Component {
             scrollTop: 0,
             scrollLeft: 0
         };
-        this.onScroll = e => (console.log(e.target.scrollTop), this.setState({
+        this.onScroll = e => this.setState({
             scrollTop: e.target.scrollTop,
             scrollLeft: e.target.scrollLeft
-        }));
+        });
     }
 
     render(props, { scrollTop, scrollLeft }) {
