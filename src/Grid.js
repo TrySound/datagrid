@@ -9,8 +9,17 @@ import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
 
+const defaultState = {};
+
 export default compose(
-    withPinnableColumns,
+    withPropsOnChange(
+        ['state'],
+        ({ state }) => ({
+            columns: state.columns,
+            columnState: state.columnState || defaultState,
+            rowState: state.rowState || defaultState
+        })
+    ),
     withPropsOnChange(
         ['columns'],
         ({ columns }) => ({
@@ -19,6 +28,7 @@ export default compose(
             }))
         })
     ),
+    withPinnableColumns,
     withPropsOnChange(
         ['columns'],
         ({ columns }) => ({

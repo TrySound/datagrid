@@ -89,12 +89,10 @@ export default class Viewport extends Component {
                     viewportHeight={360}
                     headerHeight={60}
                     rowHeight={30}
-                    data={data}
                     columnComponent={undefined}
                     rowComponent={undefined}
-                    columns={gridState.columns}
-                    columnState={gridState.columnState}
-                    rowState={gridState.rowState}
+                    state={gridState}
+                    data={data}
                     callback={this.callback}
                 />
             </div>
