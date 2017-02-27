@@ -1,17 +1,25 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import Header from './Header.js';
-import ResizeGhost from './ResizeGhost.js';
-import List from './List.js';
+import Header, { ResizeGhost } from './Header/index.js';
+import List from './List/index.js';
+import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';
-import DefaultHeaderColumn from './DefaultHeaderColumn.js';
-import { withPropsOnChange, withPinnableColumns } from './decorators/index.js';
+import { withPropsOnChange, withPinnableColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
 
+const defaultState = {};
+
 export default compose(
-    withPinnableColumns,
+    withPropsOnChange(
+        ['state'],
+        ({ state }) => ({
+            columns: state.columns,
+            columnState: state.columnState || defaultState,
+            rowState: state.rowState || defaultState
+        })
+    ),
     withPropsOnChange(
         ['columns'],
         ({ columns }) => ({
@@ -20,6 +28,7 @@ export default compose(
             }))
         })
     ),
+    withPinnableColumns,
     withPropsOnChange(
         ['columns'],
         ({ columns }) => ({
@@ -27,18 +36,18 @@ export default compose(
         })
     ),
     withPropsOnChange(
-        ['callback', 'headerColumnComponent'],
-        ({ callback, headerColumnComponent: HeaderColumn = DefaultHeaderColumn }) => ({
-            headerColumnComponent: ({ column, index, ghost }) => (
-                <HeaderColumn column={column} index={index} ghost={ghost} callback={callback} />
+        ['columnState', 'callback', 'columnComponent'],
+        ({ columnState, callback, columnComponent: Column = DefaultColumn }) => ({
+            columnComponent: ({ column, index, ghost }) => (
+                <Column state={columnState} column={column} index={index} ghost={ghost} callback={callback} />
             )
         })
     ),
     withPropsOnChange(
-        ['columns', 'callback', 'rowComponent'],
-        ({ columns,  callback, rowComponent: Row = DefaultRow }) => ({
+        ['rowState', 'columns', 'callback', 'rowComponent'],
+        ({ rowState, columns,  callback, rowComponent: Row = DefaultRow }) => ({
             rowComponent: ({ datum, index }) => (
-                <Row columns={columns} datum={datum} index={index} callback={callback} />
+                <Row state={rowState} columns={columns} datum={datum} index={index} callback={callback} />
             )
         })
     )
@@ -111,7 +120,7 @@ export default compose(
                     <div style={{ position: 'sticky', zIndex: headerZindex, top: 0, height: props.headerHeight }}>
                         <Header
                             columns={props.columns}
-                            component={props.headerColumnComponent}
+                            component={props.columnComponent}
                             onMove={this.onMove}
                             onMoving={this.onMoving}
                             onResize={this.onResize}

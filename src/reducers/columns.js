@@ -66,6 +66,21 @@ export default (state = [], action) => {
                 return item;
             });
 
+        case 'SORT_COLUMN':
+            return state.map(item => {
+                if (item.name === action.name) {
+                    return Object.assign({}, item, {
+                        sort: !item.sort && 'asc' || item.sort === 'asc' && 'desc' || item.sort === 'desc' && null
+                    });
+                }
+                if (item.sort) {
+                    return Object.assign({}, item, {
+                        sort: null
+                    });
+                }
+                return item;
+            });
+
         default:
             return state;
     }

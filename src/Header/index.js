@@ -1,68 +1,12 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import Draggable from './Draggable.js';
-import { trimColumnWidth, bisectColumns } from './utils/index.js';
+import { trimColumnWidth, bisectColumns } from '../utils/index.js';
+import Container from './Container.js';
+import ColumnGhost from './ColumnGhost.js';
+import ColumnWrapper from './ColumnWrapper.js';
+import DraggableColumn from './DraggableColumn.js';
 
-const Resizer = () => (
-    <div style={{
-        position: 'absolute',
-        zIndex: 2,
-        top: 0,
-        bottom: 0,
-        right: -3,
-        width: 6,
-        cursor: 'col-resize'
-    }}>
-    </div>
-);
-
-const ColumnGhost = ({ x, children }) => (
-    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, transform: `translateX(${x}px)` }}>
-        {children}
-    </div>
-);
-
-class DraggableColumn extends Component {
-    constructor() {
-        super();
-        this.refResizer = element => this.resizer = element;
-        let name;
-        let enabled;
-        this.onStart = (e, pos) => {
-            name = e.target === this.resizer ? 'resize' : 'move';
-            enabled = name === 'resize' || name === 'move' && this.props.column.moving;
-            this.props.onStart(name, this.props.column.name, pos);
-        };
-        this.onDrag = (e, pos) => enabled && this.props.onDrag(name, this.props.column.name, pos);
-        this.onEnd = (e, pos) => enabled && this.props.onEnd(name, this.props.column.name, pos);
-    }
-
-    render({ children }) {
-        return (
-            <Draggable
-                onStart={this.onStart}
-                onDrag={this.onDrag}
-                onEnd={this.onEnd}>
-                {children}
-                {this.props.column.resizing &&
-                    <Resizer onComponentDidMount={this.refResizer} />
-                }
-            </Draggable>
-        );
-    }
-}
-
-const ColumnWrapper = ({ column, index, ghost, component: Column, callback }) => (
-    <div style={{ width: column.width }}>
-        <Column column={column} index={index} ghost={ghost} callback={callback} />
-    </div>
-);
-
-const Header = ({ children }) => (
-    <div style={{ display: 'flex', position: 'relative', height: 'inherit' }}>
-        {children}
-    </div>
-);
+export { default as ResizeGhost } from './ResizeGhost.js';
 
 export default class HeaderWrapper extends Component {
     constructor() {
@@ -114,7 +58,7 @@ export default class HeaderWrapper extends Component {
 
     render({ columns, component, callback }, { moving, position }) {
         return (
-            <Header>
+            <Container>
                 {columns.map((column, index) =>
                     <DraggableColumn
                         key={column.name}
@@ -139,7 +83,7 @@ export default class HeaderWrapper extends Component {
                             component={component} />
                     </ColumnGhost>
                 }
-            </Header>
+            </Container>
         );
     }
 }

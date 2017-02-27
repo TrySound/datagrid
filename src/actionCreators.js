@@ -34,3 +34,8 @@ export const sortColumn = name => ({
     type: 'SORT_COLUMN',
     name
 });
+
+export const selectRow = rowIndex => ({
+    type: 'SELECT_ROW',
+    rowIndex
+});

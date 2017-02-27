@@ -10,13 +10,13 @@ export default BaseComponent => withPropsOnChange(['columns'], ({ columns }) => 
     <div style={{ display: 'flex' }}>
         {props.leftColumns.length !== 0 &&
             <div style={{ position: 'sticky', zIndex: pinnedZindex, left: 0 }}>
-                {createElement(BaseComponent, Object.assign({}, props, { columns: props.leftColumns }))}
+                <BaseComponent {...props} columns={props.leftColumns} />
             </div>
         }
-        {createElement(BaseComponent, Object.assign({}, props, { columns: props.centerColumns }))}
+        <BaseComponent {...props} columns={props.centerColumns} />
         {props.rightColumns.length !== 0 &&
             <div style={{ position: 'sticky', zIndex: pinnedZindex, right: 0 }}>
-                {createElement(BaseComponent, Object.assign({}, props, { columns: props.rightColumns }))}
+                <BaseComponent {...props} columns={props.rightColumns} />
             </div>
         }
     </div>

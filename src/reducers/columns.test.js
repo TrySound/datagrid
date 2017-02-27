@@ -1,16 +1,15 @@
 import { expect } from 'chai';
 import reducer from './columns.js';
-import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn, filterColumn } from '../actionCreators.js';
+import {
+    markMoveDest,
+    moveColumn,
+    moveResizeGhost,
+    resizeColumn,
+    filterColumn,
+    sortColumn
+} from '../actionCreators.js';
 
 describe('columns reducer', () => {
-    it('inits', () => {
-        expect(
-            reducer(undefined, {
-                type: '__INIT__'
-            })
-        ).to.deep.equal([]);
-    });
-
     it('marks move destinations with moveLeft and moveRight flags', () => {
         expect(
             reducer([
@@ -304,6 +303,82 @@ describe('columns reducer', () => {
             },
             {
                 name: 'col2'
+            }
+        ]);
+    });
+
+    it('sorts colummn from null', () => {
+        expect(
+            reducer([
+                {
+                    name: 'col1'
+                }
+            ], sortColumn('col1'))
+        ).to.deep.equal([
+            {
+                name: 'col1',
+                sort: 'asc'
+            }
+        ]);
+    });
+
+    it('sorts column from asc', () => {
+        expect(
+            reducer([
+                {
+                    name: 'col1',
+                    sort: 'asc'
+                }
+            ], sortColumn('col1'))
+        ).to.deep.equal([
+            {
+                name: 'col1',
+                sort: 'desc'
+            }
+        ]);
+    });
+
+    it('sorts column from desc', () => {
+        expect(
+            reducer([
+                {
+                    name: 'col1',
+                    sort: 'desc'
+                }
+            ], sortColumn('col1'))
+        ).to.deep.equal([
+            {
+                name: 'col1',
+                sort: null
+            }
+        ]);
+    });
+
+    it('removes sort from another columns', () => {
+        expect(
+            reducer([
+                {
+                    name: 'col1',
+                    sort: 'desc'
+                },
+                {
+                    name: 'col2'
+                },
+                {
+                    name: 'col3'
+                }
+            ], sortColumn('col2'))
+        ).to.deep.equal([
+            {
+                name: 'col1',
+                sort: null
+            },
+            {
+                name: 'col2',
+                sort: 'asc'
+            },
+            {
+                name: 'col3'
             }
         ]);
     });

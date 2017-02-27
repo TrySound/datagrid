@@ -1,7 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { withScrollProps } from '../decorators/index.js';
-import { Grid, reducer } from '../index.js';
+import { Grid, reducer, selectGridData, withScrollProps } from '../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
@@ -12,14 +11,6 @@ const data = Array(100000).fill(0).map((item, i) => ({
     col21: `Pinned right ${i}`,
     col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
 }));
-
-const filterRowByColumns = (row, columns) =>
-    columns
-        .filter(column => column.value)
-        .every(column => row[column.name].indexOf(column.value) !== -1);
-
-const filterDataByColumns = (data, columns) =>
-    data.filter(datum => filterRowByColumns(datum, columns));
 
 export default class Viewport extends Component {
     constructor() {
@@ -56,7 +47,10 @@ export default class Viewport extends Component {
                         maxWidth: 300,
                         moving: true
                     }
-                ]
+                ],
+                rowState: {
+                    selectedIndex: 0
+                }
             },
             data,
             originalData: data
@@ -68,11 +62,12 @@ export default class Viewport extends Component {
     callback(action) {
         console.log(action);
         switch (action.type) {
-            case 'FILTER_COLUMN': {
+            case 'FILTER_COLUMN':
+            case 'SORT_COLUMN': {
                 const gridState = reducer(this.state.gridState, action);
                 this.setState({
                     gridState,
-                    data: filterDataByColumns(this.state.originalData, gridState.columns)
+                    data: selectGridData(gridState, this.state.originalData)
                 });
                 break;
             }
@@ -94,10 +89,10 @@ export default class Viewport extends Component {
                     viewportHeight={360}
                     headerHeight={60}
                     rowHeight={30}
-                    data={data}
-                    headerColumnComponent={undefined}
+                    columnComponent={undefined}
                     rowComponent={undefined}
-                    columns={gridState.columns}
+                    state={gridState}
+                    data={data}
                     callback={this.callback}
                 />
             </div>
