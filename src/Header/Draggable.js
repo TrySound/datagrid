@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { withHandlers } from './hoc/index.js';
+import { withHandlers } from '../hoc/index.js';
 
 const minOffset = 3;
 
