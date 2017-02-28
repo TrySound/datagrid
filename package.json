@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "main": "dist/inferno-datagrid.js",
   "files": [
-    "dist/inferno-datagrid.js"
+    "dist"
   ],
   "repository": "trysound/inferno-datagrid",
   "author": "Bogdan Chadkin <trysound@yandex.ru>",
   "license": "MIT",
   "scripts": {
+    "prebuild": "npm test",
     "build": "rollup -c",
     "build-example": "webpack",
     "start": "webpack-dev-server --hot --open",
