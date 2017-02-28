@@ -21,17 +21,7 @@ module.exports = config => config.set({
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    use: [
-                        {
-                            loader: 'buble-loader',
-                            options: {
-                                target: {
-                                    chrome: 50
-                                },
-                                jsx: 'createElement'
-                            }
-                        }
-                    ]
+                    loader: 'babel-loader'
                 },
                 {
                     test: /\.js$/,
@@ -44,17 +34,13 @@ module.exports = config => config.set({
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    use: [
-                        {
-                            loader: 'eslint-loader',
-                            options: {
-                                envs: [
-                                    'mocha'
-                                ]
-                            }
-                        }
-                    ]
-                },
+                    loader: 'eslint-loader',
+                    options: {
+                        envs: [
+                            'mocha'
+                        ]
+                    }
+                }
             ]
         }
     },
