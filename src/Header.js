@@ -36,81 +36,81 @@ const ColumnGhost = ({ x, column, index, component: Column }) => (
     </div>
 );
 
+const dragMove = ({ columns, x, dx, onResizing, onMoving }) => {
+    const [startIndex, startX] = findColumn(columns, x - dx);
+    const startColumn = columns[startIndex];
+    if (Math.abs(startX) <= dragOffset) {
+        // resize previous
+        // skip first to not conflict with pinned tables with moving
+        if (startIndex !== 0) {
+            const prevColumn = columns[startIndex - 1];
+            if (prevColumn.enableResizing) {
+                onResizing(prevColumn.name, x);
+            }
+        }
+    } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
+        // resize current
+        if (startColumn.enableResizing) {
+            onResizing(startColumn.name, x);
+        }
+    } else if (startColumn.enableMoving) {
+        // move current
+        const [leftIndex, rightIndex] = bisectColumns(columns, x - startX);
+        onMoving(
+            startColumn.name,
+            leftIndex === -1 ? null : columns[leftIndex].name,
+            rightIndex === -1 ? null : columns[rightIndex].name
+        );
+        return {
+            moving: true,
+            movingPosition: x - startX,
+            movingColumn: startColumn,
+            movingIndex: startIndex
+        };
+    }
+};
+
+const dragEnd = ({ columns, x, dx, onResize, onMove }) => {
+    const [startIndex, startX] = findColumn(columns, x - dx);
+    const startColumn = columns[startIndex];
+    if (Math.abs(startX) <= dragOffset) {
+        // resize previous
+        // skip first to not conflict with pinned tables with moving
+        if (startIndex !== 0) {
+            const prevColumn = columns[startIndex - 1];
+            if (prevColumn.enableResizing) {
+                onResize(prevColumn.name, prevColumn.width + startX + dx);
+            }
+        }
+    } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
+        // resize current
+        if (startColumn.enableResizing) {
+            onResize(startColumn.name, startX + dx);
+        }
+    } else if (startColumn.enableMoving) {
+        // move current
+        const [leftIndex, rightIndex] = bisectColumns(columns, x - startX);
+        onMove(
+            startColumn.name,
+            leftIndex === -1 ? null : columns[leftIndex].name,
+            rightIndex === -1 ? null : columns[rightIndex].name
+        );
+        return {
+            moving: false
+        };
+    }
+};
+
 export default draggable({
     offset: dragOffset,
     style: { height: 'inherit'}
-})(class HeaderWrapper extends Component {
+})(class Header extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.dragging && this.props.x !== nextProps.x) {
-            this.dragMove(nextProps);
+            this.setState(dragMove(nextProps));
         }
         if (!nextProps.dragging && this.props.dragging !== nextProps.dragging) {
-            this.dragEnd(nextProps);
-        }
-    }
-
-    dragMove(props) {
-        const [startIndex, startX] = findColumn(props.columns, props.x - props.dx);
-        const startColumn = props.columns[startIndex];
-        if (Math.abs(startX) <= dragOffset) {
-            // resize previous
-            // skip first to not conflict with pinned tables with moving
-            if (startIndex !== 0) {
-                const prevColumn = props.columns[startIndex - 1];
-                if (prevColumn.enableResizing) {
-                    props.onResizing(prevColumn.name, props.x);
-                }
-            }
-        } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
-            // resize current
-            if (startColumn.enableResizing) {
-                props.onResizing(startColumn.name, props.x);
-            }
-        } else if (startColumn.enableMoving) {
-            // move current
-            const [leftIndex, rightIndex] = bisectColumns(props.columns, props.x - startX);
-            props.onMoving(
-                startColumn.name,
-                leftIndex === -1 ? null : props.columns[leftIndex].name,
-                rightIndex === -1 ? null : props.columns[rightIndex].name
-            );
-            this.setState({
-                moving: true,
-                movingPosition: props.x - startX,
-                movingColumn: startColumn,
-                movingIndex: startIndex
-            });
-        }
-    }
-
-    dragEnd(props) {
-        const [startIndex, startX] = findColumn(props.columns, props.x - props.dx);
-        const startColumn = props.columns[startIndex];
-        if (Math.abs(startX) <= dragOffset) {
-            // resize previous
-            // skip first to not conflict with pinned tables with moving
-            if (startIndex !== 0) {
-                const prevColumn = props.columns[startIndex - 1];
-                if (prevColumn.enableResizing) {
-                    props.onResize(prevColumn.name, prevColumn.width + startX + props.dx);
-                }
-            }
-        } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
-            // resize current
-            if (startColumn.enableResizing) {
-                props.onResize(startColumn.name, startX + props.dx);
-            }
-        } else if (startColumn.enableMoving) {
-            // move current
-            const [leftIndex, rightIndex] = bisectColumns(props.columns, props.x - startX);
-            props.onMove(
-                startColumn.name,
-                leftIndex === -1 ? null : props.columns[leftIndex].name,
-                rightIndex === -1 ? null : props.columns[rightIndex].name
-            );
-            this.setState({
-                moving: false
-            });
+            this.setState(dragEnd(nextProps));
         }
     }
 
