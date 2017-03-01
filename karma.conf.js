@@ -20,16 +20,16 @@ module.exports = config => config.set({
             rules: [
                 {
                     test: /\.js$/,
-                    exclude: /node_modules/,
-                    loader: 'babel-loader'
-                },
-                {
-                    test: /\.js$/,
                     exclude: /node_modules|\.test\.js$/,
                     loader: 'istanbul-instrumenter-loader',
                     options: {
                         esModules: true
                     }
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: 'babel-loader'
                 },
                 {
                     test: /\.js$/,
