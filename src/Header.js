@@ -10,15 +10,15 @@ const Container = ({ children }) => (
     </div>
 );
 
-const ColumnGhost = ({ x, children }) => (
-    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, transform: `translateX(${x}px)` }}>
-        {children}
+const ColumnGhost = ({ x, column, index, component: Column }) => (
+    <div style={{ position: 'absolute', left: 0, top: 0, transform: `translateX(${x}px)`, width: column.width }}>
+        <Column column={column} index={index} ghost={true} />
     </div>
 );
 
-const ColumnWrapper = ({ column, index, ghost, component: Column, callback }) => (
+const ColumnWrapper = ({ column, index, component: Column }) => (
     <div style={{ width: column.width }}>
-        <Column column={column} index={index} ghost={ghost} callback={callback} />
+        <Column column={column} index={index} ghost={false} />
     </div>
 );
 
@@ -86,7 +86,7 @@ export default draggable({ offset: dragOffset })(class HeaderWrapper extends Com
         }
     }
 
-    render({ columns, component, callback }, { moving, startColumn, startIndex, position }) {
+    render({ columns, component }, { moving, startColumn, startIndex, position }) {
         return (
             <Container>
                 {columns.map((column, index) =>
@@ -94,19 +94,16 @@ export default draggable({ offset: dragOffset })(class HeaderWrapper extends Com
                         key={column.name}
                         column={column}
                         index={index}
-                        ghost={false}
                         component={component}
-                        callback={callback}
                     />
                 )}
                 {moving &&
-                    <ColumnGhost x={position}>
-                        <ColumnWrapper
-                            column={startColumn}
-                            index={startIndex}
-                            ghost={true}
-                            component={component} />
-                    </ColumnGhost>
+                    <ColumnGhost
+                        x={position}
+                        column={startColumn}
+                        index={startIndex}
+                        component={component}
+                    />
                 }
             </Container>
         );
