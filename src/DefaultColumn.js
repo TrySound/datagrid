@@ -3,25 +3,22 @@ import { withHandlers } from './hoc/index.js';
 import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './params.js';
 import { filterColumn, sortColumn } from './actionCreators.js';
 
-const getBorderLeft = (column, index, ghost) =>
-    index === 0 || ghost ? (column.moveLeft ? defaultActiveBorder : defaultBorder) : '';
-
-const getBorderRight = column =>
-    column.moveRight ? defaultActiveBorder : defaultBorder;
-
-const getOpacity = ghost => ghost ? .8 : 1;
-
-const getColumnStyle = (column, index, ghost) => ({
+const getColumnStyle = (state, column, last, ghost) => ({
     position: 'relative',
     height: 'inherit',
     boxSizing: 'border-box',
     padding: '0 8px',
     borderTop: defaultBorder,
     borderBottom: defaultBorder,
-    borderLeft: getBorderLeft(column, index, ghost),
-    borderRight: getBorderRight(column, index, ghost),
+    borderLeft: ghost && defaultBorder
+        || (state.move && state.move.right === column.name ? defaultActiveBorder : defaultBorder)
+        || '',
+
+    borderRight: ghost && defaultBorder
+        || last && (state.move && state.move.left === column.name ? defaultActiveBorder : defaultBorder)
+        || '',
     background: defaultHeaderBackground,
-    opacity: getOpacity(ghost)
+    opacity: ghost ? .8 : 1
 });
 
 const getInputStyle = () => ({
@@ -46,7 +43,7 @@ export default withHandlers({
     onSortClink: props => props.callback(sortColumn(props.column.name)),
     onFilterInput: (props, event) => props.callback(filterColumn(props.column.name, event.target.value))
 })(props =>
-    <div style={getColumnStyle(props.column, props.index, props.ghost)}>
+    <div style={getColumnStyle(props.state, props.column, props.last, props.ghost)}>
         <div style={{ display: 'flex', alignItems: 'center', height: 30, }} onClick={props.onSortClink}>
             {props.column.displayName || props.column.name}
             {props.column.sort &&

@@ -25,14 +25,18 @@ type Column = {
 
     sort: null | 'asc' | 'desc',
     placeholder: string,
-    value: string,
-    moveLeft: boolean,
-    moveRight: boolean
+    value: string
 };
 
 type State = {
     columns: Column[],
-    columnState: {},
+    columnState: {
+        move: null | {
+            name: string,
+            left: string,
+            right: string
+        }
+    },
     rowState: {
         selectedIndex: number
     }
