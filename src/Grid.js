@@ -39,17 +39,13 @@ export default compose(
     withPropsOnChange(
         ['columnState', 'callback', 'columnComponent'],
         ({ columnState, callback, columnComponent: Column = DefaultColumn }) => ({
-            columnComponent: ({ column, index, ghost }) => (
-                <Column state={columnState} column={column} index={index} ghost={ghost} callback={callback} />
-            )
+            columnComponent: props => <Column state={columnState} callback={callback} {...props} />
         })
     ),
     withPropsOnChange(
         ['rowState', 'columns', 'callback', 'rowComponent'],
         ({ rowState, columns,  callback, rowComponent: Row = DefaultRow }) => ({
-            rowComponent: ({ datum, index }) => (
-                <Row state={rowState} columns={columns} datum={datum} index={index} callback={callback} />
-            )
+            rowComponent: props => <Row state={rowState} columns={columns} callback={callback} {...props} />
         })
     )
 )(class GridWrapper extends Component {
