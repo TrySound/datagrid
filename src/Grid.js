@@ -10,6 +10,36 @@ import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
 
+/*
+
+type Column = {
+    name: string,
+    displayName: string,
+    width: number | string,
+    minWidth: number,
+    maxWidth: number,
+    enableResizing: boolean,
+    enableMoving: boolean,
+    enableFiltering: boolean,
+    enableSorting: boolean,
+
+    sort: null | 'asc' | 'desc',
+    placeholder: string,
+    value: string,
+    moveLeft: boolean,
+    moveRight: boolean
+};
+
+type State = {
+    columns: Column[],
+    columnState: {},
+    rowState: {
+        selectedIndex: number
+    }
+}
+
+*/
+
 const defaultState = {};
 
 export default compose(
