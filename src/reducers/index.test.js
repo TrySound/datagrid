@@ -11,6 +11,7 @@ describe('reducer', () => {
             reducer(undefined, randomAction)
         ).to.deep.equal({
             columns: [],
+            columnState: {},
             rowState: {}
         });
     });
@@ -27,6 +28,7 @@ describe('reducer', () => {
                 param: 1
             },
             columns: [],
+            columnState: {},
             rowState: {}
         });
     });
