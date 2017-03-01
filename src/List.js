@@ -1,8 +1,24 @@
 import createElement from 'inferno-create-element';
-import { shouldUpdate, withMiddleState } from '../hoc/index.js';
-import { compose, getVisibleRows, getKeysByIndex } from '../utils/index.js';
-import Container from './Container.js';
-import RowWrapper from './RowWrapper.js';
+import { shouldUpdate, withMiddleState } from './hoc/index.js';
+import { compose, getVisibleRows, getKeysByIndex } from './utils/index.js';
+
+const Container = ({ height, renderedTop, children }) => (
+    <div style={{ position: 'relative', height }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: renderedTop }}>
+            {children}
+        </div>
+    </div>
+);
+
+const RowWrapper = shouldUpdate((props, nextProps) =>
+    props.height !== nextProps.height ||
+    props.component !== nextProps.component ||
+    props.datum !== nextProps.datum
+)(({ height, datum, index, component: Row }) =>
+    <div style={{ height }}>
+        <Row datum={datum} index={index} />
+    </div>
+);
 
 export default compose(
     withMiddleState((props, state = {}) => {
