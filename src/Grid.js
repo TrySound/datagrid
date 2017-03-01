@@ -1,6 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import Header, { ResizeGhost } from './Header/index.js';
+import Header from './Header/index.js';
+import ResizeGhost from './ResizeGhost.js';
 import List from './List/index.js';
 import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';

@@ -7,8 +7,6 @@ import ColumnWrapper from './ColumnWrapper.js';
 import { draggable } from '../hoc/index.js';
 import { dragOffset } from '../params.js';
 
-export { default as ResizeGhost } from './ResizeGhost.js';
-
 export default draggable({ offset: dragOffset })(class HeaderWrapper extends Component {
     componentWillReceiveProps(nextProps) {
         // drag move
