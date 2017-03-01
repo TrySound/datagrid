@@ -10,15 +10,29 @@ const Container = ({ children }) => (
     </div>
 );
 
-const ColumnGhost = ({ x, column, index, component: Column }) => (
-    <div style={{ position: 'absolute', transform: `translateX(${x}px)`, width: column.width, height: 'inherit' }}>
-        <Column column={column} index={index} ghost={true} />
+const Resizer = ({ last }) => (
+    <div style={{
+        position: 'absolute',
+        zIndex: 2,
+        top: 0,
+        bottom: 0,
+        right: last ? 0 : -dragOffset,
+        width: last ? dragOffset : dragOffset * 2,
+        cursor: 'col-resize'
+    }}>
     </div>
 );
 
-const ColumnWrapper = ({ column, index, component: Column }) => (
-    <div style={{ width: column.width, height: 'inherit' }}>
-        <Column column={column} index={index} ghost={false} />
+const ColumnWrapper = ({ column, index, last, component: Column }) => (
+    <div style={{ position: 'relative', width: column.width, height: 'inherit' }}>
+        <Column column={column} index={index} last={last} ghost={false} />
+        {column.enableResizing && <Resizer last={last} />}
+    </div>
+);
+
+const ColumnGhost = ({ x, column, index, component: Column }) => (
+    <div style={{ position: 'absolute', transform: `translateX(${x}px)`, width: column.width, height: 'inherit' }}>
+        <Column column={column} index={index} last={false} ghost={true} />
     </div>
 );
 
@@ -43,12 +57,16 @@ export default draggable({
             // skip first to not conflict with pinned tables with moving
             if (startIndex !== 0) {
                 const prevColumn = props.columns[startIndex - 1];
-                props.onResizing(prevColumn.name, props.x);
+                if (prevColumn.enableResizing) {
+                    props.onResizing(prevColumn.name, props.x);
+                }
             }
         } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
             // resize current
-            props.onResizing(startColumn.name, props.x);
-        } else {
+            if (startColumn.enableResizing) {
+                props.onResizing(startColumn.name, props.x);
+            }
+        } else if (startColumn.enableMoving) {
             // move current
             const [leftIndex, rightIndex] = bisectColumns(props.columns, props.x - startX);
             props.onMoving(
@@ -73,12 +91,16 @@ export default draggable({
             // skip first to not conflict with pinned tables with moving
             if (startIndex !== 0) {
                 const prevColumn = props.columns[startIndex - 1];
-                props.onResize(prevColumn.name, prevColumn.width + startX + props.dx);
+                if (prevColumn.enableResizing) {
+                    props.onResize(prevColumn.name, prevColumn.width + startX + props.dx);
+                }
             }
         } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
             // resize current
-            props.onResize(startColumn.name, startX + props.dx);
-        } else {
+            if (startColumn.enableResizing) {
+                props.onResize(startColumn.name, startX + props.dx);
+            }
+        } else if (startColumn.enableMoving) {
             // move current
             const [leftIndex, rightIndex] = bisectColumns(props.columns, props.x - startX);
             props.onMove(
@@ -100,6 +122,7 @@ export default draggable({
                         key={column.name}
                         column={column}
                         index={index}
+                        last={index === columns.length - 1}
                         component={component}
                     />
                 )}

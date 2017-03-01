@@ -21,35 +21,35 @@ export default class Viewport extends Component {
                 columns: [
                     {
                         name: 'col1',
-                        enableSorting: true,
-                        resizing: true
+                        enableSorting: true
                     },
                     {
                         name: 'col11',
                         width: 120,
                         pinnedLeft: true,
-                        resizing: true
+                        enableResizing: true
                     },
                     {
                         name: 'col2',
                         minWidth: 60,
+                        enableMoving: true,
                         enableFiltering: true,
                         width: 150,
-                        resizing: true
+                        enableResizing: true
                     },
                     {
                         name: 'col21',
                         width: 120,
                         pinnedRight: true,
-                        resizing: true
+                        enableResizing: true
                     },
                     {
                         name: 'col3',
                         displayName: 'Column 3',
                         width: 200,
                         maxWidth: 300,
-                        moving: true,
-                        resizing: true
+                        enableMoving: true,
+                        enableResizing: true
                     }
                 ],
                 rowState: {

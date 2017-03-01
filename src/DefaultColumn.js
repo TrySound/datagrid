@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import { withHandlers } from './hoc/index.js';
-import { defaultBorder, defaultActiveBorder, defaultHeaderBackground, dragOffset } from './params.js';
+import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './params.js';
 import { filterColumn, sortColumn } from './actionCreators.js';
 
 const getBorderLeft = (column, index, ghost) =>
@@ -16,7 +16,6 @@ const getColumnStyle = (column, index, ghost) => ({
     height: 'inherit',
     boxSizing: 'border-box',
     padding: '0 8px',
-    overflow: 'hidden',
     borderTop: defaultBorder,
     borderBottom: defaultBorder,
     borderLeft: getBorderLeft(column, index, ghost),
@@ -43,20 +42,6 @@ const Arrow = ({ direction }) => (
     </div>
 );
 
-const Resizer = ({ direction }) => (
-    <div style={{
-        position: 'absolute',
-        zIndex: 2,
-        top: 0,
-        bottom: 0,
-        right: direction === 'right' ? 0 : '',
-        left: direction === 'left' ? 0 : '',
-        width: dragOffset,
-        cursor: 'col-resize'
-    }}>
-    </div>
-);
-
 export default withHandlers({
     onSortClink: props => props.callback(sortColumn(props.column.name)),
     onFilterInput: (props, event) => props.callback(filterColumn(props.column.name, event.target.value))
@@ -74,7 +59,5 @@ export default withHandlers({
                 value={props.column.value}
                 onInput={props.onFilterInput} />
         }
-        <Resizer direction={'right'} />
-        <Resizer direction={'left'} />
     </div>
 );
