@@ -19,6 +19,13 @@ describe('bisectColumns', () => {
         ], -20)).to.deep.equal([-1, 0]);
     });
 
+    it('selects last column if position is in the right half of it', () => {
+        expect(bisectColumns([
+            { width: 60 },
+            { width: 60 }
+        ], 100)).to.deep.equal([1, -1]);
+    });
+
     it('selects last column if position is greater than all columns width', () => {
         expect(bisectColumns([
             { width: 60 },

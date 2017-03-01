@@ -14,6 +14,8 @@ export default (columns, position) => {
     const width = columns[columnIndex].width;
     if (columnPosition < width / 2) {
         return [columnIndex - 1, columnIndex];
+    } else if (columnIndex === columns.length - 1) {
+        return [columnIndex, -1];
     } else {
         return [columnIndex, columnIndex + 1];
     }
