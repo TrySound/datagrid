@@ -80,15 +80,4 @@ describe('getVisibleRows', () => {
             })
         ).to.deep.equal([0, 18]);
     });
-
-    it('19ths row edge case', () => {
-        expect(
-            getVisibleRows({
-                viewportHeight: 360 - 60,
-                rowHeight: 30,
-                rowsCount: 100000,
-                scrollTop: 336 - 60
-            })
-        ).to.deep.equal([0, 20]);
-    });
 });
