@@ -136,7 +136,7 @@ describe('columns reducer', () => {
         ).to.deep.equal([
             {
                 name: 'col1',
-                value: 'Text'
+                filter: 'Text'
             },
             {
                 name: 'col2'

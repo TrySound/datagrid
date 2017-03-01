@@ -1,5 +1,5 @@
 const filterRowByColumns = (row, columns) =>
-    columns.every(column => row[column.name].toLowerCase().indexOf(column.value) !== -1);
+    columns.every(column => row[column.name].toLowerCase().indexOf(column.filter) !== -1);
 
 const sortRowsByColumns = (a, b, column) => {
     if (a[column.name] === b[column.name]) {
@@ -12,7 +12,7 @@ const sortRowsByColumns = (a, b, column) => {
 };
 
 export default (gridState, data) => {
-    const filteredColumns = gridState.columns.filter(column => column.value);
+    const filteredColumns = gridState.columns.filter(column => column.filter);
     const sortedColumn = gridState.columns.find(column => column.sort === 'asc' || column.sort === 'desc');
     const filtered
         = filteredColumns.length

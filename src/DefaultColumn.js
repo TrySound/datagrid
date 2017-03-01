@@ -53,7 +53,7 @@ export default withHandlers({
         {props.column.enableFiltering &&
             <input style={getInputStyle()}
                 placeholder={props.column.placeholder}
-                value={props.column.value}
+                value={props.column.filter}
                 onInput={props.onFilterInput} />
         }
     </div>

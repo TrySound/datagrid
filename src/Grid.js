@@ -25,7 +25,7 @@ type Column = {
 
     sort: null | 'asc' | 'desc',
     placeholder: string,
-    value: string
+    filter: string
 };
 
 type State = {

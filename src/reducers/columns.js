@@ -28,7 +28,7 @@ export default (state = [], action) => {
             return state.map(item => {
                 if (item.name === action.name) {
                     return Object.assign({}, item, {
-                        value: action.value
+                        filter: action.filter
                     });
                 }
                 return item;

@@ -24,10 +24,10 @@ export const resizeColumn = (name, size) => ({
     size
 });
 
-export const filterColumn = (name, value) => ({
+export const filterColumn = (name, filter) => ({
     type: 'FILTER_COLUMN',
     name,
-    value
+    filter
 });
 
 export const sortColumn = name => ({

@@ -8,7 +8,7 @@ describe('selectGridData', () => {
                 columns: [
                     {
                         name: 'col',
-                        value: 'tit'
+                        filter: 'tit'
                     }
                 ]
             }, [
@@ -55,11 +55,11 @@ describe('selectGridData', () => {
                 columns: [
                     {
                         name: 'col1',
-                        value: 'tit'
+                        filter: 'tit'
                     },
                     {
                         name: 'col2',
-                        value: 'val'
+                        filter: 'val'
                     }
                 ]
             }, [
@@ -167,7 +167,7 @@ describe('selectGridData', () => {
                     {
                         name: 'col',
                         sort: 'desc',
-                        value: 'tit'
+                        filter: 'tit'
                     }
                 ]
             }, [
