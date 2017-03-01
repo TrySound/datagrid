@@ -13,7 +13,7 @@ const getOpacity = ghost => ghost ? .8 : 1;
 
 const getColumnStyle = (column, index, ghost) => ({
     position: 'relative',
-    height: 60,
+    height: 'inherit',
     boxSizing: 'border-box',
     padding: '0 8px',
     overflow: 'hidden',

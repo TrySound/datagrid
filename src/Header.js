@@ -11,18 +11,21 @@ const Container = ({ children }) => (
 );
 
 const ColumnGhost = ({ x, column, index, component: Column }) => (
-    <div style={{ position: 'absolute', left: 0, top: 0, transform: `translateX(${x}px)`, width: column.width }}>
+    <div style={{ position: 'absolute', transform: `translateX(${x}px)`, width: column.width, height: 'inherit' }}>
         <Column column={column} index={index} ghost={true} />
     </div>
 );
 
 const ColumnWrapper = ({ column, index, component: Column }) => (
-    <div style={{ width: column.width }}>
+    <div style={{ width: column.width, height: 'inherit' }}>
         <Column column={column} index={index} ghost={false} />
     </div>
 );
 
-export default draggable({ offset: dragOffset })(class HeaderWrapper extends Component {
+export default draggable({
+    offset: dragOffset,
+    style: { height: 'inherit'}
+})(class HeaderWrapper extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.dragging && this.props.x !== nextProps.x) {
             this.dragMove(nextProps);

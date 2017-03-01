@@ -1,7 +1,7 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 
-export default ({ offset = 3 } = {}) => BaseComponent => class extends Component {
+export default ({ offset = 3, style = {} } = {}) => BaseComponent => class extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,7 +39,7 @@ export default ({ offset = 3 } = {}) => BaseComponent => class extends Component
 
     render(props, state) {
         return (
-            <div onMouseDown={this.onMouseDown}>
+            <div onMouseDown={this.onMouseDown} style={style}>
                 <BaseComponent {...props} {...state} />
             </div>
         );
