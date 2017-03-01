@@ -21,12 +21,14 @@ export default class Viewport extends Component {
                 columns: [
                     {
                         name: 'col1',
-                        enableSorting: true
+                        enableSorting: true,
+                        resizing: true
                     },
                     {
                         name: 'col11',
                         width: 120,
-                        pinnedLeft: true
+                        pinnedLeft: true,
+                        resizing: true
                     },
                     {
                         name: 'col2',
@@ -38,14 +40,16 @@ export default class Viewport extends Component {
                     {
                         name: 'col21',
                         width: 120,
-                        pinnedRight: true
+                        pinnedRight: true,
+                        resizing: true
                     },
                     {
                         name: 'col3',
                         displayName: 'Column 3',
                         width: 200,
                         maxWidth: 300,
-                        moving: true
+                        moving: true,
+                        resizing: true
                     }
                 ],
                 rowState: {

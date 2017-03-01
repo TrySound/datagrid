@@ -6,3 +6,4 @@ export const defaultHeaderBackground = 'linear-gradient(to top, #eeeeee, #ffffff
 export const headerZindex = 1;
 export const pinnedZindex = 2;
 export const resizeGhostZindex = 3;
+export const dragOffset = 3;

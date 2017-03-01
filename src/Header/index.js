@@ -1,84 +1,96 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { trimColumnWidth, bisectColumns } from '../utils/index.js';
+import { bisectColumns, findColumn } from '../utils/index.js';
 import Container from './Container.js';
 import ColumnGhost from './ColumnGhost.js';
 import ColumnWrapper from './ColumnWrapper.js';
-import DraggableColumn from './DraggableColumn.js';
+import { draggable } from '../hoc/index.js';
+import { dragOffset } from '../params.js';
 
 export { default as ResizeGhost } from './ResizeGhost.js';
 
-export default class HeaderWrapper extends Component {
-    constructor() {
-        super();
-        this.onStart = this.onStart.bind(this);
-        this.onDrag = this.onDrag.bind(this);
-        this.onEnd = this.onEnd.bind(this);
-    }
-
-    onStart(type, name, start) {
-        const columns = this.props.columns;
-        const currentIndex = columns.findIndex(d => d.name === name);
-        const currentColumn = columns[currentIndex];
-        const currentLeft = columns.slice(0, currentIndex).reduce((acc, d) => acc + d.width, 0);
-        this.currentLeft = currentLeft;
-        this.startMovingPosition = currentLeft - start;
-        this.currentIndex = currentIndex;
-        this.currentColumn = currentColumn;
-    }
-
-    onDrag(type, name, position) {
-        if (type === 'resize') {
-            this.props.onResizing(name, this.currentLeft + trimColumnWidth(this.currentColumn, position));
-        } else {
-            const [leftIndex, rightIndex] = bisectColumns(this.props.columns, this.startMovingPosition + position);
-            const leftName = leftIndex === -1 ? null : this.props.columns[leftIndex].name;
-            const rightName = rightIndex === -1 ? null : this.props.columns[rightIndex].name;
-            this.props.onMoving(name, leftName, rightName);
+export default draggable({ offset: dragOffset })(class HeaderWrapper extends Component {
+    componentWillReceiveProps(nextProps) {
+        // drag move
+        if (this.props.dragging && this.props.x !== nextProps.x) {
+            const columns = nextProps.columns;
+            const dx = nextProps.dx;
+            const [startIndex, startX] = findColumn(columns, nextProps.x - dx);
+            const startColumn = columns[startIndex];
+            if (Math.abs(startX) <= dragOffset) {
+                // resize previous
+                // skip first to not conflict with pinned tables with moving
+                if (startIndex !== 0) {
+                    const prevColumn = columns[startIndex - 1];
+                    nextProps.onResizing(prevColumn.name, nextProps.x);
+                }
+            } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
+                // resize current
+                nextProps.onResizing(startColumn.name, nextProps.x);
+            } else {
+                // move current
+                const [leftIndex, rightIndex] = bisectColumns(columns, nextProps.x - startX);
+                const leftName = leftIndex === -1 ? null : columns[leftIndex].name;
+                const rightName = rightIndex === -1 ? null : columns[rightIndex].name;
+                this.props.onMoving(startColumn.name, leftName, rightName);
+                this.setState({
+                    position: nextProps.x - startX,
+                    startColumn,
+                    startIndex,
+                    moving: true
+                });
+            }
         }
-        this.setState({
-            position: this.startMovingPosition + position,
-            moving: type === 'move'
-        });
-    }
 
-    onEnd(type, name, position) {
-        if (type === 'resize') {
-            this.props.onResize(name, trimColumnWidth(this.currentColumn, position));
-        } else {
-            const [leftIndex, rightIndex] = bisectColumns(this.props.columns, this.startMovingPosition + position);
-            const leftName = leftIndex === -1 ? null : this.props.columns[leftIndex].name;
-            const rightName = rightIndex === -1 ? null : this.props.columns[rightIndex].name;
-            this.props.onMove(name, leftName, rightName);
+        // drag end
+        if (!nextProps.dragging && this.props.dragging !== nextProps.dragging) {
+            const columns = nextProps.columns;
+            const dx = nextProps.dx;
+            const [startIndex, startX] = findColumn(columns, nextProps.x - dx);
+            const startColumn = columns[startIndex];
+            // const [endIndex, endX] = findColumn(columns, nextProps.x);
+            // const endColumn = columns[endIndex];
+            if (Math.abs(startX) <= dragOffset) {
+                // resize previous
+                // skip first to not conflict with pinned tables with moving
+                if (startIndex !== 0) {
+                    const prevColumn = columns[startIndex - 1];
+                    nextProps.onResize(prevColumn.name, prevColumn.width + startX + dx);
+                }
+            } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
+                // resize current
+                nextProps.onResize(startColumn.name, startX + dx);
+            } else {
+                // move current
+                const [leftIndex, rightIndex] = bisectColumns(columns, nextProps.x - startX);
+                const leftName = leftIndex === -1 ? null : columns[leftIndex].name;
+                const rightName = rightIndex === -1 ? null : columns[rightIndex].name;
+                nextProps.onMove(startColumn.name, leftName, rightName);
+                this.setState({
+                    moving: false
+                });
+            }
         }
-        this.setState({
-            moving: false
-        });
     }
 
-    render({ columns, component, callback }, { moving, position }) {
+    render({ columns, component, callback }, { moving, startColumn, startIndex, position }) {
         return (
             <Container>
                 {columns.map((column, index) =>
-                    <DraggableColumn
+                    <ColumnWrapper
                         key={column.name}
                         column={column}
-                        onStart={this.onStart}
-                        onDrag={this.onDrag}
-                        onEnd={this.onEnd}>
-                        <ColumnWrapper
-                            column={column}
-                            index={index}
-                            ghost={false}
-                            component={component}
-                            callback={callback} />
-                    </DraggableColumn>
+                        index={index}
+                        ghost={false}
+                        component={component}
+                        callback={callback}
+                    />
                 )}
                 {moving &&
                     <ColumnGhost x={position}>
                         <ColumnWrapper
-                            column={this.currentColumn}
-                            index={this.currentIndex}
+                            column={startColumn}
+                            index={startIndex}
                             ghost={true}
                             component={component} />
                     </ColumnGhost>
@@ -86,4 +98,4 @@ export default class HeaderWrapper extends Component {
             </Container>
         );
     }
-}
+});
