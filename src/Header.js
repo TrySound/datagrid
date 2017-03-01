@@ -1,11 +1,26 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { bisectColumns, findColumn } from '../utils/index.js';
-import Container from './Container.js';
-import ColumnGhost from './ColumnGhost.js';
-import ColumnWrapper from './ColumnWrapper.js';
-import { draggable } from '../hoc/index.js';
-import { dragOffset } from '../params.js';
+import { bisectColumns, findColumn } from './utils/index.js';
+import { draggable } from './hoc/index.js';
+import { dragOffset } from './params.js';
+
+const Container = ({ children }) => (
+    <div style={{ display: 'flex', position: 'relative', height: 'inherit' }}>
+        {children}
+    </div>
+);
+
+const ColumnGhost = ({ x, children }) => (
+    <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, transform: `translateX(${x}px)` }}>
+        {children}
+    </div>
+);
+
+const ColumnWrapper = ({ column, index, ghost, component: Column, callback }) => (
+    <div style={{ width: column.width }}>
+        <Column column={column} index={index} ghost={ghost} callback={callback} />
+    </div>
+);
 
 export default draggable({ offset: dragOffset })(class HeaderWrapper extends Component {
     componentWillReceiveProps(nextProps) {
