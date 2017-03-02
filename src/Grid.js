@@ -5,7 +5,7 @@ import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';
-import { withPropsOnChange, withPinnableColumns } from './hoc/index.js';
+import { withPropsOnChange, withUserSelectControl, withPinnableColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
@@ -63,6 +63,7 @@ export default compose(
             }))
         })
     ),
+    withUserSelectControl,
     withPinnableColumns,
     withPropsOnChange(
         ['columns'],
@@ -86,7 +87,6 @@ export default compose(
     constructor(props) {
         super(props);
         this.state = {
-            dragging: false,
             ghost: false,
             ghostX: 0
         };
@@ -99,7 +99,6 @@ export default compose(
     onResizing(name, ghostPosition) {
         if (name !== this.state.resizingName || ghostPosition !== this.state.ghostX) {
             this.setState({
-                dragging: true,
                 ghost: true,
                 resizingName: name,
                 ghostX: ghostPosition
@@ -110,7 +109,6 @@ export default compose(
 
     onResize(name, columnWidth) {
         this.setState({
-            dragging: false,
             ghost: false
         });
         this.props.callback(resizeColumn(name, columnWidth));
@@ -119,7 +117,6 @@ export default compose(
     onMoving(name, left, right) {
         if (name !== this.state.movingName || left !== this.state.movingLeft || right !== this.state.movingRight) {
             this.setState({
-                dragging: true,
                 movingName: name,
                 movingLeft: left,
                 movingRight: right
@@ -130,7 +127,6 @@ export default compose(
 
     onMove(name, left, right) {
         this.setState({
-            dragging: false,
             movingName: null,
             movingLeft: null,
             movingRight: null
@@ -138,13 +134,11 @@ export default compose(
         this.props.callback(moveColumn(name, left, right));
     }
 
-    render(props, { dragging, ghost, ghostX }) {
+    render(props, { ghost, ghostX }) {
         return (
             <div style={{
                 position: 'relative',
                 flexShrink: 0,
-                pointerEvents: dragging ? 'none' : '',
-                userSelect: dragging ? 'none' : '',
                 width: props.tableWidth
             }}>
                 {Boolean(props.headerHeight) &&
