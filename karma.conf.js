@@ -59,7 +59,7 @@ module.exports = config => config.set({
         dir: 'coverage',
         reporters: [
             { type: 'html' },
-            { type: 'text', file: null },
+            // { type: 'text', file: null },
         ]
     },
 
