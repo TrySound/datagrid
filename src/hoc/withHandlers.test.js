@@ -21,7 +21,7 @@ describe('withHandlers hoc', () => {
     it('binds props as a first parameter', () => {
         const result = [];
         const wrapped = withHandlers({
-            handler: (props, arg) => result.push(props.param, arg)
+            handler: (props, arg) => result.push(props, arg)
         })(props => {
             props.handler(1);
         });
@@ -29,9 +29,9 @@ describe('withHandlers hoc', () => {
         setProps({ param: 2 });
         setProps({ param: 3 });
         expect(result).to.deep.equal([
-            2,
+            { param: 2 },
             1,
-            3,
+            { param: 3 },
             1
         ]);
     });
