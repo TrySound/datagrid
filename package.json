@@ -14,7 +14,8 @@
     "build-example": "webpack",
     "start": "webpack-dev-server --hot --open",
     "test": "karma start",
-    "start-test": "karma start --auto-watch 1 --single-run 0"
+    "start-test": "karma start --auto-watch 1 --single-run 0",
+    "prepublish": "npm run build"
   },
   "babel": {
     "plugins": [
