@@ -31,7 +31,7 @@ type Column = {
 type State = {
     columns: Column[],
     columnState: {
-        move: null | {
+        moving: null | {
             name: string,
             left: string,
             right: string

@@ -11,11 +11,11 @@ const getColumnStyle = (state, column, last, ghost) => ({
     borderTop: defaultBorder,
     borderBottom: defaultBorder,
     borderLeft: ghost && defaultBorder
-        || (state.move && state.move.right === column.name ? defaultActiveBorder : defaultBorder)
+        || (state.moving && state.moving.right === column.name ? defaultActiveBorder : defaultBorder)
         || '',
 
     borderRight: ghost && defaultBorder
-        || last && (state.move && state.move.left === column.name ? defaultActiveBorder : defaultBorder)
+        || last && (state.moving && state.moving.left === column.name ? defaultActiveBorder : defaultBorder)
         || '',
     background: defaultHeaderBackground,
     opacity: ghost ? .8 : 1

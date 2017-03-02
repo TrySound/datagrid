@@ -2,7 +2,7 @@ export default (state = {}, action) => {
     switch (action.type) {
         case 'MARK_MOVE_DEST':
             return Object.assign({}, state, {
-                move: {
+                moving: {
                     name: action.name,
                     left: action.left,
                     right: action.right
@@ -11,7 +11,7 @@ export default (state = {}, action) => {
 
         case 'MOVE_COLUMN':
             return Object.assign({}, state, {
-                move: null
+                moving: null
             });
 
         default:

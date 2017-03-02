@@ -10,7 +10,7 @@ describe('columnState reducer', () => {
             }, markMoveDest('col1', 'col2', 'col3'))
         ).to.deep.equal({
             userParam: -1,
-            move: {
+            moving: {
                 name: 'col1',
                 left: 'col2',
                 right: 'col3'
@@ -22,7 +22,7 @@ describe('columnState reducer', () => {
         expect(
             columnStateReducer({
                 userParam: -1,
-                move: {
+                moving: {
                     name: 'col1',
                     left: 'col2',
                     right: 'col3'
@@ -30,7 +30,7 @@ describe('columnState reducer', () => {
             }, moveColumn('col1', 'col2', 'col3'))
         ).to.deep.equal({
             userParam: -1,
-            move: null
+            moving: null
         });
     });
 });
