@@ -6,7 +6,7 @@ describe('shouldUpdate hoc', () => {
     it('checks changes with test function', () => {
         let times = 0;
         const wrapped = shouldUpdate((props, nextProps) => props.param1 !== nextProps.param1)(() => times += 1);
-        const setProps = mount(wrapped);
+        const { setProps } = mount(wrapped);
         setProps({
             param1: 10
         });

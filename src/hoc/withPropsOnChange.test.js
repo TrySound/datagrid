@@ -6,7 +6,7 @@ describe('withPropsOnChange hoc', () => {
     it('calls mapper on prop change', () => {
         const result = [];
         const wrapped = withPropsOnChange(['param1'], props => result.push(props))(() => {});
-        const setProps = mount(wrapped);
+        const { setProps } = mount(wrapped);
         setProps({ param1: 10, param2: 20 });
         setProps({ param1: 11, param2: 20 });
         setProps({ param1: 11, param2: 21 });
@@ -22,7 +22,7 @@ describe('withPropsOnChange hoc', () => {
             param1: props.param1 + 1,
             param2: props.param1 + 2
         }))(props => result.push(props));
-        const setProps = mount(wrapped);
+        const { setProps } = mount(wrapped);
         setProps({ param0: -1, param1: 1 });
         setProps({ param0: -10, param1: 1 });
         setProps({ param0: -10, param1: 2 });

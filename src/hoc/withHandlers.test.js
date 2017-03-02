@@ -12,7 +12,7 @@ describe('withHandlers hoc', () => {
             result.push(props.handler1());
             result.push(props.handler2());
         });
-        const setProps = mount(wrapped);
+        const { setProps } = mount(wrapped);
         setProps();
         setProps();
         expect(result).to.deep.equal([1, 2, 1, 2]);
@@ -25,7 +25,7 @@ describe('withHandlers hoc', () => {
         })(props => {
             props.handler(1);
         });
-        const setProps = mount(wrapped);
+        const { setProps } = mount(wrapped);
         setProps({ param: 2 });
         setProps({ param: 3 });
         expect(result).to.deep.equal([
