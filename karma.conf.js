@@ -3,12 +3,7 @@ module.exports = config => config.set({
 
     frameworks: ['mocha'],
 
-    files: [
-        {
-            pattern: 'src/**/*.test.js',
-            watched: false
-        }
-    ],
+    files: ['src/**/*.test.js'],
 
     preprocessors: {
         'src/**/*.test.js': ['webpack', 'sourcemap']
