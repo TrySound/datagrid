@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import { shouldUpdate, withMiddleState } from './hoc/index.js';
-import { compose, getVisibleRows, getKeysByIndex } from './utils/index.js';
+import { compose, checkProps, getVisibleRows, getKeysByIndex } from './utils/index.js';
 
 const Container = ({ height, renderedTop, children }) => (
     <div style={{ position: 'relative', height }}>
@@ -10,10 +10,8 @@ const Container = ({ height, renderedTop, children }) => (
     </div>
 );
 
-const RowWrapper = shouldUpdate((props, nextProps) =>
-    props.height !== nextProps.height ||
-    props.component !== nextProps.component ||
-    props.datum !== nextProps.datum
+const RowWrapper = compose(
+    shouldUpdate(checkProps('height', 'component', 'datum'))
 )(({ height, datum, index, component: Row }) =>
     <div style={{ height }}>
         <Row datum={datum} index={index} />
@@ -34,13 +32,7 @@ export default compose(
             keys: getKeysByIndex(state.keys, start, end)
         };
     }),
-    shouldUpdate((props, nextProps) =>
-        props.start !== nextProps.start ||
-        props.end !== nextProps.end ||
-        props.data !== nextProps.data ||
-        props.rowHeight !== nextProps.rowHeight ||
-        props.component !== nextProps.component
-    )
+    shouldUpdate(checkProps('start', 'end', 'data', 'rowHeight', 'component'))
 )(({ data, rowHeight, component, start, end, keys }) =>
     <Container height={data.length * rowHeight} renderedTop={start * rowHeight}>
         {data.slice(start, end + 1).map((datum, index) =>

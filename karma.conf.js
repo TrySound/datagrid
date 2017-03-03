@@ -3,9 +3,10 @@ module.exports = config => config.set({
 
     frameworks: ['mocha'],
 
-    files: ['node_modules/chai/chai.js', 'src/**/*.test.js'],
+    files: ['node_modules/chai/chai.js', 'src/index.js', 'src/**/*.test.js'],
 
     preprocessors: {
+        'src/index.js': ['webpack'],
         'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
