@@ -3,7 +3,7 @@ module.exports = config => config.set({
 
     frameworks: ['mocha'],
 
-    files: ['src/**/*.test.js'],
+    files: ['node_modules/chai/chai.js', 'src/**/*.test.js'],
 
     preprocessors: {
         'src/**/*.test.js': ['webpack', 'sourcemap']
@@ -11,6 +11,9 @@ module.exports = config => config.set({
 
     webpack: {
         devtool: '#inline-source-map',
+        externals: {
+            chai: 'chai'
+        },
         module: {
             rules: [
                 {
