@@ -1,10 +1,16 @@
 import { expect } from 'chai';
 import createElement from 'inferno-create-element';
-import { renderIntoDocument, scryRenderedDOMElementsWithTag } from 'inferno-test-utils';
+import { mount } from './utils/testUtils.js';
 import List from './List.js';
 
-const renderList = props => renderIntoDocument(<List component={props => <div>{props.datum}</div>} {...props} />);
-const getListDivs = props => scryRenderedDOMElementsWithTag(renderList(props), 'div');
+const renderList = props => mount(List).setProps(props);
+const getListDivs = props => {
+    const { setProps, getWrapper } = mount(List);
+    setProps(Object.assign({
+        component: props => <div>{props.datum}</div>
+    }, props));
+    return Array.from(getWrapper().querySelectorAll('div'));
+};
 const getContainer = list => list[0];
 const getRowWrapper = (list, index) => list[2 + index * 2];
 
