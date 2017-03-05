@@ -34,6 +34,7 @@ export default class Viewport extends Component {
                         minWidth: 60,
                         enableMoving: true,
                         enableFiltering: true,
+                        placeholder: 'Search',
                         width: 150,
                         enableResizing: true
                     },

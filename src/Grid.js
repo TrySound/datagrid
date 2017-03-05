@@ -5,7 +5,7 @@ import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';
-import { withPropsOnChange, withUserSelectControl, withPinnableColumns } from './hoc/index.js';
+import { withPropsOnChange, withPinnableColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
@@ -63,7 +63,6 @@ export default compose(
             }))
         })
     ),
-    withUserSelectControl,
     withPinnableColumns,
     withPropsOnChange(
         ['columns'],

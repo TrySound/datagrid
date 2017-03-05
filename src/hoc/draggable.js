@@ -14,6 +14,7 @@ export default ({ offset = 3, style = {} } = {}) => BaseComponent => class exten
         const clientX = downEvent.currentTarget.getBoundingClientRect().left;
         const startX = downEvent.clientX - clientX;
         const onMouseMove = e => {
+            e.preventDefault();
             const x = e.clientX - clientX;
             const dx = x - startX;
             if (this.state.dragging || Math.abs(dx) > offset) {
