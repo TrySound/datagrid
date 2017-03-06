@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import reducer from './columns.js';
-import { moveColumn, moveResizeGhost, resizeColumn, filterColumn, sortColumn } from '../actionCreators.js';
+import { moveColumn, resizeColumn, filterColumn, sortColumn } from '../actionCreators.js';
 
 describe('columns reducer', () => {
     it('moves column between left and right', () => {
@@ -80,22 +80,6 @@ describe('columns reducer', () => {
             { name: 'col1' },
             { name: 'col2' },
             { name: 'col3' }
-        ]);
-    });
-
-    it('does not affect on move resize ghost', () => {
-        expect(
-            reducer([
-                {
-                    name: 'col1',
-                    width: 100
-                }
-            ], moveResizeGhost('col1', 120))
-        ).to.deep.equal([
-            {
-                name: 'col1',
-                width: 100
-            }
         ]);
     });
 

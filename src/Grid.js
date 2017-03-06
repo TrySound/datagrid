@@ -7,7 +7,7 @@ import DefaultColumn from './DefaultColumn.js';
 import DefaultRow from './DefaultRow.js';
 import { withPropsOnChange, withPinnableColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
-import { markMoveDest, moveColumn, moveResizeGhost, resizeColumn } from './actionCreators.js';
+import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
 import { headerZindex, defaultMinWidth } from './params.js';
 
 /*
@@ -95,15 +95,11 @@ export default compose(
         this.onMove = this.onMove.bind(this);
     }
 
-    onResizing(name, ghostPosition) {
-        if (name !== this.state.resizingName || ghostPosition !== this.state.ghostX) {
-            this.setState({
-                ghost: true,
-                resizingName: name,
-                ghostX: ghostPosition
-            });
-            this.props.callback(moveResizeGhost(name, ghostPosition));
-        }
+    onResizing(name, ghostX) {
+        this.setState({
+            ghost: true,
+            ghostX
+        });
     }
 
     onResize(name, columnWidth) {

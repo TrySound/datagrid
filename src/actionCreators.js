@@ -12,12 +12,6 @@ export const moveColumn = (name, left, right) => ({
     right
 });
 
-export const moveResizeGhost = (name, position) => ({
-    type: 'MOVE_RESIZE_GHOST',
-    name,
-    position
-});
-
 export const resizeColumn = (name, size) => ({
     type: 'RESIZE_COLUMN',
     name,
