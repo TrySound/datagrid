@@ -33,6 +33,17 @@ describe('withPropsOnChange hoc', () => {
         ]);
     });
 
+    it('maps when only one prop is changed', () => {
+        const result = [];
+        const wrapped = withPropsOnChange(['param1', 'param2'], props => ({
+            sum: props.param1 + props.param2
+        }))(props => result.push(props.sum));
+        const { setProps } = mount(wrapped);
+        setProps({ param1: 1, param2: 2 });
+        setProps({ param1: 3, param2: 2 });
+        expect(result).to.deep.equal([3, 5]);
+    });
+
     it('takes a function mapper', () => {
         const result = [];
         const wrapped = withPropsOnChange(

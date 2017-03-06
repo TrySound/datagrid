@@ -6,7 +6,7 @@ export default (test, mapProps) => BaseComponent => class extends Component {
     constructor(props) {
         super(props);
         this.state = mapProps(props);
-        this.checkProps = typeof test === 'function' ? test : checkProps(test);
+        this.checkProps = typeof test === 'function' ? test : checkProps(...test);
     }
 
     componentWillReceiveProps(nextProps) {

@@ -2,7 +2,8 @@ import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
 import { bisectColumns, findColumn, trimColumnWidth } from './utils/index.js';
 import { draggable } from './hoc/index.js';
-import { dragOffset } from './params.js';
+
+const dragOffset = 3;
 
 const Container = ({ children }) => (
     <div style={{ display: 'flex', position: 'relative', height: 'inherit' }}>

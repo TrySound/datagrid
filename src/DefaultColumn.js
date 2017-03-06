@@ -1,23 +1,25 @@
 import createElement from 'inferno-create-element';
 import { withHandlers } from './hoc/index.js';
-import { defaultBorder, defaultActiveBorder, defaultHeaderBackground } from './params.js';
 import { filterColumn, sortColumn } from './actionCreators.js';
+
+const border = '1px solid #d4d4d4';
+const activeBorder = '1px solid #000';
 
 const getColumnStyle = (state, column, last, ghost) => ({
     position: 'relative',
     height: 'inherit',
     boxSizing: 'border-box',
     padding: '0 8px',
-    borderTop: defaultBorder,
-    borderBottom: defaultBorder,
-    borderLeft: ghost && defaultBorder
-        || (state.moving && state.moving.right === column.name ? defaultActiveBorder : defaultBorder)
+    borderTop: border,
+    borderBottom: border,
+    borderLeft: ghost && border
+        || (state.moving && state.moving.right === column.name ? activeBorder : border)
         || '',
 
-    borderRight: ghost && defaultBorder
-        || last && (state.moving && state.moving.left === column.name ? defaultActiveBorder : defaultBorder)
+    borderRight: ghost && border
+        || last && (state.moving && state.moving.left === column.name ? activeBorder : border)
         || '',
-    background: defaultHeaderBackground,
+    background: 'linear-gradient(to top, #eeeeee, #ffffff)',
     opacity: ghost ? .8 : 1
 });
 
@@ -26,7 +28,7 @@ const getInputStyle = () => ({
     boxSizing: 'border-box',
     padding: '0 8px',
     border: 0,
-    borderBottom: defaultBorder,
+    borderBottom: border,
     marginBottom: 8
 });
 

@@ -6,7 +6,6 @@ import List from './List.js';
 import { withPropsOnChange, withDefaults, withPinnedColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
-import { headerZindex } from './params.js';
 
 /*
 
@@ -91,34 +90,26 @@ export default compose(
     }
 
     onMoving(name, left, right) {
-        if (name !== this.state.movingName || left !== this.state.movingLeft || right !== this.state.movingRight) {
-            this.setState({
-                movingName: name,
-                movingLeft: left,
-                movingRight: right
-            });
+        if (name !== this.movingName || left !== this.movingLeft || right !== this.movingRight) {
+            this.movingName = name;
+            this.movingLeft = left;
+            this.movingRight = right;
             this.props.callback(markMoveDest(name, left, right));
         }
     }
 
     onMove(name, left, right) {
-        this.setState({
-            movingName: null,
-            movingLeft: null,
-            movingRight: null
-        });
+        this.movingName = null;
+        this.movingLeft = null;
+        this.movingRight = null;
         this.props.callback(moveColumn(name, left, right));
     }
 
     render(props, { ghost, ghostX }) {
         return (
-            <div style={{
-                position: 'relative',
-                flexShrink: 0,
-                width: props.tableWidth
-            }}>
+            <div style={{ position: 'relative', width: props.tableWidth }}>
                 {Boolean(props.headerHeight) &&
-                    <div style={{ position: 'sticky', zIndex: headerZindex, top: 0, height: props.headerHeight }}>
+                    <div style={{ position: 'sticky', zIndex: 1, top: 0, height: props.headerHeight }}>
                         <Header
                             columns={props.columns}
                             component={props.columnComponent}
@@ -128,13 +119,13 @@ export default compose(
                             onResizing={this.onResizing} />
                     </div>
                 }
+                {ghost && <ResizeGhost x={ghostX} />}
                 <List
                     data={props.data}
                     scrollTop={props.scrollTop - props.headerHeight}
                     viewportHeight={props.viewportHeight - props.headerHeight}
                     rowHeight={props.rowHeight}
                     component={props.rowComponent} />
-                {ghost && <ResizeGhost x={ghostX} />}
             </div>
         );
     }
