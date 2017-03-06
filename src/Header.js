@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { bisectColumns, findColumn } from './utils/index.js';
+import { bisectColumns, findColumn, trimColumnWidth } from './utils/index.js';
 import { draggable } from './hoc/index.js';
 import { dragOffset } from './params.js';
 
@@ -79,13 +79,13 @@ const dragEnd = ({ columns, x, dx, onResize, onMove }) => {
         if (startIndex !== 0) {
             const prevColumn = columns[startIndex - 1];
             if (prevColumn.enableResizing) {
-                onResize(prevColumn.name, prevColumn.width + startX + dx);
+                onResize(prevColumn.name, trimColumnWidth(prevColumn, prevColumn.width + startX + dx));
             }
         }
     } else if (Math.abs(startX - startColumn.width) <= dragOffset) {
         // resize current
         if (startColumn.enableResizing) {
-            onResize(startColumn.name, startX + dx);
+            onResize(startColumn.name, trimColumnWidth(startColumn, startX + dx));
         }
     } else if (startColumn.enableMoving) {
         // move current
