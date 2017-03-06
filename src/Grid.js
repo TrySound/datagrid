@@ -3,12 +3,10 @@ import Component from 'inferno-component';
 import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
-import DefaultColumn from './DefaultColumn.js';
-import DefaultRow from './DefaultRow.js';
-import { withPropsOnChange, withPinnableColumns } from './hoc/index.js';
+import { withPropsOnChange, withDefaults, withPinnableColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
-import { headerZindex, defaultMinWidth } from './params.js';
+import { headerZindex } from './params.js';
 
 /*
 
@@ -44,25 +42,8 @@ type State = {
 
 */
 
-const defaultState = {};
-
 export default compose(
-    withPropsOnChange(
-        ['state'],
-        ({ state }) => ({
-            columns: state.columns,
-            columnState: state.columnState || defaultState,
-            rowState: state.rowState || defaultState
-        })
-    ),
-    withPropsOnChange(
-        ['columns'],
-        ({ columns }) => ({
-            columns: columns.map(column => Object.assign({}, column, {
-                width: column.width || column.minWidth || defaultMinWidth
-            }))
-        })
-    ),
+    withDefaults(),
     withPinnableColumns,
     withPropsOnChange(
         ['columns'],
@@ -72,13 +53,13 @@ export default compose(
     ),
     withPropsOnChange(
         ['columnState', 'callback', 'columnComponent'],
-        ({ columnState, callback, columnComponent: Column = DefaultColumn }) => ({
+        ({ columnState, callback, columnComponent: Column }) => ({
             columnComponent: props => <Column state={columnState} callback={callback} {...props} />
         })
     ),
     withPropsOnChange(
         ['rowState', 'columns', 'callback', 'rowComponent'],
-        ({ rowState, columns,  callback, rowComponent: Row = DefaultRow }) => ({
+        ({ rowState, columns,  callback, rowComponent: Row }) => ({
             rowComponent: props => <Row state={rowState} columns={columns} callback={callback} {...props} />
         })
     )

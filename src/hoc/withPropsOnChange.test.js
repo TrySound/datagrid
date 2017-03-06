@@ -32,4 +32,20 @@ describe('withPropsOnChange hoc', () => {
             { param0: -10, param1: 3, param2: 4 }
         ]);
     });
+
+    it('takes a function mapper', () => {
+        const result = [];
+        const wrapped = withPropsOnChange(
+            (props, nextProps) => props.param1 !== nextProps.param1,
+            props => result.push(props)
+        )(() => {});
+        const { setProps } = mount(wrapped);
+        setProps({ param1: 10, param2: 20 });
+        setProps({ param1: 11, param2: 20 });
+        setProps({ param1: 11, param2: 21 });
+        expect(result).to.deep.equal([
+            { param1: 10, param2: 20 },
+            { param1: 11, param2: 20 }
+        ]);
+    });
 });

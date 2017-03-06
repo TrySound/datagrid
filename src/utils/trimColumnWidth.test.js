@@ -10,8 +10,8 @@ describe('trimColumnWidth', () => {
         expect(trimColumnWidth({ maxWidth: 200 }, 210)).to.deep.equal(200);
     });
 
-    it('trims with default minWidth 20', () => {
-        expect(trimColumnWidth({}, 10)).to.deep.equal(60);
+    it('trims with default minWidth 0', () => {
+        expect(trimColumnWidth({}, -10)).to.deep.equal(0);
     });
 
     it('does not trim in range', () => {
