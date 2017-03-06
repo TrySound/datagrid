@@ -3,7 +3,7 @@ import Component from 'inferno-component';
 import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
-import { withPropsOnChange, withDefaults, withPinnableColumns } from './hoc/index.js';
+import { withPropsOnChange, withDefaults, withPinnedColumns } from './hoc/index.js';
 import { compose } from './utils/index.js';
 import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
 import { headerZindex } from './params.js';
@@ -44,7 +44,7 @@ type State = {
 
 export default compose(
     withDefaults(),
-    withPinnableColumns,
+    withPinnedColumns(),
     withPropsOnChange(
         ['columns'],
         ({ columns }) => ({
