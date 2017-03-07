@@ -14,14 +14,6 @@ export default (state = {}, action) => {
                 moving: null
             });
 
-        case 'MOVE_RESIZE_GHOST':
-            return Object.assign({}, state, {
-                resizing: {
-                    name: action.name,
-                    position: action.position
-                }
-            });
-
         case 'RESIZE_COLUMN':
             return Object.assign({}, state, {
                 resizing: null
