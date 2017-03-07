@@ -1,4 +1,4 @@
-import { compose } from '../utils/index.js';
+import { compose, checkProps } from '../utils/index.js';
 import withProps from './withProps.js';
 import withPropsOnChange from './withPropsOnChange.js';
 import DefaultColumn from '../DefaultColumn.js';
@@ -6,6 +6,13 @@ import DefaultRow from '../DefaultRow.js';
 
 const defaultState = {};
 const defaultMinWidth = 60;
+
+const parseWidth = (width, viewportWidth) => {
+    if (typeof width === 'string' && width[width.length - 1] === '%') {
+        return viewportWidth * Number(width.slice(0, -1)) / 100;
+    }
+    return width;
+};
 
 export default () => compose(
     withProps(props => ({
@@ -17,10 +24,15 @@ export default () => compose(
         columnComponent: props.columnComponent || DefaultColumn,
         rowComponent: props.rowComponent || DefaultRow
     })),
-    withPropsOnChange((props, nextProps) => props.columns !== nextProps.columns, ({ columns }) => ({
-        columns: columns.map(column => Object.assign({}, column, {
+    withPropsOnChange(checkProps('columns', 'viewportWidth'), props => ({
+        columns: props.columns.map(column => Object.assign({}, column, {
+            width: parseWidth(column.width, props.viewportWidth)
+        }))
+    })),
+    withPropsOnChange(checkProps('columns'), props => ({
+        columns: props.columns.map(column => Object.assign({}, column, {
             minWidth: column.minWidth || defaultMinWidth,
-            width: column.width || column.minWidth || defaultMinWidth
+            width: Math.max(column.width || 0, column.minWidth || defaultMinWidth)
         }))
     }))
 );

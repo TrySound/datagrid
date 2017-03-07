@@ -4,6 +4,8 @@ import withDefaults from './withDefaults.js';
 import DefaultColumn from '../DefaultColumn.js';
 import DefaultRow from '../DefaultRow.js';
 
+const defaultWidth = 60;
+
 describe('withDefaults hoc', () => {
     it('spreads state columns, columnState, rowState props', () => {
         const results = [];
@@ -71,6 +73,11 @@ describe('withDefaults hoc', () => {
                         name: 'col4',
                         minWidth: 120,
                         width: 220
+                    },
+                    {
+                        name: 'col5',
+                        minWidth: 120,
+                        width: 100
                     }
                 ]
             }
@@ -78,8 +85,8 @@ describe('withDefaults hoc', () => {
         expect(results[0].columns).to.deep.equal([
             {
                 name: 'col1',
-                minWidth: 60,
-                width: 60
+                minWidth: defaultWidth,
+                width: defaultWidth
             },
             {
                 name: 'col2',
@@ -88,13 +95,51 @@ describe('withDefaults hoc', () => {
             },
             {
                 name: 'col3',
-                minWidth: 60,
+                minWidth: defaultWidth,
                 width: 220
             },
             {
                 name: 'col4',
                 minWidth: 120,
                 width: 220
+            },
+            {
+                name: 'col5',
+                minWidth: 120,
+                width: 120
+            }
+        ]);
+    });
+
+    it('converts percentage width to number', () => {
+        const results = [];
+        const wrapped = withDefaults()(props => results.push(props));
+        const { setProps } = mount(wrapped);
+        setProps({
+            viewportWidth: 220,
+            state: {
+                columns: [
+                    {
+                        name: 'col1',
+                        width: '50%'
+                    },
+                    {
+                        name: 'col2',
+                        width: '120'
+                    }
+                ]
+            }
+        });
+        expect(results[0].columns).to.deep.equal([
+            {
+                name: 'col1',
+                minWidth: defaultWidth,
+                width: 110
+            },
+            {
+                name: 'col2',
+                minWidth: defaultWidth,
+                width: 120
             }
         ]);
     });

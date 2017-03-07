@@ -51,6 +51,10 @@ export default class Viewport extends Component {
                         maxWidth: 300,
                         enableMoving: true,
                         enableResizing: true
+                    },
+                    {
+                        name: '4',
+                        width: '50%'
                     }
                 ],
                 rowState: {

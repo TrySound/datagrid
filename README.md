@@ -17,7 +17,7 @@ Declarative reactive table with unidirectional data flow
             name: string,
             displayName: string,
             minWidth: number,
-            width: number,
+            width: number || string, // 120, '60%' depends on viewportWidth
             maxWidth: number,
             pinnedLeft: boolean,
             pinnedRight: boolean,
@@ -48,6 +48,8 @@ Declarative reactive table with unidirectional data flow
 **callback** `(action: Action) => void`
 
 **scrollTop** `number`
+
+**viewportWidth** `number`
 
 **viewportHeight** `number`
 
