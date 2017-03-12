@@ -1,4 +1,7 @@
-# inferno-datagrid
+# inferno-datagrid [![Build Status][travis-img]][travis]
+
+[travis-img]: https://travis-ci.org/TrySound/inferno-datagrid.svg
+[travis]: https://travis-ci.org/TrySound/inferno-datagrid
 
 Declarative reactive table with unidirectional data flow
 
