@@ -4026,9 +4026,9 @@ webpack-dev-server@^2:
     webpack-dev-middleware "^1.9.0"
     yargs "^6.0.0"
 
-webpack-mocha-plugin@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/webpack-mocha-plugin/-/webpack-mocha-plugin-0.1.2.tgz#03c71fd9e4af30eee6317b6d14e4a6218b1a8ffd"
+webpack-mocha-plugin@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/webpack-mocha-plugin/-/webpack-mocha-plugin-0.2.0.tgz#fbcd89de71713e9235b23a26468c979643735ca8"
 
 webpack-node-externals@^1.5.4:
   version "1.5.4"

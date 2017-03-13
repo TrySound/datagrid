@@ -9,13 +9,12 @@
   "author": "Bogdan Chadkin <trysound@yandex.ru>",
   "license": "MIT",
   "scripts": {
-    "prebuild": "yarn test",
     "build": "rollup -c",
     "build-example": "webpack",
     "start": "webpack-dev-server --hot --open",
     "test": "webpack --config webpack.test.config.js",
-    "start-test": "yarn test -- --watch",
-    "prepublish": "yarn run build"
+    "start-test": "webpack --config webpack.test.config.js --watch",
+    "prepublish": "rollup -c"
   },
   "babel": {
     "plugins": [
@@ -47,7 +46,7 @@
     "rollup-plugin-babel": "^2.7.1",
     "webpack": "^2",
     "webpack-dev-server": "^2",
-    "webpack-mocha-plugin": "^0.1.2",
+    "webpack-mocha-plugin": "0.2.0",
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
