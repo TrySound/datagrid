@@ -3,7 +3,7 @@ const webpackNodeExternals = require('webpack-node-externals');
 
 module.exports = {
     target: 'node',
-    entry: 'multi-entry-loader?include[]=test.setup.js&include[]=src/**/*.test.js!',
+    entry: 'multi-entry-loader?include[]=test.setup.js&include[]=src/**/*.js!',
     output: {
         path: 'tmp',
         filename: 'test-bundle.js'
