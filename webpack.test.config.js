@@ -41,5 +41,8 @@ module.exports = {
             codeCoverage: true,
             coverageReports: ['html', 'text-summary']
         })
-    ]
+    ],
+    watchOptions: {
+        ignored: /coverage/
+    }
 };
