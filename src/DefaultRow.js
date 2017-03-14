@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { withHandlers } from './hoc/index.js';
+import { withLinkedHandlers } from './hoc/index.js';
 import { selectRow } from './actionCreators.js';
 
 const border = '1px solid #d4d4d4';
@@ -22,10 +22,10 @@ const getColumnStyle = (column, last) => ({
     borderRight: last ? border : ''
 });
 
-const DefaultRow = withHandlers({
+const DefaultRow = withLinkedHandlers({
     selectRow: props => props.callback(selectRow(props.index))
 })(props =>
-    <div style={getRowStyle(props.state, props.index)} onClick={props.selectRow}>
+    <div style={getRowStyle(props.state, props.index)} onClick={props.selectRow(props)}>
         {props.columns.map((item, columnIndex) =>
             <div style={getColumnStyle(item, columnIndex === props.columns.length - 1)}>
                 <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
