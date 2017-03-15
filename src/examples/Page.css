@@ -1,0 +1,12 @@
+.Page__container {}
+
+.Page__header {
+    padding: 15px;
+    background: #ddd;
+    font-size: 2em;
+}
+
+.Page__content {
+    display: flex;
+    padding: 15px;
+}

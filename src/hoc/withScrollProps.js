@@ -12,10 +12,12 @@ export default BaseComponent => class extends Component {
         };
         this.ref = element => {
             this.element = element;
-            this.setState({
-                viewportWidth: element.clientWidth,
-                viewportHeight: element.clientHeight
-            });
+            if (element) {
+                this.setState({
+                    viewportWidth: element.clientWidth,
+                    viewportHeight: element.clientHeight
+                });
+            }
         };
         this.onScroll = e => this.setState({
             scrollTop: e.target.scrollTop,

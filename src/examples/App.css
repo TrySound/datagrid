@@ -1,0 +1,39 @@
+.App__viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+}
+
+.App__container {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    font-family: sans-serif;
+}
+
+.App__nav {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 300px;
+    padding: 15px;
+    background: #eee;
+}
+
+.App__link {
+    display: block;
+    padding: 4px 0;
+    color: #666;
+}
+
+.App__link:hover {
+    color: #000;
+}
+
+.App__main {
+    flex: 1;
+}

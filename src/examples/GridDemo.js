@@ -91,20 +91,17 @@ export default class Viewport extends Component {
 
     render({}, { gridState, data }) {
         return (
-            <div>
-                <h2>Grid example</h2>
-                <TrackedGrid
-                    viewportWidth={600}
-                    viewportHeight={360}
-                    headerHeight={60}
-                    rowHeight={30}
-                    columnComponent={undefined}
-                    rowComponent={undefined}
-                    state={gridState}
-                    data={data}
-                    callback={this.callback}
-                />
-            </div>
+            <TrackedGrid
+                viewportWidth={600}
+                viewportHeight={360}
+                headerHeight={0}
+                rowHeight={30}
+                columnComponent={undefined}
+                rowComponent={undefined}
+                state={gridState}
+                data={data}
+                callback={this.callback}
+            />
         );
     }
 }
