@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import reducer from './rowState.js';
 import { selectRow } from '../actionCreators.js';
 
@@ -9,7 +8,7 @@ describe('rowState reducer', () => {
                 selectedIndex: 1,
                 param: -1
             }, selectRow(3))
-        ).to.deep.equal({
+        ).toEqual({
             selectedIndex: 3,
             param: -1
         });

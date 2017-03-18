@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import shouldUpdate from './shouldUpdate.js';
 
@@ -10,19 +9,19 @@ describe('shouldUpdate hoc', () => {
         setProps({
             param1: 10
         });
-        expect(times).to.equal(1);
+        expect(times).toEqual(1);
         setProps({
             param1: 10
         });
-        expect(times).to.equal(1);
+        expect(times).toEqual(1);
         setProps({
             param1: 11
         });
-        expect(times).to.equal(2);
+        expect(times).toEqual(2);
         setProps({
             param1: 11,
             param2: 20
         });
-        expect(times).to.equal(2);
+        expect(times).toEqual(2);
     });
 });

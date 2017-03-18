@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import columnStateReducer from './columnState.js';
 import { markMoveDest, moveColumn, resizeColumn } from '../actionCreators.js';
 
@@ -8,7 +7,7 @@ describe('columnState reducer', () => {
             columnStateReducer({
                 userParam: -1
             }, markMoveDest('col1', 'col2', 'col3'))
-        ).to.deep.equal({
+        ).toEqual({
             userParam: -1,
             moving: {
                 name: 'col1',
@@ -28,7 +27,7 @@ describe('columnState reducer', () => {
                     right: 'col3'
                 }
             }, moveColumn('col1', 'col2', 'col3'))
-        ).to.deep.equal({
+        ).toEqual({
             userParam: -1,
             moving: null
         });
@@ -43,7 +42,7 @@ describe('columnState reducer', () => {
                     position: 20
                 }
             }, resizeColumn('col', 10))
-        ).to.deep.equal({
+        ).toEqual({
             userParam: -1,
             resizing: null
         });

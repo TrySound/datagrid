@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import withPropsOnChange from './withPropsOnChange.js';
 
@@ -10,7 +9,7 @@ describe('withPropsOnChange hoc', () => {
         setProps({ param1: 10, param2: 20 });
         setProps({ param1: 11, param2: 20 });
         setProps({ param1: 11, param2: 21 });
-        expect(result).to.deep.equal([
+        expect(result).toEqual([
             { param1: 10, param2: 20 },
             { param1: 11, param2: 20 }
         ]);
@@ -26,7 +25,7 @@ describe('withPropsOnChange hoc', () => {
         setProps({ param0: -1, param1: 1 });
         setProps({ param0: -10, param1: 1 });
         setProps({ param0: -10, param1: 2 });
-        expect(result).to.deep.equal([
+        expect(result).toEqual([
             { param0: -1, param1: 2, param2: 3 },
             { param0: -10, param1: 2, param2: 3 },
             { param0: -10, param1: 3, param2: 4 }
@@ -41,7 +40,7 @@ describe('withPropsOnChange hoc', () => {
         const { setProps } = mount(wrapped);
         setProps({ param1: 1, param2: 2 });
         setProps({ param1: 3, param2: 2 });
-        expect(result).to.deep.equal([3, 5]);
+        expect(result).toEqual([3, 5]);
     });
 
     it('takes a function mapper', () => {
@@ -54,7 +53,7 @@ describe('withPropsOnChange hoc', () => {
         setProps({ param1: 10, param2: 20 });
         setProps({ param1: 11, param2: 20 });
         setProps({ param1: 11, param2: 21 });
-        expect(result).to.deep.equal([
+        expect(result).toEqual([
             { param1: 10, param2: 20 },
             { param1: 11, param2: 20 }
         ]);

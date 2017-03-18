@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import withDefaults from './withDefaults.js';
 import DefaultColumn from '../DefaultColumn.js';
@@ -18,11 +17,9 @@ describe('withDefaults hoc', () => {
                 rowState: {}
             }
         });
-        expect(results[0]).to.contain.all.keys({
-            'columns': [],
-            'columnState': {},
-            'rowState': {}
-        });
+        expect(results[0].columns).toEqual([]);
+        expect(results[0].columnState).toEqual({});
+        expect(results[0].rowState).toEqual({});
     });
 
     it('sets default columnState and rowState as an empty object', () => {
@@ -34,8 +31,8 @@ describe('withDefaults hoc', () => {
                 columns: []
             }
         });
-        expect(results[0].columnState).to.deep.equal({});
-        expect(results[0].rowState).to.deep.equal({});
+        expect(results[0].columnState).toEqual({});
+        expect(results[0].rowState).toEqual({});
     });
 
     it('sets default columnComponent and rowComponent', () => {
@@ -47,8 +44,8 @@ describe('withDefaults hoc', () => {
                 columns: []
             }
         });
-        expect(results[0].columnComponent).to.equal(DefaultColumn);
-        expect(results[0].rowComponent).to.equal(DefaultRow);
+        expect(results[0].columnComponent).toEqual(DefaultColumn);
+        expect(results[0].rowComponent).toEqual(DefaultRow);
     });
 
     it('sets default column width', () => {
@@ -82,7 +79,7 @@ describe('withDefaults hoc', () => {
                 ]
             }
         });
-        expect(results[0].columns).to.deep.equal([
+        expect(results[0].columns).toEqual([
             {
                 name: 'col1',
                 minWidth: defaultWidth,
@@ -130,7 +127,7 @@ describe('withDefaults hoc', () => {
                 ]
             }
         });
-        expect(results[0].columns).to.deep.equal([
+        expect(results[0].columns).toEqual([
             {
                 name: 'col1',
                 minWidth: defaultWidth,
@@ -153,7 +150,7 @@ describe('withDefaults hoc', () => {
                 columns: []
             }
         });
-        expect(results[0].headerHeight).to.equal(0);
-        expect(results[0].rowHeight).to.equal(30);
+        expect(results[0].headerHeight).toEqual(0);
+        expect(results[0].rowHeight).toEqual(30);
     });
 });

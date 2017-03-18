@@ -12,9 +12,15 @@
     "build": "rollup -c",
     "build-example": "webpack",
     "start": "webpack-dev-server --hot --open",
-    "test": "webpack --config webpack.test.config.js",
-    "start-test": "webpack --config webpack.test.config.js --watch",
+    "test": "cross-env BABEL_ENV=test jest --coverage",
+    "start-test": "yarn test -- --watch",
     "prepublish": "rollup -c"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text-summary",
+      "html"
+    ]
   },
   "babel": {
     "plugins": [
@@ -25,13 +31,22 @@
           "useBuiltIns": true
         }
       ]
-    ]
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "transform-es2015-modules-commonjs"
+        ]
+      }
+    }
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
+    "babel-jest": "^19.0.0",
     "babel-loader": "^6.3.2",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
     "babel-plugin-transform-react-jsx": "^6.23.0",
-    "chai": "^3.5.0",
+    "cross-env": "^3.2.4",
     "css-loader": "^0.27.3",
     "eslint": "^3.15.0",
     "eslint-loader": "^1.6.1",
@@ -40,20 +55,14 @@
     "history": "^4.6.0",
     "html-webpack-plugin": "^2.26.0",
     "inferno-router": "1.2",
-    "istanbul": "^0.4.5",
-    "istanbul-instrumenter-loader": "^2.0.0",
-    "jsdom": "^9.11.0",
-    "mocha": "^3.2.0",
+    "jest-cli": "^19.0.2",
     "multi-entry-loader": "^1.1.1",
     "raw-loader": "^0.5.1",
-    "remap-istanbul": "^0.9.1",
     "rollup": "^0.41.5",
     "rollup-plugin-babel": "^2.7.1",
     "style-loader": "^0.13.2",
     "webpack": "^2",
-    "webpack-dev-server": "^2",
-    "webpack-mocha-plugin": "0.2.0",
-    "webpack-node-externals": "^1.5.4"
+    "webpack-dev-server": "^2"
   },
   "dependencies": {
     "inferno": "1.2",

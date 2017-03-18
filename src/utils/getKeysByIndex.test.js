@@ -1,9 +1,8 @@
-import { expect } from 'chai';
 import { getKeysByIndex } from './index.js';
 
 describe('getKeysByIndex', () => {
     it('should generate new keys', () => {
-        expect(getKeysByIndex(undefined, 0, 2)).to.deep.equal({
+        expect(getKeysByIndex(undefined, 0, 2)).toEqual({
             0: 'key_0',
             1: 'key_1',
             2: 'key_2'
@@ -14,7 +13,7 @@ describe('getKeysByIndex', () => {
         expect(getKeysByIndex({
             2: 'key_0',
             3: 'key_1'
-        }, 0, 3)).to.deep.equal({
+        }, 0, 3)).toEqual({
             0: 'key_2',
             1: 'key_3',
             2: 'key_0',
@@ -28,7 +27,7 @@ describe('getKeysByIndex', () => {
             1: 'key_1',
             2: 'key_2',
             3: 'key_3'
-        }, 2, 5)).to.deep.equal({
+        }, 2, 5)).toEqual({
             2: 'key_2',
             3: 'key_3',
             4: 'key_0',

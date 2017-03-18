@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import withLinkedHandlers from './withLinkedHandlers.js';
 
@@ -10,7 +9,7 @@ describe('withLinkedHandlers hoc', () => {
         })(props => props.handler(1)(2));
         const { setProps } = mount(wrapped);
         setProps();
-        expect(result[0]).to.deep.equal([1, 2]);
+        expect(result[0]).toEqual([1, 2]);
     });
 
     it('passes same function with different first arguments', () => {
@@ -21,9 +20,9 @@ describe('withLinkedHandlers hoc', () => {
         const { setProps } = mount(wrapped);
         setProps({ param: 1 });
         setProps({ param: 2 });
-        expect(result[0]).to.be.a('function');
-        expect(result[1]).to.be.a('function');
-        expect(result[0]).to.equal(result[1]);
-        expect(result.length).to.equal(2);
+        expect(typeof result[0]).toEqual('function');
+        expect(typeof result[1]).toEqual('function');
+        expect(result[0]).toEqual(result[1]);
+        expect(result.length).toEqual(2);
     });
 });

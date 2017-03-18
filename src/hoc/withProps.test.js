@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import withProps from './withProps.js';
 
@@ -14,7 +13,7 @@ describe('withProps hoc', () => {
             param1: 10,
             param2: 20
         });
-        expect(results[0]).to.deep.equal({
+        expect(results[0]).toEqual({
             param1: 10,
             param2: 20,
             param11: 11,

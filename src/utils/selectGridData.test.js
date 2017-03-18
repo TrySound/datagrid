@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import selectGridData from './selectGridData.js';
 
 describe('selectGridData', () => {
@@ -33,7 +32,7 @@ describe('selectGridData', () => {
                     col: 'lorem'
                 }
             ])
-        ).to.deep.equal([
+        ).toEqual([
             {
                 id: 1,
                 col: 'Title'
@@ -79,7 +78,7 @@ describe('selectGridData', () => {
                     col2: 'prevalue'
                 }
             ])
-        ).to.deep.equal([
+        ).toEqual([
             {
                 id: 3,
                 col1: 'pretitle',
@@ -111,7 +110,7 @@ describe('selectGridData', () => {
                     col: 3
                 }
             ])
-        ).to.deep.equal([
+        ).toEqual([
             {
                 col: 1
             },
@@ -147,7 +146,7 @@ describe('selectGridData', () => {
                     col: 3
                 }
             ])
-        ).to.deep.equal([
+        ).toEqual([
             {
                 col: 3
             },
@@ -181,7 +180,7 @@ describe('selectGridData', () => {
                     col: 'title2'
                 }
             ])
-        ).to.deep.equal([
+        ).toEqual([
             {
                 col: 'title2'
             },

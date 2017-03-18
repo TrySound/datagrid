@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import withPinnedColumns from './withPinnedColumns.js';
 
@@ -17,19 +16,19 @@ describe('withPinnedColumns hoc', () => {
                 { name: '5', pinnedLeft: true }
             ]
         });
-        expect(result.length).to.equal(3);
-        expect(result[0].userParam).to.equal(-1);
-        expect(result[0].columns).to.deep.equal([
+        expect(result.length).toEqual(3);
+        expect(result[0].userParam).toEqual(-1);
+        expect(result[0].columns).toEqual([
             { name: '3', pinnedLeft: true },
             { name: '5', pinnedLeft: true }
         ]);
-        expect(result[1].userParam).to.equal(-1);
-        expect(result[1].columns).to.deep.equal([
+        expect(result[1].userParam).toEqual(-1);
+        expect(result[1].columns).toEqual([
             { name: '1' },
             { name: '4' }
         ]);
-        expect(result[2].userParam).to.equal(-1);
-        expect(result[2].columns).to.deep.equal([
+        expect(result[2].userParam).toEqual(-1);
+        expect(result[2].columns).toEqual([
             { name: '2', pinnedRight: true }
         ]);
     });
@@ -43,8 +42,8 @@ describe('withPinnedColumns hoc', () => {
                 { name: '1' }
             ]
         });
-        expect(result.length).to.equal(1);
-        expect(result[0].columns).to.deep.equal([
+        expect(result.length).toEqual(1);
+        expect(result[0].columns).toEqual([
             { name: '1' }
         ]);
     });

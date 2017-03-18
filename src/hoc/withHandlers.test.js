@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { mount } from '../utils/testUtils.js';
 import withHandlers from './withHandlers.js';
 
@@ -15,7 +14,7 @@ describe('withHandlers hoc', () => {
         const { setProps } = mount(wrapped);
         setProps();
         setProps();
-        expect(result).to.deep.equal([1, 2, 1, 2]);
+        expect(result).toEqual([1, 2, 1, 2]);
     });
 
     it('binds props as a first parameter', () => {
@@ -28,7 +27,7 @@ describe('withHandlers hoc', () => {
         const { setProps } = mount(wrapped);
         setProps({ param: 2 });
         setProps({ param: 3 });
-        expect(result).to.deep.equal([
+        expect(result).toEqual([
             { param: 2 },
             1,
             { param: 3 },

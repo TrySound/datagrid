@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import reducer from './columns.js';
 import { moveColumn, resizeColumn, filterColumn, sortColumn } from '../actionCreators.js';
 
@@ -10,7 +9,7 @@ describe('columns reducer', () => {
                 { name: 'col2' },
                 { name: 'col3' }
             ], moveColumn('col1', 'col2', 'col3'))
-        ).to.deep.equal([
+        ).toEqual([
             { name: 'col2' },
             { name: 'col1' },
             { name: 'col3' }
@@ -24,7 +23,7 @@ describe('columns reducer', () => {
                 { name: 'col3' },
                 { name: 'col2' }
             ], moveColumn('col1', 'col3', null))
-        ).to.deep.equal([
+        ).toEqual([
             { name: 'col3' },
             { name: 'col1' },
             { name: 'col2' }
@@ -37,7 +36,7 @@ describe('columns reducer', () => {
                 { name: 'col1' },
                 { name: 'col2' }
             ], moveColumn('col2', null, 'col2'))
-        ).to.deep.equal([
+        ).toEqual([
             { name: 'col1' },
             { name: 'col2' }
         ]);
@@ -50,7 +49,7 @@ describe('columns reducer', () => {
                 { name: 'col2' },
                 { name: 'col1' }
             ], moveColumn('col1', null, 'col2'))
-        ).to.deep.equal([
+        ).toEqual([
             { name: 'col3' },
             { name: 'col1' },
             { name: 'col2' }
@@ -63,7 +62,7 @@ describe('columns reducer', () => {
                 { name: 'col1' },
                 { name: 'col2' }
             ], moveColumn('col1', null, 'col1'))
-        ).to.deep.equal([
+        ).toEqual([
             { name: 'col1' },
             { name: 'col2' }
         ]);
@@ -76,7 +75,7 @@ describe('columns reducer', () => {
                 { name: 'col2' },
                 { name: 'col3' }
             ], moveColumn('col1', null, null))
-        ).to.deep.equal([
+        ).toEqual([
             { name: 'col1' },
             { name: 'col2' },
             { name: 'col3' }
@@ -95,7 +94,7 @@ describe('columns reducer', () => {
                     width: 150
                 }
             ], resizeColumn('col1', 120))
-        ).to.deep.equal([
+        ).toEqual([
             {
                 name: 'col1',
                 width: 120
@@ -117,7 +116,7 @@ describe('columns reducer', () => {
                     name: 'col2'
                 }
             ], filterColumn('col1', 'Text'))
-        ).to.deep.equal([
+        ).toEqual([
             {
                 name: 'col1',
                 filter: 'Text'
@@ -135,7 +134,7 @@ describe('columns reducer', () => {
                     name: 'col1'
                 }
             ], sortColumn('col1'))
-        ).to.deep.equal([
+        ).toEqual([
             {
                 name: 'col1',
                 sort: 'asc'
@@ -151,7 +150,7 @@ describe('columns reducer', () => {
                     sort: 'asc'
                 }
             ], sortColumn('col1'))
-        ).to.deep.equal([
+        ).toEqual([
             {
                 name: 'col1',
                 sort: 'desc'
@@ -167,7 +166,7 @@ describe('columns reducer', () => {
                     sort: 'desc'
                 }
             ], sortColumn('col1'))
-        ).to.deep.equal([
+        ).toEqual([
             {
                 name: 'col1',
                 sort: null
@@ -189,7 +188,7 @@ describe('columns reducer', () => {
                     name: 'col3'
                 }
             ], sortColumn('col2'))
-        ).to.deep.equal([
+        ).toEqual([
             {
                 name: 'col1',
                 sort: null

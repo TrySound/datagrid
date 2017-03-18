@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import reducer from './index.js';
 
 const randomAction = {
@@ -9,7 +8,7 @@ describe('reducer', () => {
     it('inits', () => {
         expect(
             reducer(undefined, randomAction)
-        ).to.deep.equal({
+        ).toEqual({
             columns: [],
             columnState: {},
             rowState: {}
@@ -23,7 +22,7 @@ describe('reducer', () => {
                     param: 1
                 }
             }, randomAction)
-        ).to.deep.equal({
+        ).toEqual({
             userState: {
                 param: 1
             },

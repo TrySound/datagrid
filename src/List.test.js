@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+// import { expect } from 'chai';
 import createElement from 'inferno-create-element';
 import { mount } from './utils/testUtils.js';
 import List from './List.js';
@@ -24,7 +24,7 @@ describe('List component', () => {
             data: ['data1', 'data2'],
             component: props => result.push(props)
         });
-        expect(result).to.deep.equal([
+        expect(result).toEqual([
             { datum: 'data1', index: 0 },
             { datum: 'data2', index: 1 }
         ]);
@@ -39,7 +39,7 @@ describe('List component', () => {
             data: Array(40).fill(0).map((_, index) => `data${index}`),
             component: props => result.push(props)
         });
-        expect(result).to.deep.equal(Array(21).fill(0).map((_, index) => ({
+        expect(result).toEqual(Array(21).fill(0).map((_, index) => ({
             datum: `data${index}`,
             index
         })));
@@ -52,7 +52,7 @@ describe('List component', () => {
             rowHeight: 30,
             data: ['data1', 'data2']
         });
-        expect(getContainer(list).style.height).to.equal('60px');
+        expect(getContainer(list).style.height).toEqual('60px');
     });
 
     it('each row wrapper should have height', () => {
@@ -62,7 +62,7 @@ describe('List component', () => {
             rowHeight: 30,
             data: ['data1', 'data2']
         });
-        expect(getRowWrapper(list, 0).style.height).to.equal('30px');
-        expect(getRowWrapper(list, 1).style.height).to.equal('30px');
+        expect(getRowWrapper(list, 0).style.height).toEqual('30px');
+        expect(getRowWrapper(list, 1).style.height).toEqual('30px');
     });
 });
