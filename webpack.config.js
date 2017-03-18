@@ -10,7 +10,7 @@ module.exports = {
         path: __dirname,
         filename: 'examples.js'
     },
-    devtool: production && '#inline-source-map',
+    devtool: !production && '#inline-source-map',
     module: {
         rules: [
             {
