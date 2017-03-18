@@ -143,4 +143,17 @@ describe('withDefaults hoc', () => {
             }
         ]);
     });
+
+    it('sets default header and row heights', () => {
+        const results = [];
+        const wrapped = withDefaults()(props => results.push(props));
+        const { setProps } = mount(wrapped);
+        setProps({
+            state: {
+                columns: []
+            }
+        });
+        expect(results[0].headerHeight).to.equal(0);
+        expect(results[0].rowHeight).to.equal(30);
+    });
 });
