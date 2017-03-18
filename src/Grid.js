@@ -107,7 +107,7 @@ export default compose(
 
     render(props, { ghost, ghostX }) {
         return (
-            <div style={{ position: 'relative', width: props.tableWidth }}>
+            <div style={{ position: 'relative', width: props.tableWidth, flexShrink: 0 }}>
                 {Boolean(props.headerHeight) &&
                     <div style={{ position: 'sticky', zIndex: 1, top: 0, height: props.headerHeight }}>
                         <Header
