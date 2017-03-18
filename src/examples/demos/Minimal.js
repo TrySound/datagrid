@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { withScrollProps, Grid } from '../index.js';
+import { withScrollProps, Grid } from '../../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
@@ -29,13 +29,10 @@ const data = Array(100000).fill(0).map((item, i) => ({
 
 export default class Minimal extends Component {
     render() {
-        // TODO make headerHeight optional
         return (
             <TrackedGrid
                 viewportWidth={720}
                 viewportHeight={480}
-                headerHeight={0}
-                rowHeight={30}
                 state={gridState}
                 data={data} />
         );

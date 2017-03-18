@@ -1,9 +1,9 @@
-import Minimal from './Minimal.js';
-import minimalCode from 'raw-loader!./Minimal.js';
-import PinnedColumns from './PinnedColumns.js';
-import pinnedColumnsCode from 'raw-loader!./PinnedColumns.js';
-import GridDemo from './GridDemo.js';
-import gridDemoCode from 'raw-loader!./GridDemo.js';
+import Minimal from './demos/Minimal.js';
+import minimalCode from 'raw-loader!./demos/Minimal.js';
+import PinnedColumns from './demos/PinnedColumns.js';
+import pinnedColumnsCode from 'raw-loader!./demos/PinnedColumns.js';
+import GridDemo from './demos/GridDemo.js';
+import gridDemoCode from 'raw-loader!./demos/GridDemo.js';
 
 export default [
     {

@@ -1,5 +1,5 @@
 import createElement from 'inferno-create-element';
-import { withScrollProps, Grid } from '../index.js';
+import { withScrollProps, Grid } from '../../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
@@ -38,8 +38,6 @@ export default () => (
     <TrackedGrid
         viewportWidth={600}
         viewportHeight={360}
-        headerHeight={0}
-        rowHeight={30}
         state={gridState}
         data={data} />
 );

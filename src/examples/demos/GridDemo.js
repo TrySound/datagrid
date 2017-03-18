@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { Grid, reducer, selectGridData, withScrollProps } from '../index.js';
+import { Grid, reducer, selectGridData, withScrollProps } from '../../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
@@ -95,7 +95,6 @@ export default class Viewport extends Component {
                 viewportWidth={600}
                 viewportHeight={360}
                 headerHeight={0}
-                rowHeight={30}
                 columnComponent={undefined}
                 rowComponent={undefined}
                 state={gridState}
