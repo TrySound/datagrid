@@ -79,4 +79,15 @@ describe('getVisibleRows', () => {
             })
         ).toEqual([0, 18]);
     });
+
+    it('should trim negative header height', () => {
+        expect(
+            getVisibleRows({
+                viewportHeight: -100,
+                rowHeight: 12,
+                rowsCount: 10,
+                scrollTop: 0
+            })
+        ).toEqual([0, 0]);
+    });
 });

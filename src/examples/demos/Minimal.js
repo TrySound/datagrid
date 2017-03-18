@@ -16,7 +16,7 @@ const gridState = {
         },
         {
             name: 'col3',
-            width: '50%'
+            width: '45%'
         }
     ]
 };

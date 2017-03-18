@@ -7,8 +7,8 @@ export default BaseComponent => class extends Component {
         this.state = {
             scrollTop: 0,
             scrollLeft: 0,
-            viewportWidth: 0,
-            viewportHeight: 0
+            viewportWidth: props.viewportWidth,
+            viewportHeight: props.viewportHeight
         };
         this.ref = element => {
             this.element = element;
