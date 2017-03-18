@@ -57,7 +57,6 @@
     "html-webpack-plugin": "^2.26.0",
     "inferno-router": "1.2",
     "jest-cli": "^19.0.2",
-    "multi-entry-loader": "^1.1.1",
     "raw-loader": "^0.5.1",
     "rollup": "^0.41.5",
     "rollup-plugin-babel": "^2.7.1",
