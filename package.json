@@ -39,7 +39,7 @@
     "highlight.js": "^9.10.0",
     "history": "^4.6.0",
     "html-webpack-plugin": "^2.26.0",
-    "inferno-router": "^1.2.2",
+    "inferno-router": "1.2",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jsdom": "^9.11.0",
@@ -56,8 +56,8 @@
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
-    "inferno": "^1.2",
-    "inferno-component": "^1.2",
-    "inferno-create-element": "^1.2"
+    "inferno": "1.2",
+    "inferno-component": "1.2",
+    "inferno-create-element": "1.2"
   }
 }
