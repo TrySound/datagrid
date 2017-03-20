@@ -4,7 +4,7 @@ import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
 import { withPropsOnChange, withDefaults, withPinnedColumns } from './hoc/index.js';
-import { compose } from './utils/index.js';
+import { compose, getVisibleRows } from './utils/index.js';
 import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
 
 /*
@@ -61,7 +61,19 @@ export default compose(
         ({ rowState, columns,  callback, rowComponent: Row }) => ({
             rowComponent: props => <Row state={rowState} columns={columns} callback={callback} {...props} />
         })
-    )
+    ),
+    withPropsOnChange(['scrollTop', 'viewportHeight', 'headerHeight', 'rowHeight', 'data'], props => {
+        const [start, end] = getVisibleRows({
+            scrollTop: props.scrollTop - props.headerHeight,
+            viewportHeight: props.viewportHeight - props.headerHeight,
+            rowHeight: props.rowHeight,
+            rowsCount: props.data.length
+        });
+        return {
+            start,
+            end
+        };
+    })
 )(class GridWrapper extends Component {
     constructor(props) {
         super(props);
@@ -122,8 +134,8 @@ export default compose(
                 {ghost && <ResizeGhost x={ghostX} />}
                 <List
                     data={props.data}
-                    scrollTop={props.scrollTop - props.headerHeight}
-                    viewportHeight={props.viewportHeight - props.headerHeight}
+                    start={props.start}
+                    end={props.end}
                     rowHeight={props.rowHeight}
                     component={props.rowComponent} />
             </div>

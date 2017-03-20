@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import { shouldUpdate, withMiddleState } from './hoc/index.js';
-import { compose, checkProps, getVisibleRows, getKeysByIndex } from './utils/index.js';
+import { compose, checkProps, getKeysByIndex } from './utils/index.js';
 
 const Container = ({ height, renderedTop, children }) => (
     <div style={{ position: 'relative', height }}>
@@ -19,19 +19,9 @@ const RowWrapper = compose(
 );
 
 export default compose(
-    withMiddleState((props, state = {}) => {
-        const [start, end] = getVisibleRows({
-            scrollTop: props.scrollTop,
-            viewportHeight: props.viewportHeight,
-            rowHeight: props.rowHeight,
-            rowsCount: props.data.length
-        });
-        return {
-            start,
-            end,
-            keys: getKeysByIndex(state.keys, start, end)
-        };
-    }),
+    withMiddleState((props, state = {}) => ({
+        keys: getKeysByIndex(state.keys, props.start, props.end)
+    })),
     shouldUpdate(checkProps('start', 'end', 'data', 'rowHeight', 'component'))
 )(({ data, rowHeight, component, start, end, keys }) =>
     <Container height={data.length * rowHeight} renderedTop={start * rowHeight}>

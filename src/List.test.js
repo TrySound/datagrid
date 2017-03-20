@@ -7,8 +7,8 @@ describe('List component', () => {
     it('passes datum and index or row to component', () => {
         const result = [];
         mount(List).setProps({
-            scrollTop: 0,
-            viewportHeight: 60,
+            start: 0,
+            end: 1,
             rowHeight: 30,
             data: ['data1', 'data2'],
             component: props => result.push(props)
@@ -22,8 +22,8 @@ describe('List component', () => {
     it('container height is a sum of all rows', () => {
         const { setProps, getWrapper } = mount(List);
         setProps({
-            scrollTop: 0,
-            viewportHeight: 100,
+            start: 0,
+            end: 3,
             rowHeight: 30,
             data: ['data1', 'data2'],
             component: () => {}
@@ -34,8 +34,8 @@ describe('List component', () => {
     it('each row wrapper should have height', () => {
         const { setProps, getWrapper } = mount(List);
         setProps({
-            scrollTop: 0,
-            viewportHeight: 100,
+            start: 0,
+            end: 3,
             rowHeight: 30,
             data: ['data1', 'data2'],
             component: () => {}
