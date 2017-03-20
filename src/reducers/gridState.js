@@ -24,6 +24,12 @@ export default (state = {}, action) => {
                 selectedIndex: action.rowIndex
             });
 
+        case 'FILTER_COLUMN':
+        case 'SORT_COLUMN':
+            return Object.assign({}, state, {
+                pager: state.pager ? Object.assign({}, state.pager, { page: 0 }) : null
+            });
+
         default:
             return state;
     }

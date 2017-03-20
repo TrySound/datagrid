@@ -189,4 +189,32 @@ describe('selectGridData', () => {
             },
         ]);
     });
+
+    it('slices page', () => {
+        expect(
+            selectGridData({
+                columns: [],
+                gridState: {
+                    pager: {
+                        page: 1,
+                        size: 3
+                    }
+                }
+            }, [
+                { col: 'row1' },
+                { col: 'row2' },
+                { col: 'row3' },
+                { col: 'row4' },
+                { col: 'row5' },
+                { col: 'row6' },
+                { col: 'row7' },
+                { col: 'row8' },
+                { col: 'row9' }
+            ])
+        ).toEqual([
+            { col: 'row4' },
+            { col: 'row5' },
+            { col: 'row6' },
+        ]);
+    });
 });

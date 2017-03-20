@@ -11,9 +11,9 @@ const sortRowsByColumns = (a, b, column) => {
     return a[column.name] > b[column.name] ? -1 : 1;
 };
 
-export default (gridState, data) => {
-    const filteredColumns = gridState.columns.filter(column => column.filter);
-    const sortedColumn = gridState.columns.find(column => column.sort === 'asc' || column.sort === 'desc');
+export default (state, data) => {
+    const filteredColumns = state.columns.filter(column => column.filter);
+    const sortedColumn = state.columns.find(column => column.sort === 'asc' || column.sort === 'desc');
     const filtered
         = filteredColumns.length
         ? data.filter(datum => filterRowByColumns(datum, filteredColumns))
@@ -22,5 +22,10 @@ export default (gridState, data) => {
         = sortedColumn
         ? filtered.slice().sort((a, b) => sortRowsByColumns(a, b, sortedColumn))
         : filtered;
-    return sorted;
+    const pager = state.gridState && state.gridState.pager;
+    const sliced
+        = pager
+        ? sorted.slice(pager.page * pager.size, pager.page * pager.size + pager.size)
+        : sorted;
+    return sliced;
 };

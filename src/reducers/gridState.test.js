@@ -1,5 +1,5 @@
 import gridStateReducer from './gridState.js';
-import { markMoveDest, moveColumn, resizeColumn, selectRow } from '../actionCreators.js';
+import { markMoveDest, moveColumn, resizeColumn, filterColumn, sortColumn, selectRow } from '../actionCreators.js';
 
 describe('gridState reducer', () => {
     it('marks column move destination', () => {
@@ -57,6 +57,64 @@ describe('gridState reducer', () => {
         ).toEqual({
             selectedIndex: 3,
             param: -1
+        });
+    });
+
+    it('refreshes page on filter', () => {
+        expect(
+            gridStateReducer({
+                userParam1: -1,
+                pager: {
+                    userParam2: -1,
+                    page: 10,
+                    size: 10
+                }
+            }, filterColumn('any', 'column'))
+        ).toEqual({
+            userParam1: -1,
+            pager: {
+                userParam2: -1,
+                page: 0,
+                size: 10
+            }
+        });
+        expect(
+            gridStateReducer({
+                userParam1: -1,
+                pager: null
+            }, filterColumn('any', 'column'))
+        ).toEqual({
+            userParam1: -1,
+            pager: null
+        });
+    });
+
+    it('refreshes page on sort', () => {
+        expect(
+            gridStateReducer({
+                userParam1: -1,
+                pager: {
+                    userParam2: -1,
+                    page: 10,
+                    size: 10
+                }
+            }, sortColumn('any'))
+        ).toEqual({
+            userParam1: -1,
+            pager: {
+                userParam2: -1,
+                page: 0,
+                size: 10
+            }
+        });
+        expect(
+            gridStateReducer({
+                userParam1: -1,
+                pager: null
+            }, sortColumn('any'))
+        ).toEqual({
+            userParam1: -1,
+            pager: null
         });
     });
 });
