@@ -7,40 +7,6 @@ import { withPropsOnChange, withDefaults, withPinnedColumns } from './hoc/index.
 import { compose, getVisibleRows } from './utils/index.js';
 import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
 
-/*
-
-type Column = {
-    name: string,
-    displayName: string,
-    width: number | string,
-    minWidth: number,
-    maxWidth: number,
-    enableResizing: boolean,
-    enableMoving: boolean,
-    enableFiltering: boolean,
-    enableSorting: boolean,
-
-    sort: null | 'asc' | 'desc',
-    placeholder: string,
-    filter: string
-};
-
-type State = {
-    columns: Column[],
-    columnState: {
-        moving: null | {
-            name: string,
-            left: string,
-            right: string
-        }
-    },
-    rowState: {
-        selectedIndex: number
-    }
-}
-
-*/
-
 export default compose(
     withDefaults(),
     withPinnedColumns(),
