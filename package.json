@@ -60,7 +60,7 @@
     "raw-loader": "^0.5.1",
     "rollup": "^0.41.5",
     "rollup-plugin-babel": "^2.7.1",
-    "style-loader": "^0.13.2",
+    "style-loader": "^0.14.1",
     "webpack": "^2",
     "webpack-dev-server": "^2"
   },
