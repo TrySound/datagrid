@@ -5,7 +5,7 @@ import { filterColumn, sortColumn } from './actionCreators.js';
 const border = '1px solid #d4d4d4';
 const activeBorder = '1px solid #000';
 
-const getColumnStyle = (state, column, last, ghost) => ({
+const getColumnStyle = (gridState, column, last, ghost) => ({
     position: 'relative',
     height: 'inherit',
     boxSizing: 'border-box',
@@ -13,11 +13,11 @@ const getColumnStyle = (state, column, last, ghost) => ({
     borderTop: border,
     borderBottom: border,
     borderLeft: ghost && border
-        || (state.moving && state.moving.right === column.name ? activeBorder : border)
+        || (gridState.moving && gridState.moving.right === column.name ? activeBorder : border)
         || '',
 
     borderRight: ghost && border
-        || last && (state.moving && state.moving.left === column.name ? activeBorder : border)
+        || last && (gridState.moving && gridState.moving.left === column.name ? activeBorder : border)
         || '',
     background: 'linear-gradient(to top, #eeeeee, #ffffff)',
     opacity: ghost ? .8 : 1
@@ -45,7 +45,7 @@ export default withLinkedHandlers({
     onSortClink: props => props.callback(sortColumn(props.column.name)),
     onFilterInput: (props, event) => props.callback(filterColumn(props.column.name, event.target.value))
 })(props =>
-    <div style={getColumnStyle(props.state, props.column, props.last, props.ghost)}>
+    <div style={getColumnStyle(props.gridState, props.column, props.last, props.ghost)}>
         <div style={{ display: 'flex', alignItems: 'center', height: 30, }} onClick={props.onSortClink(props)}>
             {props.column.displayName || props.column.name}
             {props.column.sort &&

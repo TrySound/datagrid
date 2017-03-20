@@ -6,33 +6,31 @@ import DefaultRow from '../DefaultRow.js';
 const defaultWidth = 60;
 
 describe('withDefaults hoc', () => {
-    it('spreads state columns, columnState, rowState props', () => {
+    it('does not spread columns and gridState props', () => {
         const results = [];
         const wrapped = withDefaults()(props => results.push(props));
         const { setProps } = mount(wrapped);
         setProps({
+            columns: [],
             state: {
-                columns: [],
-                columnState: {},
+                columns: [1],
+                gridState: {},
                 rowState: {}
             }
         });
         expect(results[0].columns).toEqual([]);
-        expect(results[0].columnState).toEqual({});
-        expect(results[0].rowState).toEqual({});
+        expect(results[0].columnState).toEqual(undefined);
+        expect(results[0].rowState).toEqual(undefined);
     });
 
-    it('sets default columnState and rowState as an empty object', () => {
+    it('sets default gridState as an empty object', () => {
         const results = [];
         const wrapped = withDefaults()(props => results.push(props));
         const { setProps } = mount(wrapped);
         setProps({
-            state: {
-                columns: []
-            }
+            columns: []
         });
-        expect(results[0].columnState).toEqual({});
-        expect(results[0].rowState).toEqual({});
+        expect(results[0].gridState).toEqual({});
     });
 
     it('sets default columnComponent and rowComponent', () => {
@@ -40,9 +38,7 @@ describe('withDefaults hoc', () => {
         const wrapped = withDefaults()(props => results.push(props));
         const { setProps } = mount(wrapped);
         setProps({
-            state: {
-                columns: []
-            }
+            columns: []
         });
         expect(results[0].columnComponent).toEqual(DefaultColumn);
         expect(results[0].rowComponent).toEqual(DefaultRow);
@@ -53,31 +49,29 @@ describe('withDefaults hoc', () => {
         const wrapped = withDefaults()(props => results.push(props));
         const { setProps } = mount(wrapped);
         setProps({
-            state: {
-                columns: [
-                    {
-                        name: 'col1'
-                    },
-                    {
-                        name: 'col2',
-                        minWidth: 120
-                    },
-                    {
-                        name: 'col3',
-                        width: 220
-                    },
-                    {
-                        name: 'col4',
-                        minWidth: 120,
-                        width: 220
-                    },
-                    {
-                        name: 'col5',
-                        minWidth: 120,
-                        width: 100
-                    }
-                ]
-            }
+            columns: [
+                {
+                    name: 'col1'
+                },
+                {
+                    name: 'col2',
+                    minWidth: 120
+                },
+                {
+                    name: 'col3',
+                    width: 220
+                },
+                {
+                    name: 'col4',
+                    minWidth: 120,
+                    width: 220
+                },
+                {
+                    name: 'col5',
+                    minWidth: 120,
+                    width: 100
+                }
+            ]
         });
         expect(results[0].columns).toEqual([
             {
@@ -114,18 +108,16 @@ describe('withDefaults hoc', () => {
         const { setProps } = mount(wrapped);
         setProps({
             viewportWidth: 220,
-            state: {
-                columns: [
-                    {
-                        name: 'col1',
-                        width: '50%'
-                    },
-                    {
-                        name: 'col2',
-                        width: '120'
-                    }
-                ]
-            }
+            columns: [
+                {
+                    name: 'col1',
+                    width: '50%'
+                },
+                {
+                    name: 'col2',
+                    width: '120'
+                }
+            ]
         });
         expect(results[0].columns).toEqual([
             {
@@ -146,9 +138,7 @@ describe('withDefaults hoc', () => {
         const wrapped = withDefaults()(props => results.push(props));
         const { setProps } = mount(wrapped);
         setProps({
-            state: {
-                columns: []
-            }
+            columns: []
         });
         expect(results[0].headerHeight).toEqual(0);
         expect(results[0].rowHeight).toEqual(30);

@@ -10,8 +10,7 @@ describe('reducer', () => {
             reducer(undefined, randomAction)
         ).toEqual({
             columns: [],
-            columnState: {},
-            rowState: {}
+            gridState: {}
         });
     });
 
@@ -27,8 +26,7 @@ describe('reducer', () => {
                 param: 1
             },
             columns: [],
-            columnState: {},
-            rowState: {}
+            gridState: {}
         });
     });
 });

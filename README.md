@@ -11,39 +11,43 @@ Declarative reactive table with unidirectional data flow
 
 **data**
 
-**gridState**
+**columns**
 
 ```js
+[
+    {
+        name: string,
+        displayName: string,
+        minWidth: number,
+        width: number || string, // 120, '60%' depends on viewportWidth
+        maxWidth: number,
+        pinnedLeft: boolean,
+        pinnedRight: boolean,
+        enableResizing: boolean,
+        enableMoving: boolean,
+        enableFiltering: boolean,
+        enableSorting: boolean,
+        sort: null | 'asc' | 'desc',
+        placeholder: string,
+        filter: string
+    }
+]
+```
+
+**gridState**
+
+```
+// predefined behaviors
 {
-    columns: [
-        {
-            name: string,
-            displayName: string,
-            minWidth: number,
-            width: number || string, // 120, '60%' depends on viewportWidth
-            maxWidth: number,
-            pinnedLeft: boolean,
-            pinnedRight: boolean,
-            enableResizing: boolean,
-            enableMoving: boolean,
-            enableFiltering: boolean,
-            enableSorting: boolean,
-            sort: null | 'asc' | 'desc',
-            placeholder: string,
-            filter: string
-        }
-    ],
-    columnState: {
-        // user state for columns
-        moving: null | {
-            name: string,
-            left: string,
-            right: string
-        }
+    moving?: {
+        name: string,
+        left: string,
+        right: string
     },
-    rowState: {
-        // user state for rows
-        selectedIndex: number
+    selectedIndex?: number,
+    pager?: {
+        page: number,
+        size: number
     }
 }
 ```
@@ -64,7 +68,7 @@ Declarative reactive table with unidirectional data flow
 
 ```js
 ({
-    state, // columnState
+    gridState,
     callback,
     column,
     index: number, // columnIndex
@@ -77,7 +81,7 @@ Declarative reactive table with unidirectional data flow
 
 ```js
 ({
-    state, // rowState
+    gridState,
     columns, // columns with width
     callback,
     datum, // row data

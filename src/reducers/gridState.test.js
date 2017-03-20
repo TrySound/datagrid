@@ -1,10 +1,10 @@
-import columnStateReducer from './columnState.js';
-import { markMoveDest, moveColumn, resizeColumn } from '../actionCreators.js';
+import gridStateReducer from './gridState.js';
+import { markMoveDest, moveColumn, resizeColumn, selectRow } from '../actionCreators.js';
 
-describe('columnState reducer', () => {
+describe('gridState reducer', () => {
     it('marks column move destination', () => {
         expect(
-            columnStateReducer({
+            gridStateReducer({
                 userParam: -1
             }, markMoveDest('col1', 'col2', 'col3'))
         ).toEqual({
@@ -19,7 +19,7 @@ describe('columnState reducer', () => {
 
     it('clears marks on column move', () => {
         expect(
-            columnStateReducer({
+            gridStateReducer({
                 userParam: -1,
                 moving: {
                     name: 'col1',
@@ -35,7 +35,7 @@ describe('columnState reducer', () => {
 
     it('clears ghost mark on column resize', () => {
         expect(
-            columnStateReducer({
+            gridStateReducer({
                 userParam: -1,
                 resizing: {
                     name: 'col',
@@ -45,6 +45,18 @@ describe('columnState reducer', () => {
         ).toEqual({
             userParam: -1,
             resizing: null
+        });
+    });
+
+    it('selects row', () => {
+        expect(
+            gridStateReducer({
+                selectedIndex: 1,
+                param: -1
+            }, selectRow(3))
+        ).toEqual({
+            selectedIndex: 3,
+            param: -1
         });
     });
 });

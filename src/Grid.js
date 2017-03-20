@@ -17,15 +17,15 @@ export default compose(
         })
     ),
     withPropsOnChange(
-        ['columnState', 'callback', 'columnComponent'],
-        ({ columnState, callback, columnComponent: Column }) => ({
-            columnComponent: props => <Column state={columnState} callback={callback} {...props} />
+        ['gridState', 'callback', 'columnComponent'],
+        ({ gridState, callback, columnComponent: Column }) => ({
+            columnComponent: props => <Column gridState={gridState} callback={callback} {...props} />
         })
     ),
     withPropsOnChange(
-        ['rowState', 'columns', 'callback', 'rowComponent'],
-        ({ rowState, columns,  callback, rowComponent: Row }) => ({
-            rowComponent: props => <Row state={rowState} columns={columns} callback={callback} {...props} />
+        ['gridState', 'columns', 'callback', 'rowComponent'],
+        ({ gridState, columns,  callback, rowComponent: Row }) => ({
+            rowComponent: props => <Row gridState={gridState} columns={columns} callback={callback} {...props} />
         })
     ),
     withPropsOnChange(['scrollTop', 'viewportHeight', 'headerHeight', 'rowHeight', 'data'], props => {

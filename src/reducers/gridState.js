@@ -19,6 +19,11 @@ export default (state = {}, action) => {
                 resizing: null
             });
 
+        case 'SELECT_ROW':
+            return Object.assign({}, state, {
+                selectedIndex: action.rowIndex
+            });
+
         default:
             return state;
     }

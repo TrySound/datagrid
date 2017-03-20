@@ -18,9 +18,7 @@ export default () => compose(
     withProps(props => ({
         headerHeight: props.headerHeight || 0,
         rowHeight: props.rowHeight || 30,
-        columns: props.state.columns,
-        columnState: props.state.columnState || defaultState,
-        rowState: props.state.rowState || defaultState
+        gridState: props.gridState || defaultState
     })),
     withProps(props => ({
         columnComponent: props.columnComponent || DefaultColumn,
