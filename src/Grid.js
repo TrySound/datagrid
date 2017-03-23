@@ -9,6 +9,9 @@ import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
 
 export default compose(
     withDefaults(),
+    withPropsOnChange(['transform', 'columns', 'gridState', 'data'], ({ transform, columns, gridState, data }) => ({
+        data: transform({ columns, gridState }, data)
+    })),
     withPinnedColumns(),
     withPropsOnChange(
         ['columns'],

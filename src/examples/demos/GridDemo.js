@@ -1,6 +1,6 @@
 import createElement from 'inferno-create-element';
 import Component from 'inferno-component';
-import { Grid, reducer, selectGridData, withScrollProps } from '../../index.js';
+import { Grid, reducer, withScrollProps } from '../../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
 
@@ -59,8 +59,7 @@ export default class Viewport extends Component {
             gridState: {
                 selectedIndex: 0
             },
-            data,
-            originalData: data
+            data
         };
 
         this.callback = this.callback.bind(this);
@@ -69,17 +68,6 @@ export default class Viewport extends Component {
     callback(action) {
         console.log(action);
         switch (action.type) {
-            case 'FILTER_COLUMN':
-            case 'SORT_COLUMN': {
-                this.setState(state => {
-                    const gridState = reducer(state, action);
-                    return Object.assign({}, gridState, {
-                        data: selectGridData(gridState, state.originalData)
-                    });
-                });
-                break;
-            }
-
             default:
                 this.setState(state => reducer(state, action));
                 break;

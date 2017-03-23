@@ -1,4 +1,4 @@
-import { compose, checkProps } from '../utils/index.js';
+import { compose, checkProps, transform } from '../utils/index.js';
 import withProps from './withProps.js';
 import withPropsOnChange from './withPropsOnChange.js';
 import DefaultColumn from '../DefaultColumn.js';
@@ -13,6 +13,8 @@ const parseWidth = (width, viewportWidth) => {
     }
     return width;
 };
+
+const transformStub = data => data;
 
 export default () => compose(
     withProps(props => ({
@@ -34,5 +36,11 @@ export default () => compose(
             minWidth: column.minWidth || defaultMinWidth,
             width: Math.max(column.width || 0, column.minWidth || defaultMinWidth)
         }))
+    })),
+    withPropsOnChange(checkProps('transform'), props => ({
+        transform:
+            typeof props.transform === 'function' && props.transform ||
+            props.transform === false && transformStub ||
+            transform
     }))
 );

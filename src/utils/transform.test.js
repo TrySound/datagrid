@@ -1,9 +1,9 @@
-import selectGridData from './selectGridData.js';
+import transform from './transform.js';
 
-describe('selectGridData', () => {
+describe('transform', () => {
     it('filters by column', () => {
         expect(
-            selectGridData({
+            transform({
                 columns: [
                     {
                         name: 'col',
@@ -50,7 +50,7 @@ describe('selectGridData', () => {
 
     it('filters by all columns', () => {
         expect(
-            selectGridData({
+            transform({
                 columns: [
                     {
                         name: 'col1',
@@ -89,7 +89,7 @@ describe('selectGridData', () => {
 
     it('sorts by column asc', () => {
         expect(
-            selectGridData({
+            transform({
                 columns: [
                     {
                         name: 'col',
@@ -128,7 +128,7 @@ describe('selectGridData', () => {
 
     it('sorts by column desc', () => {
         expect(
-            selectGridData({
+            transform({
                 columns: [
                     {
                         name: 'col',
@@ -161,7 +161,7 @@ describe('selectGridData', () => {
 
     it('filters and sorts by column', () => {
         expect(
-            selectGridData({
+            transform({
                 columns: [
                     {
                         name: 'col',
@@ -192,7 +192,7 @@ describe('selectGridData', () => {
 
     it('slices page', () => {
         expect(
-            selectGridData({
+            transform({
                 columns: [],
                 gridState: {
                     pager: {

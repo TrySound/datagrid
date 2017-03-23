@@ -5,4 +5,4 @@ export { default as getVisibleRows } from './getVisibleRows.js';
 export { default as bisectColumns } from './bisectColumns.js';
 export { default as findColumn } from './findColumn.js';
 export { default as trimColumnWidth } from './trimColumnWidth.js';
-export { default as selectGridData } from './selectGridData.js';
+export { default as transform } from './transform.js';
