@@ -11,7 +11,16 @@ module.exports = {
         filename: 'examples.js'
     },
     devtool: !production && '#inline-source-map',
+    resolve: {
+        mainFields: [
+            'inferno:main',
+            'browser',
+            'module',
+            'main'
+        ],
+    },
     module: {
+        strictExportPresence: true,
         rules: [
             {
                 test: /\.css$/,

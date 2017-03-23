@@ -35,17 +35,13 @@ acorn-jsx@^3.0.0:
   dependencies:
     acorn "^3.0.4"
 
-acorn@4.0.4:
+acorn@4.0.4, acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.4.tgz#17a8d6a7a6c4ef538b814ec9abac2779293bf30a"
 
 acorn@^3.0.4:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
-
-acorn@^4.0.3, acorn@^4.0.4:
-  version "4.0.11"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
 
 ajv-keywords@^1.0.0, ajv-keywords@^1.1.1:
   version "1.5.1"
@@ -1602,18 +1598,20 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-loader@^1.6.1:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-1.6.3.tgz#52fdcb32e9e8355108f8380dad4efe51a28986f9"
+eslint-loader@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-1.7.0.tgz#9813e77046730191ab399938732dff7960c639cb"
   dependencies:
     find-cache-dir "^0.1.1"
+    loader-fs-cache "^1.0.0"
     loader-utils "^1.0.2"
     object-assign "^4.0.1"
     object-hash "^1.1.4"
+    rimraf "^2.6.1"
 
-eslint-plugin-react@^6.10.0:
-  version "6.10.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-6.10.2.tgz#e5492fc842ab19a3ba3e26bbf7a3455bd9c7b06f"
+eslint-plugin-react@^6.10.3:
+  version "6.10.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-6.10.3.tgz#c5435beb06774e12c7db2f6abaddcbf900cd3f78"
   dependencies:
     array.prototype.find "^2.0.1"
     doctrine "^1.2.2"
@@ -2306,30 +2304,30 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
-inferno-component@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-1.4.1.tgz#6cfe3296067b6b0f437a2bae4897a9936e91e453"
+inferno-component@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-1.4.2.tgz#5411b54ec3cb2b5e4e7c40bb9dd9d925276f7c24"
   dependencies:
-    inferno "^1.4.1"
+    inferno "^1.4.2"
     inferno-shared "^1.4.1"
     inferno-vnode-flags "^1.4.1"
 
-inferno-create-element@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-1.4.1.tgz#cac278c5776a311dc6967afc4e6c53df825ffcf1"
+inferno-create-element@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/inferno-create-element/-/inferno-create-element-1.4.2.tgz#af6fabd2ce76789e837adddeee964854f1e98f13"
   dependencies:
-    inferno "^1.4.1"
-    inferno-component "^1.4.1"
+    inferno "^1.4.2"
+    inferno-component "^1.4.2"
     inferno-shared "^1.4.1"
     inferno-vnode-flags "^1.4.1"
 
-inferno-router@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/inferno-router/-/inferno-router-1.4.1.tgz#9881a3c491b3eee4239040805978a1c1a31f9cde"
+inferno-router@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/inferno-router/-/inferno-router-1.4.2.tgz#4d87c645a98c083fc39b145d5215b787c183499e"
   dependencies:
-    inferno "^1.4.1"
-    inferno-component "^1.4.1"
-    inferno-create-element "^1.4.1"
+    inferno "^1.4.2"
+    inferno-component "^1.4.2"
+    inferno-create-element "^1.4.2"
     inferno-shared "^1.4.1"
     inferno-vnode-flags "^1.4.1"
     path-to-regexp-es6 "0.0.2"
@@ -2342,9 +2340,9 @@ inferno-vnode-flags@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-1.4.1.tgz#fc249a07da2a5a7a8380a3b78bc7e7f69905db85"
 
-inferno@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/inferno/-/inferno-1.4.1.tgz#9950428f0d5fcaf7eb260823f13abc77b4d0eb27"
+inferno@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-1.4.2.tgz#dcf2503b0aa4da7e6279febab894fc31377eb6ee"
   dependencies:
     inferno-shared "^1.4.1"
     inferno-vnode-flags "^1.4.1"
@@ -3009,6 +3007,13 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
+loader-fs-cache@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/loader-fs-cache/-/loader-fs-cache-1.0.1.tgz#56e0bf08bd9708b26a765b68509840c8dec9fdbc"
+  dependencies:
+    find-cache-dir "^0.1.1"
+    mkdirp "0.5.1"
+
 loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
@@ -3184,7 +3189,7 @@ minimist@^1.1.1, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
+mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -4372,6 +4377,10 @@ source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-0.1.8.tgz#c550b2ab5427f6b3f21f5afead88c4f5587b2106"
 
+source-list-map@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-1.0.1.tgz#cc1fc17122ae0a51978024c2cc0f8c35659026b8"
+
 source-map-support@^0.4.0, source-map-support@^0.4.2:
   version "0.4.14"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.14.tgz#9d4463772598b86271b4f523f6c1f4e02a7d6aef"
@@ -4521,9 +4530,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-style-loader@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.14.1.tgz#27b9b6c9822adf8c4748e02a1efae229405d79a5"
+style-loader@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.16.0.tgz#5f001a9bf58fff9fd40f8aa3b9738ab99d4000c7"
   dependencies:
     loader-utils "^1.0.2"
 
@@ -4682,7 +4691,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-uglify-js@2.8.x, uglify-js@^2.6, uglify-js@^2.7.5:
+uglify-js@2.8.x, uglify-js@^2.6, uglify-js@^2.8.5:
   version "2.8.14"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.14.tgz#25b15d1af39b21752ee33703adbf432e8bc8f77d"
   dependencies:
@@ -4824,7 +4833,7 @@ watch@~0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/watch/-/watch-0.10.0.tgz#77798b2da0f9910d595f1ace5b0c2258521f21dc"
 
-watchpack@^1.2.0:
+watchpack@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.3.1.tgz#7d8693907b28ce6013e7f3610aa2a1acf07dad87"
   dependencies:
@@ -4884,9 +4893,16 @@ webpack-sources@^0.1.4:
     source-list-map "~0.1.7"
     source-map "~0.5.3"
 
-webpack@^2:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.2.1.tgz#7bb1d72ae2087dd1a4af526afec15eed17dda475"
+webpack-sources@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.2.0.tgz#fea93ba840f16cdd3f246f0ee95f88a9492c69fb"
+  dependencies:
+    source-list-map "^1.0.1"
+    source-map "~0.5.3"
+
+webpack@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.3.1.tgz#55bce8baffe7c1f9dc3029adc048643b448318a8"
   dependencies:
     acorn "^4.0.4"
     acorn-dynamic-import "^2.0.0"
@@ -4904,9 +4920,9 @@ webpack@^2:
     source-map "^0.5.3"
     supports-color "^3.1.0"
     tapable "~0.2.5"
-    uglify-js "^2.7.5"
-    watchpack "^1.2.0"
-    webpack-sources "^0.1.4"
+    uglify-js "^2.8.5"
+    watchpack "^1.3.1"
+    webpack-sources "^0.2.0"
     yargs "^6.0.0"
 
 websocket-driver@>=0.5.1:
