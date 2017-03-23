@@ -16,18 +16,17 @@ export default compose(
             tableWidth: columns.reduce((acc, item) => acc + item.width, 0)
         })
     ),
-    withPropsOnChange(
-        ['gridState', 'callback', 'columnComponent'],
-        ({ gridState, callback, columnComponent: Column }) => ({
-            columnComponent: props => <Column gridState={gridState} callback={callback} {...props} />
-        })
-    ),
-    withPropsOnChange(
-        ['gridState', 'columns', 'callback', 'rowComponent'],
-        ({ gridState, columns,  callback, rowComponent: Row }) => ({
-            rowComponent: props => <Row gridState={gridState} columns={columns} callback={callback} {...props} />
-        })
-    ),
+    withPropsOnChange(['gridState', 'columns', 'callback'], ({ gridState, columns, callback }) => ({
+        columnProps: {
+            gridState,
+            callback
+        },
+        rowProps: {
+            gridState,
+            columns,
+            callback
+        }
+    })),
     withPropsOnChange(['scrollTop', 'viewportHeight', 'headerHeight', 'rowHeight', 'data'], props => {
         const [start, end] = getVisibleRows({
             scrollTop: props.scrollTop - props.headerHeight,
@@ -90,7 +89,8 @@ export default compose(
                     <div style={{ position: 'sticky', zIndex: 1, top: 0, height: props.headerHeight }}>
                         <Header
                             columns={props.columns}
-                            component={props.columnComponent}
+                            columnComponent={props.columnComponent}
+                            columnProps={props.columnProps}
                             onMove={this.onMove}
                             onMoving={this.onMoving}
                             onResize={this.onResize}
@@ -103,7 +103,8 @@ export default compose(
                     start={props.start}
                     end={props.end}
                     rowHeight={props.rowHeight}
-                    component={props.rowComponent} />
+                    rowComponent={props.rowComponent}
+                    rowProps={props.rowProps} />
             </div>
         );
     }

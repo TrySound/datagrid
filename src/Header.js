@@ -24,16 +24,16 @@ const Resizer = ({ last }) => (
     </div>
 );
 
-const ColumnWrapper = ({ column, index, last, component: Column }) => (
+const ColumnWrapper = ({ column, index, last, columnComponent: Column, columnProps }) => (
     <div style={{ position: 'relative', width: column.width, height: 'inherit' }}>
-        <Column column={column} index={index} last={last} ghost={false} />
+        <Column column={column} index={index} last={last} ghost={false} {...columnProps} />
         {column.enableResizing && <Resizer last={last} />}
     </div>
 );
 
-const ColumnGhost = ({ x, column, index, component: Column }) => (
+const ColumnGhost = ({ x, column, index, columnComponent: Column, columnProps }) => (
     <div style={{ position: 'absolute', transform: `translateX(${x}px)`, width: column.width, height: 'inherit' }}>
-        <Column column={column} index={index} last={false} ghost={true} />
+        <Column column={column} index={index} last={false} ghost={true} {...columnProps} />
     </div>
 );
 
@@ -115,7 +115,7 @@ export default draggable({
         }
     }
 
-    render({ columns, component }, { moving, movingColumn, movingIndex, movingPosition }) {
+    render({ columns, columnComponent, columnProps }, { moving, movingColumn, movingIndex, movingPosition }) {
         return (
             <Container>
                 {columns.map((column, index) =>
@@ -124,16 +124,16 @@ export default draggable({
                         column={column}
                         index={index}
                         last={index === columns.length - 1}
-                        component={component}
-                    />
+                        columnComponent={columnComponent}
+                        columnProps={columnProps} />
                 )}
                 {moving &&
                     <ColumnGhost
                         x={movingPosition}
                         column={movingColumn}
                         index={movingIndex}
-                        component={component}
-                    />
+                        columnComponent={columnComponent}
+                        columnProps={columnProps} />
                 }
             </Container>
         );
