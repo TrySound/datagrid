@@ -217,4 +217,35 @@ describe('transform', () => {
             { col: 'row6' },
         ]);
     });
+
+    it('filters numbers', () => {
+        expect(
+            transform({
+                columns: [
+                    {
+                        name: 'col',
+                        filter: '123',
+                        sort: 'desc'
+                    }
+                ]
+            }, [
+                {
+                    col: 1234
+                },
+                {
+                    col: 4123
+                },
+                {
+                    col: 5567
+                }
+            ])
+        ).toEqual([
+            {
+                col: 4123
+            },
+            {
+                col: 1234
+            }
+        ]);
+    });
 });

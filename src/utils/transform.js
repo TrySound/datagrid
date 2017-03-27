@@ -1,5 +1,5 @@
 const filterRowByColumns = (row, columns) =>
-    columns.every(column => row[column.name].toLowerCase().indexOf(column.filter) !== -1);
+    columns.every(column => String(row[column.name]).toLowerCase().indexOf(column.filter) !== -1);
 
 const sortRowsByColumns = (a, b, column) => {
     if (a[column.name] === b[column.name]) {
