@@ -6,7 +6,7 @@ export default test => BaseComponent => class extends Component {
         return test(this.props, nextProps);
     }
 
-    render(props) {
-        return <BaseComponent {...props} />;
+    render() {
+        return <BaseComponent {...this.props} />;
     }
 };

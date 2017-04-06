@@ -19,7 +19,7 @@ export default handlers => BaseComponent => class extends Component {
         }, {});
     }
 
-    render(props) {
-        return <BaseComponent {...props} {...this.handlers} />;
+    render() {
+        return <BaseComponent {...this.props} {...this.handlers} />;
     }
 };

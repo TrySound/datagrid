@@ -11,7 +11,7 @@ export default reducer => BaseComponent => class extends Component {
         this.setState(reducer(nextProps, this.state));
     }
 
-    render(props, state) {
-        return <BaseComponent {...props} {...state} />;
+    render() {
+        return <BaseComponent {...this.props} {...this.state} />;
     }
 };

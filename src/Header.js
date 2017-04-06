@@ -115,25 +115,25 @@ export default draggable({
         }
     }
 
-    render({ columns, columnComponent, columnProps }, { moving, movingColumn, movingIndex, movingPosition }) {
+    render() {
         return (
             <Container>
-                {columns.map((column, index) =>
+                {this.props.columns.map((column, index) =>
                     <ColumnWrapper
                         key={column.name}
                         column={column}
                         index={index}
-                        last={index === columns.length - 1}
-                        columnComponent={columnComponent}
-                        columnProps={columnProps} />
+                        last={index === this.props.columns.length - 1}
+                        columnComponent={this.props.columnComponent}
+                        columnProps={this.props.columnProps} />
                 )}
-                {moving &&
+                {this.state.moving &&
                     <ColumnGhost
-                        x={movingPosition}
-                        column={movingColumn}
-                        index={movingIndex}
-                        columnComponent={columnComponent}
-                        columnProps={columnProps} />
+                        x={this.state.movingPosition}
+                        column={this.state.movingColumn}
+                        index={this.state.movingIndex}
+                        columnComponent={this.props.columnComponent}
+                        columnProps={this.props.columnProps} />
                 }
             </Container>
         );

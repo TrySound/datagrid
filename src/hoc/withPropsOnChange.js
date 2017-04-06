@@ -15,7 +15,7 @@ export default (test, mapProps) => BaseComponent => class extends Component {
         }
     }
 
-    render(props, state) {
-        return <BaseComponent {...props} {...state} />;
+    render() {
+        return <BaseComponent {...this.props} {...this.state} />;
     }
 };

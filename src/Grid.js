@@ -85,29 +85,29 @@ export default compose(
         this.props.callback(moveColumn(name, left, right));
     }
 
-    render(props, { ghost, ghostX }) {
+    render() {
         return (
-            <div style={{ position: 'relative', width: props.tableWidth, flexShrink: 0 }}>
-                {Boolean(props.headerHeight) &&
-                    <div style={{ position: 'sticky', zIndex: 1, top: 0, height: props.headerHeight }}>
+            <div style={{ position: 'relative', width: this.props.tableWidth, flexShrink: 0 }}>
+                {Boolean(this.props.headerHeight) &&
+                    <div style={{ position: 'sticky', zIndex: 1, top: 0, height: this.props.headerHeight }}>
                         <Header
-                            columns={props.columns}
-                            columnComponent={props.columnComponent}
-                            columnProps={props.columnProps}
+                            columns={this.props.columns}
+                            columnComponent={this.props.columnComponent}
+                            columnProps={this.props.columnProps}
                             onMove={this.onMove}
                             onMoving={this.onMoving}
                             onResize={this.onResize}
                             onResizing={this.onResizing} />
                     </div>
                 }
-                {ghost && <ResizeGhost x={ghostX} />}
+                {this.state.ghost && <ResizeGhost x={this.state.ghostX} />}
                 <List
-                    data={props.data}
-                    start={props.start}
-                    end={props.end}
-                    rowHeight={props.rowHeight}
-                    rowComponent={props.rowComponent}
-                    rowProps={props.rowProps} />
+                    data={this.props.data}
+                    start={this.props.start}
+                    end={this.props.end}
+                    rowHeight={this.props.rowHeight}
+                    rowComponent={this.props.rowComponent}
+                    rowProps={this.props.rowProps} />
             </div>
         );
     }

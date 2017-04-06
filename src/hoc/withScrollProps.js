@@ -38,12 +38,12 @@ export default BaseComponent => class extends Component {
         }
     }
 
-    render(props, state) {
+    render() {
         return (
-            <div style={{ width: props.viewportWidth, height: props.viewportHeight, overflow: 'auto' }}
+            <div style={{ width: this.props.viewportWidth, height: this.props.viewportHeight, overflow: 'auto' }}
                 onScroll={this.onScroll}
                 ref={this.ref}>
-                <BaseComponent {...props} {...state} />
+                <BaseComponent {...this.props} {...this.state} />
             </div>
         );
     }

@@ -38,10 +38,10 @@ export default ({ offset = 3, style = {} } = {}) => BaseComponent => class exten
         document.addEventListener('mouseup', onMouseUp);
     }
 
-    render(props, state) {
+    render() {
         return (
             <div onMouseDown={this.onMouseDown} style={style}>
-                <BaseComponent {...props} {...state} />
+                <BaseComponent {...this.props} {...this.state} />
             </div>
         );
     }

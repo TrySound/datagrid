@@ -13,8 +13,8 @@ const data = Array(100000).fill(0).map((item, i) => ({
 }));
 
 export default class Viewport extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             columns: [
@@ -74,7 +74,7 @@ export default class Viewport extends Component {
         }
     }
 
-    render({}, { columns, gridState, data }) {
+    render() {
         return (
             <TrackedGrid
                 viewportWidth={600}
@@ -82,9 +82,9 @@ export default class Viewport extends Component {
                 headerHeight={60}
                 columnComponent={undefined}
                 rowComponent={undefined}
-                columns={columns}
-                gridState={gridState}
-                data={data}
+                columns={this.state.columns}
+                gridState={this.state.gridState}
+                data={this.state.data}
                 callback={this.callback}
             />
         );
