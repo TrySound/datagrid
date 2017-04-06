@@ -36,3 +36,4 @@ rules:
   object-shorthand: 'error'
   constructor-super: 'error'
   no-this-before-super: 'error'
+  no-const-assign: 'error'
