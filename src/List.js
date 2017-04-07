@@ -1,5 +1,6 @@
-import createElement from 'inferno-create-element';
-import { shouldUpdate, withMiddleState } from './hoc/index.js';
+import React from 'react';
+import { shouldUpdate } from 'recompose';
+import { withMiddleState } from './hoc/index.js';
 import { compose, checkProps, getKeysByIndex } from './utils/index.js';
 
 export default compose(

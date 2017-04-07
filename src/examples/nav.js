@@ -7,19 +7,19 @@ import gridDemoCode from 'raw-loader!./demos/GridDemo.js';
 
 export default [
     {
-        href: 'minimal',
+        href: '/minimal',
         title: 'Minimal',
         component: Minimal,
         code: minimalCode
     },
     {
-        href: 'pinned-columns',
+        href: '/pinned-columns',
         title: 'Pinned columns',
         component: PinnedColumns,
         code: pinnedColumnsCode
     },
     {
-        href: 'complex',
+        href: '/complex',
         title: 'Complex demo',
         component: GridDemo,
         code: gridDemoCode

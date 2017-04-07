@@ -8,7 +8,10 @@ test('passes datum and index or row to component', () => {
         end: 1,
         rowHeight: 30,
         data: ['data1', 'data2'],
-        rowComponent: props => result.push(props)
+        rowComponent: props => {
+            result.push(props);
+            return null;
+        }
     });
     expect(result).toEqual([
         { datum: 'data1', index: 0 },
@@ -23,7 +26,7 @@ test('container height is a sum of all rows', () => {
         end: 3,
         rowHeight: 30,
         data: ['data1', 'data2'],
-        rowComponent: () => {}
+        rowComponent: () => null
     });
     expect(getWrapper().children[0].style.height).toEqual('60px');
 });
@@ -35,7 +38,7 @@ test('each row wrapper should have height', () => {
         end: 3,
         rowHeight: 30,
         data: ['data1', 'data2'],
-        rowComponent: () => {}
+        rowComponent: () => null
     });
     const rows = getWrapper().children[0].children[0].children;
     expect(rows[0].style.height).toEqual('30px');
@@ -49,7 +52,10 @@ test('passes rowProps to rowComponent', () => {
         end: 3,
         rowHeight: 30,
         data: ['data1', 'data2'],
-        rowComponent: props => results.push(props),
+        rowComponent: props => {
+            results.push(props);
+            return null;
+        },
         rowProps: { a: 'a', b: 'b' }
     });
     expect(results).toEqual([

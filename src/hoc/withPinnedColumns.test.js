@@ -4,7 +4,10 @@ import withPinnedColumns from './withPinnedColumns.js';
 describe('withPinnedColumns hoc', () => {
     it('splits columns to three groups', () => {
         const result = [];
-        const wrapped = withPinnedColumns()(props => result.push(props));
+        const wrapped = withPinnedColumns()(props => {
+            result.push(props);
+            return null;
+        });
         const { setProps } = mount(wrapped);
         setProps({
             userParam: -1,
@@ -35,7 +38,10 @@ describe('withPinnedColumns hoc', () => {
 
     it('does not render left and right group without columns', () => {
         const result = [];
-        const wrapped = withPinnedColumns()(props => result.push(props));
+        const wrapped = withPinnedColumns()(props => {
+            result.push(props);
+            return null;
+        });
         const { setProps } = mount(wrapped);
         setProps({
             columns: [

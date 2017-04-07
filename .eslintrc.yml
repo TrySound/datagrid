@@ -8,10 +8,6 @@ parserOptions:
 plugins:
   - 'react'
 
-settings:
-  react:
-    pragma: 'createElement'
-
 env:
   browser: true
 

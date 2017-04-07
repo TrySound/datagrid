@@ -1,10 +1,10 @@
-import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import React from 'react';
+import { compose, withPropsOnChange } from 'recompose';
 import Header from './Header.js';
 import ResizeGhost from './ResizeGhost.js';
 import List from './List.js';
-import { withPropsOnChange, withDefaults, withPinnedColumns } from './hoc/index.js';
-import { compose, getVisibleRows } from './utils/index.js';
+import { withDefaults, withPinnedColumns } from './hoc/index.js';
+import { getVisibleRows } from './utils/index.js';
 import { markMoveDest, moveColumn, resizeColumn } from './actionCreators.js';
 
 export default compose(
@@ -42,7 +42,7 @@ export default compose(
             end
         };
     })
-)(class GridWrapper extends Component {
+)(class GridWrapper extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

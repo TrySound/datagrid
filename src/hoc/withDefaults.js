@@ -1,6 +1,5 @@
-import { compose, checkProps, transform } from '../utils/index.js';
-import withProps from './withProps.js';
-import withPropsOnChange from './withPropsOnChange.js';
+import { compose, withProps, withPropsOnChange } from 'recompose';
+import { transform } from '../utils/index.js';
 import DefaultColumn from '../DefaultColumn.js';
 import DefaultRow from '../DefaultRow.js';
 
@@ -26,18 +25,18 @@ export default () => compose(
         columnComponent: props.columnComponent || DefaultColumn,
         rowComponent: props.rowComponent || DefaultRow
     })),
-    withPropsOnChange(checkProps('columns', 'viewportWidth'), props => ({
+    withPropsOnChange(['columns', 'viewportWidth'], props => ({
         columns: props.columns.map(column => Object.assign({}, column, {
             width: parseWidth(column.width, props.viewportWidth)
         }))
     })),
-    withPropsOnChange(checkProps('columns'), props => ({
+    withPropsOnChange(['columns'], props => ({
         columns: props.columns.map(column => Object.assign({}, column, {
             minWidth: column.minWidth || defaultMinWidth,
             width: Math.max(column.width || 0, column.minWidth || defaultMinWidth)
         }))
     })),
-    withPropsOnChange(checkProps('transform'), props => ({
+    withPropsOnChange(['transform'], props => ({
         transform:
             typeof props.transform === 'function' && props.transform ||
             props.transform === false && transformStub ||

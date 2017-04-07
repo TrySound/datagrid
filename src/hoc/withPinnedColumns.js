@@ -1,9 +1,8 @@
-import createElement from 'inferno-create-element';
-import { compose, checkProps } from '../utils/index.js';
-import withPropsOnChange from './withPropsOnChange.js';
+import React from 'react';
+import { compose, withPropsOnChange } from 'recompose';
 
 export default () => BaseComponent => compose(
-    withPropsOnChange(checkProps('columns'), props => ({
+    withPropsOnChange(['columns'], props => ({
         leftPinnedColumns: props.columns.filter(column => column.pinnedLeft),
         centerColumns: props.columns.filter(column => !column.pinnedLeft && !column.pinnedRight),
         rightPinnedColumns: props.columns.filter(column => column.pinnedRight)

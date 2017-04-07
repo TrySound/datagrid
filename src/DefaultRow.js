@@ -1,5 +1,5 @@
-import createElement from 'inferno-create-element';
-import { withLinkedHandlers } from './hoc/index.js';
+import React from 'react';
+import { withHandlers } from 'recompose';
 import { selectRow } from './actionCreators.js';
 
 const border = '1px solid #d4d4d4';
@@ -22,12 +22,12 @@ const getColumnStyle = (column, last) => ({
     borderRight: last ? border : ''
 });
 
-const DefaultRow = withLinkedHandlers({
-    selectRow: props => props.callback(selectRow(props.index))
+const DefaultRow = withHandlers({
+    selectRow: props => () => props.callback(selectRow(props.index))
 })(props =>
-    <div style={getRowStyle(props.gridState, props.index)} onClick={props.selectRow(props)}>
+    <div style={getRowStyle(props.gridState, props.index)} onClick={props.selectRow}>
         {props.columns.map((item, columnIndex) =>
-            <div style={getColumnStyle(item, columnIndex === props.columns.length - 1)}>
+            <div key={item.name} style={getColumnStyle(item, columnIndex === props.columns.length - 1)}>
                 <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                     {props.datum[item.name]}
                 </div>

@@ -1,4 +1,4 @@
-import createElement from 'inferno-create-element';
+import React from 'react';
 import { withScrollProps, Grid } from '../../index.js';
 
 const TrackedGrid = withScrollProps(Grid);

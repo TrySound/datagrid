@@ -1,11 +1,11 @@
 {
-  "name": "@trysound/inferno-datagrid",
+  "name": "@trysound/datagrid",
   "version": "0.9.3",
-  "main": "dist/inferno-datagrid.js",
+  "main": "dist/datagrid.js",
   "files": [
     "dist"
   ],
-  "repository": "trysound/inferno-datagrid",
+  "repository": "trysound/datagrid",
   "author": "Bogdan Chadkin <trysound@yandex.ru>",
   "license": "MIT",
   "scripts": {
@@ -28,7 +28,6 @@
       [
         "transform-react-jsx",
         {
-          "pragma": "createElement",
           "useBuiltIns": true
         }
       ]
@@ -54,11 +53,10 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-react": "^6.10.3",
     "highlight.js": "^9.10.0",
-    "history": "^4.6.0",
     "html-webpack-plugin": "^2.26.0",
-    "inferno-router": "^1.6.2",
     "jest-cli": "^19.0.2",
     "raw-loader": "^0.5.1",
+    "react-router-dom": "^4.0.0",
     "rollup": "^0.41.5",
     "rollup-plugin-babel": "^2.7.1",
     "style-loader": "^0.16.1",
@@ -66,8 +64,8 @@
     "webpack-dev-server": "^2"
   },
   "dependencies": {
-    "inferno": "^1.6.2",
-    "inferno-component": "^1.6.2",
-    "inferno-create-element": "^1.6.2"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "recompose": "^0.22.0"
   }
 }

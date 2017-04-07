@@ -1,5 +1,4 @@
-import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import React from 'react';
 import { Grid, reducer, withScrollProps } from '../../index.js';
 
 const TrackedGrid = withScrollProps(Grid);
@@ -12,7 +11,7 @@ const data = Array(100000).fill(0).map((item, i) => ({
     col3: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
 }));
 
-export default class Viewport extends Component {
+export default class Viewport extends React.Component {
     constructor(props) {
         super(props);
 

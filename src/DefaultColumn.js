@@ -1,5 +1,5 @@
-import createElement from 'inferno-create-element';
-import { withLinkedHandlers } from './hoc/index.js';
+import React from 'react';
+import { withHandlers } from 'recompose';
 import { filterColumn, sortColumn } from './actionCreators.js';
 
 const border = '1px solid #d4d4d4';
@@ -41,12 +41,12 @@ const Arrow = ({ direction }) => (
     </div>
 );
 
-export default withLinkedHandlers({
-    onSortClink: props => props.callback(sortColumn(props.column.name)),
-    onFilterInput: (props, event) => props.callback(filterColumn(props.column.name, event.target.value))
+export default withHandlers({
+    onSortClink: props => () => props.callback(sortColumn(props.column.name)),
+    onFilterInput: props => event => props.callback(filterColumn(props.column.name, event.target.value))
 })(props =>
     <div style={getColumnStyle(props.gridState, props.column, props.last, props.ghost)}>
-        <div style={{ display: 'flex', alignItems: 'center', height: 30, }} onClick={props.onSortClink(props)}>
+        <div style={{ display: 'flex', alignItems: 'center', height: 30, }} onClick={props.onSortClink}>
             {props.column.displayName || props.column.name}
             {props.column.sort &&
                 <Arrow direction={props.column.sort} />
@@ -55,8 +55,8 @@ export default withLinkedHandlers({
         {props.column.enableFiltering &&
             <input style={getInputStyle()}
                 placeholder={props.column.placeholder}
-                value={props.column.filter}
-                onInput={props.onFilterInput(props)} />
+                value={props.column.filter || ''}
+                onInput={props.onFilterInput} />
         }
     </div>
 );

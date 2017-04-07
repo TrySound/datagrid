@@ -1,7 +1,6 @@
-import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import React from 'react';
 
-export default BaseComponent => class extends Component {
+export default BaseComponent => class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

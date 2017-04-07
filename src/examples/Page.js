@@ -1,4 +1,4 @@
-import createElement from 'inferno-create-element';
+import React from 'react';
 import Code from './Code.js';
 import './Page.css';
 

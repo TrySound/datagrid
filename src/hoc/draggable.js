@@ -1,17 +1,21 @@
-import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import React from 'react';
 
-export default ({ offset = 3, style = {} } = {}) => BaseComponent => class extends Component {
+export default ({ offset = 3, style = {} } = {}) => BaseComponent => class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dragging: false
         };
+        this.ref = this.ref.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
     }
 
+    ref(element) {
+        this.element = element;
+    }
+
     onMouseDown(downEvent) {
-        const clientX = downEvent.currentTarget.getBoundingClientRect().left;
+        const clientX = this.element.getBoundingClientRect().left;
         const startX = downEvent.clientX - clientX;
         const onMouseMove = e => {
             e.preventDefault();
@@ -40,7 +44,7 @@ export default ({ offset = 3, style = {} } = {}) => BaseComponent => class exten
 
     render() {
         return (
-            <div onMouseDown={this.onMouseDown} style={style}>
+            <div onMouseDown={this.onMouseDown} ref={this.ref} style={style}>
                 <BaseComponent {...this.props} {...this.state} />
             </div>
         );

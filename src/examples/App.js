@@ -1,4 +1,5 @@
-import createElement from 'inferno-create-element';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import nav from './nav.js';
 import './App.css';
 
@@ -7,9 +8,9 @@ export default props => (
         <div className='App__container'>
             <div className='App__nav'>
                 {nav.map(item =>
-                    <a key={item.href} className='App__link' href={`#${item.href}`}>
+                    <Link key={item.href} className='App__link' to={item.href}>
                         {item.title}
-                    </a>
+                    </Link>
                 )}
             </div>
             <div className='App__main'>

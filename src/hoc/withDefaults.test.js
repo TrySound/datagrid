@@ -8,7 +8,10 @@ const defaultWidth = 60;
 
 test('does not spread columns and gridState props', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const { setProps } = mount(wrapped);
     setProps({
         columns: [],
@@ -25,7 +28,10 @@ test('does not spread columns and gridState props', () => {
 
 test('sets default gridState as an empty object', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const { setProps } = mount(wrapped);
     setProps({
         columns: []
@@ -35,7 +41,10 @@ test('sets default gridState as an empty object', () => {
 
 test('sets default columnComponent and rowComponent', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const { setProps } = mount(wrapped);
     setProps({
         columns: []
@@ -46,7 +55,10 @@ test('sets default columnComponent and rowComponent', () => {
 
 test('sets default column width', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const { setProps } = mount(wrapped);
     setProps({
         columns: [
@@ -104,7 +116,10 @@ test('sets default column width', () => {
 
 test('converts percentage width to number', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const { setProps } = mount(wrapped);
     setProps({
         viewportWidth: 220,
@@ -135,7 +150,10 @@ test('converts percentage width to number', () => {
 
 test('sets default header and row heights', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const { setProps } = mount(wrapped);
     setProps({
         columns: []
@@ -146,7 +164,10 @@ test('sets default header and row heights', () => {
 
 test('passes default data transform if nothing passes', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     mount(wrapped).setProps({
         columns: []
     });
@@ -155,7 +176,10 @@ test('passes default data transform if nothing passes', () => {
 
 test('does not change passed transform', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     const customTransform = () => {};
     mount(wrapped).setProps({
         columns: [],
@@ -166,7 +190,10 @@ test('does not change passed transform', () => {
 
 test('pass stub transform on false', () => {
     const results = [];
-    const wrapped = withDefaults()(props => results.push(props));
+    const wrapped = withDefaults()(props => {
+        results.push(props);
+        return null;
+    });
     mount(wrapped).setProps({
         columns: [],
         transform: false

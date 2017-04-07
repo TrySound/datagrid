@@ -1,9 +1,4 @@
 // compose
-export { default as shouldUpdate } from './shouldUpdate.js';
-export { default as withHandlers } from './withHandlers.js';
-export { default as withLinkedHandlers } from './withLinkedHandlers.js';
-export { default as withProps } from './withProps.js';
-export { default as withPropsOnChange } from './withPropsOnChange.js';
 export { default as withMiddleState } from './withMiddleState.js';
 
 // behavior

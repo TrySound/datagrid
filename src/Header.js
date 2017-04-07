@@ -1,5 +1,4 @@
-import createElement from 'inferno-create-element';
-import Component from 'inferno-component';
+import React from 'react';
 import { bisectColumns, findColumn, trimColumnWidth } from './utils/index.js';
 import { draggable } from './hoc/index.js';
 
@@ -105,7 +104,7 @@ const dragEnd = ({ columns, x, dx, onResize, onMove }) => {
 export default draggable({
     offset: dragOffset,
     style: { height: 'inherit'}
-})(class Header extends Component {
+})(class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
