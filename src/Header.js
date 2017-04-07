@@ -106,6 +106,11 @@ export default draggable({
     offset: dragOffset,
     style: { height: 'inherit'}
 })(class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.dragging && this.props.x !== nextProps.x) {
             this.setState(dragMove(nextProps));
